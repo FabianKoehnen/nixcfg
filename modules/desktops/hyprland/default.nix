@@ -4,7 +4,6 @@
     ../../tools/rofi
     ../../tools/thunar
   ];
-  
 
   environment.systemPackages = with pkgs; [
     # Audio
@@ -44,10 +43,14 @@
     sharedModules = [
       inputs.hyprland.homeManagerModules.default
     ];
+
     users.${user} = {
-      wayland.windowManager.hyprland = {
-        enable = true;
-        extraConfig = builtins.readFile ./hyprland.conf;
+      programs = {
+        eww = {
+          enable = true;
+          package = pkgs.eww-wayland;
+          configDir = ./eww;
+        };
       };
 
       services = {
@@ -56,12 +59,147 @@
         };
       };
 
-      programs = {
-        eww = {
-          enable = true;
-          package = pkgs.eww-wayland;
-          configDir = ./eww;
-        };
+      wayland.windowManager.hyprland = {
+        enable = true;
+        #extraConfig = builtins.readFile ./hyprland.conf;
+        extraConfig = ''
+          ###########
+          # Monitor #
+          ###########
+          monitor = HDMI-A-1, 1920x1080, 0x0, 1
+          monitor = DP-2, 1920x1080, 1920x0, 1
+
+          ###########
+          # General #
+          ###########
+          input {
+            kb_layout = de
+            sensitivity = 0
+          }
+
+          general {
+            gaps_in = 2
+            gaps_out = 5
+            border_size = 0
+            cursor_inactive_timeout = 30
+            resize_on_border = true
+            layout = dwindle
+          }
+
+          dwindle {
+            pseudotile = true
+            preserve_split = true # you probably want this
+            smart_split = true
+          }
+
+          misc {
+            #disable_hypr_chan = true
+            mouse_move_enables_dpms = true
+          }
+
+          binds {
+            allow_workspace_cycles = true
+          }
+
+          xwayland {
+            force_zero_scaling = true
+          }
+
+          ################
+          # Window Rules #
+          ################
+          windowrulev2=float,title:^(Firefox — Sharing Indicator)$
+
+          ########
+          # Envs #
+          ########
+          env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
+          env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
+          env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
+
+          #############
+          # Autostart #
+          #############
+          exec-once = wl-paste --watch cliphist store
+
+          ############
+          # Keybinds #
+          ############
+          $mainMod = SUPER
+
+          bind = $mainMod, w, killactive,
+
+          bind = $mainMod, h, workspace, e-1
+          bind = $mainMod, l, workspace, +1
+
+          bind = $mainMod, Tab, cyclenext,
+          bind = $mainMod SHIFT, Tab, cyclenext, prev
+          
+          bind = $mainMod CTRL, Tab, focusmonitor, +1
+
+          bind = $mainMod SHIFT, f, togglefloating
+
+          # Move/resize windows with mainMod + LMB/RMB and dragging
+          bindm = $mainMod, mouse:272, movewindow
+          bindm = $mainMod, mouse:273, resizewindow
+
+          # Worklogs
+          bind = $mainMod, 1, moveworkspacetomonitor, 1 current
+          bind = $mainMod, 1, workspace, 1
+          bind = $mainMod, 2, moveworkspacetomonitor, 2 current
+          bind = $mainMod, 2, workspace, 2
+          bind = $mainMod, 3, moveworkspacetomonitor, 3 current
+          bind = $mainMod, 3, workspace, 3
+          bind = $mainMod, 4, moveworkspacetomonitor, 4 current
+          bind = $mainMod, 4, workspace, 4
+          bind = $mainMod, 5, moveworkspacetomonitor, 5 current
+          bind = $mainMod, 5, workspace, 5
+          bind = $mainMod, 6, moveworkspacetomonitor, 6 current
+          bind = $mainMod, 6, workspace, 6
+
+          bind = $mainMod SHIFT, 1, movetoworkspace, 1
+          bind = $mainMod SHIFT, 2, movetoworkspace, 2
+          bind = $mainMod SHIFT, 3, movetoworkspace, 3
+          bind = $mainMod SHIFT, 4, movetoworkspace, 4
+          bind = $mainMod SHIFT, 5, movetoworkspace, 5
+          bind = $mainMod SHIFT, 6, movetoworkspace, 6
+
+          # Clipboard
+          bind = $mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
+
+          # Screenshot
+          bind = , Print, exec, grimblast --notify copysave area
+
+          # Launch Apps
+          bindr= $mainMod, SUPER_L, exec, pkill rofi || rofi -show combi
+          bind = $mainMod, Return, exec, wezterm
+          bind = $mainMod, e, exec, thunar
+
+          #########
+          # Decor #
+          #########
+          decoration {
+            active_opacity = 0.90
+            inactive_opacity = 0.82
+            rounding = 8
+            dim_inactive = false
+            dim_strength = 0.3
+            drop_shadow = false
+
+            blur {
+              size = 10
+              passes = 3
+            }
+          }
+
+          animations {
+            animation = windowsIn, 1, 7, default, slide
+            animation = windowsOut, 1, 7, default, slide
+            animation = border, 1, 10, default
+            animation = fade, 1, 7, default
+            animation = workspaces, 1, 5, default
+          }
+        '';
       };
     };
   };

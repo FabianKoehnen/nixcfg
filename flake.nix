@@ -38,7 +38,6 @@
           }
 
           ./hosts/desktop/default.nix
-          
 
 
           home-manager.nixosModules.home-manager
@@ -47,15 +46,5 @@
         ];
       };
     };
-
-#    homeConfigurations."fabian@fabians-nix-desktop" = home-manager.lib.homeManagerConfiguration {
-#      pkgs = nixpkgs.legacyPackages.x86_64-linux;
-
-#      modules = [
- #       inputs.
-#        {wayland.windowManager.hyprland.enable = true;}
-#      ];
-#    };
-
   };
 }

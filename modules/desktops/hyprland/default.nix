@@ -1,4 +1,4 @@
-{ home-manager, inputs, pkgs, hyprpkgs, user, ... }:
+{ home-manager, inputs, pkgs, hyprpkgs, user, lib, ... }:
 {
   imports = [
     ../../tools/rofi
@@ -18,6 +18,11 @@
 
     # Wallpaper
     hyprpaper
+
+    # Xfce Tools
+    xfce.ristretto
+    xfce.xfce4-taskmanager
+    xfce.mousepad
   ];
 
   programs.hyprland = {
@@ -59,9 +64,20 @@
         };
       };
 
+      home.file = {
+        "wallpaper" = {
+          source = ./hyprpaper/wallpaper.png;
+          target = ".config/hypr/wallpaper.png";
+        };
+        "hyprpaper.conf" = {
+          source = ./hyprpaper/hyprpaper.conf;
+          target = ".config/hypr/hyprpaper.conf";
+        };
+      };
+
+
       wayland.windowManager.hyprland = {
         enable = true;
-        #extraConfig = builtins.readFile ./hyprland.conf;
         extraConfig = ''
           ###########
           # Monitor #
@@ -69,41 +85,11 @@
           monitor = HDMI-A-1, 1920x1080, 0x0, 1
           monitor = DP-2, 1920x1080, 1920x0, 1
 
-          ###########
-          # General #
-          ###########
-          input {
-            kb_layout = de
-            sensitivity = 0
-          }
-
-          general {
-            gaps_in = 2
-            gaps_out = 5
-            border_size = 0
-            cursor_inactive_timeout = 30
-            resize_on_border = true
-            layout = dwindle
-          }
-
-          dwindle {
-            pseudotile = true
-            preserve_split = true # you probably want this
-            smart_split = true
-          }
-
-          misc {
-            #disable_hypr_chan = true
-            mouse_move_enables_dpms = true
-          }
-
-          binds {
-            allow_workspace_cycles = true
-          }
-
-          xwayland {
-            force_zero_scaling = true
-          }
+          #############
+          # Autostart #
+          #############
+          exec-once = wl-paste --watch cliphist store
+          exec-once = hyprpaper
 
           ################
           # Window Rules #
@@ -116,11 +102,6 @@
           env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
           env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
           env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
-
-          #############
-          # Autostart #
-          #############
-          exec-once = wl-paste --watch cliphist store
 
           ############
           # Keybinds #
@@ -198,6 +179,42 @@
             animation = border, 1, 10, default
             animation = fade, 1, 7, default
             animation = workspaces, 1, 5, default
+          }
+
+                    ###########
+          # General #
+          ###########
+          input {
+            kb_layout = de
+            sensitivity = 0
+          }
+
+          general {
+            gaps_in = 2
+            gaps_out = 5
+            border_size = 0
+            cursor_inactive_timeout = 30
+            resize_on_border = true
+            layout = dwindle
+          }
+
+          dwindle {
+            pseudotile = true
+            preserve_split = true # you probably want this
+            smart_split = true
+          }
+
+          misc {
+            #disable_hypr_chan = true
+            mouse_move_enables_dpms = true
+          }
+
+          binds {
+            allow_workspace_cycles = true
+          }
+
+          xwayland {
+            force_zero_scaling = true
           }
         '';
       };

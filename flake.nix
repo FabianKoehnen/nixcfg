@@ -4,6 +4,11 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     home-manager = { 
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +25,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: {
     nixosConfigurations = {
       "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
@@ -46,5 +51,27 @@
         ];
       };
     };
+
+    darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+      modules = [
+        home-manager.darwinModules.home-manager 
+        ./hosts/macbook/default.nix
+        {
+          system = {
+            stateVersion = 4;
+            configurationRevision = self.rev or self.dirtyRev or null;
+          };
+          nixpkgs.hostPlatform = "x86_64-darwin";
+
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+	        home-manager.users.fabian = import ./hosts/macbook/fabian.nix;
+
+          services.nix-daemon.enable = true;
+        }
+      ];
+    };
+
+    darwinPackages = self.darwinConfigurations."MacBook-Pro-FK".pkgs;
   };
 }

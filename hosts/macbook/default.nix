@@ -3,15 +3,19 @@
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = "nix-command flakes";
 
+  imports = [
+    ../../modules/terminal/zsh
+  ];
+
   users.users."fabian" = {
     home="/Users/fabian";
   };
 
   environment.systemPackages = with pkgs; [
     ## Cli
+    iterm2
     comma
     nano
-    starship
     zoxide
 
     ## Tools

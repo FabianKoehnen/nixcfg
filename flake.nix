@@ -53,20 +53,20 @@
     };
 
     darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+      specialArgs = {
+        user="fabian";
+        inherit inputs;
+      };
       modules = [
         home-manager.darwinModules.home-manager 
         ./hosts/macbook/default.nix
+        ./hosts/macbook/home.nix
         {
           system = {
             stateVersion = 4;
             configurationRevision = self.rev or self.dirtyRev or null;
           };
           nixpkgs.hostPlatform = "x86_64-darwin";
-
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-	        home-manager.users.fabian = import ./hosts/macbook/fabian.nix;
-
           services.nix-daemon.enable = true;
         }
       ];

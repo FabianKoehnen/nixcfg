@@ -1,11 +1,23 @@
-{ pkgs, user, ... }:
+{ lib, pkgs, user, ... }:
+let 
+  darwinSystem = pkgs.system == "x86_64-darwin";
+in{
 
-{
   imports = [
     ../starship
   ];
 
+  environment.systemPackages = with pkgs; [
+    python3
+    chroma
+  ];
+
   programs.zsh.enable = true;
+
+  programs.fzf = {
+    fuzzyCompletion = true;
+    keybindings = true;
+  };
   
   home-manager.users.${user}.programs.zsh = {
     enable = true;
@@ -50,39 +62,31 @@
       plugins = [
         "zsh-users/zsh-completions"
         "zsh-users/zsh-autosuggestions"
+        "zsh-users/zsh-history-substring-search"
         "zsh-users/zsh-syntax-highlighting"
-        "zsh-users/zsh-apple-touchbar"
 
-        "djui/alias-tips"
         "ChrisPenner/copy-pasta"
-      ];
+      ]++
+      (lib.lists.optionals (darwinSystem) [
+        "zsh-users/zsh-apple-touchbar"
+      ]);
     };
 
     oh-my-zsh = {
       enable = true;
-      plugins = [
+      plugins = 
+      [
         "git"
-        "command-not-found"
-        "docker"
-        "pip"
         "sudo"
         "alias-finder"
         "colored-man-pages"
-        "composer"
         "colorize"
-        "cp"
-        "kate"
-        "systemd"
-        "vscode"
+      ]++
+      (lib.lists.optionals (darwinSystem) [
+        "macos"
         "iterm2"
-        "osx"
-        "helm"
-        "kubectl"
-        "docker"
-        "docker-compose"
-        "aws"
-        "history-substring-search"
-      ];
+        ])
+      ;
     };
   };
 }

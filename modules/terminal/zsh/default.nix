@@ -10,6 +10,7 @@ in{
   environment.systemPackages = with pkgs; [
     python3
     chroma
+    du-dust
   ];
 
   programs.zsh.enable = true;
@@ -30,7 +31,7 @@ in{
         "ll" = "ls -hal";
         ".." = "cd ../";
         "..."= "cd ../../";
-        "size"= "du -shc";
+        "size"= "dust";
         "z"= "zoxide";
 
           ### docker

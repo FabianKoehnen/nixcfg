@@ -9,11 +9,13 @@
         xfce.thunar-archive-plugin
         xfce.thunar-volman
         gnome.adwaita-icon-theme
-#        webp-pixbuf-loader
-#        poppler
-#        ffmpegthumbnailer
-#        libgsf
-#        gnome-epub-thumbnailer
-#        f3d
+
+        # https://wiki.archlinux.org/title/File_manager_functionality
+        webp-pixbuf-loader      # webp preview
+        poppler                 # pdf preview
+        ffmpegthumbnailer       # ffmpeg thumbnails
+        libgsf                  # .odf file preview
+        gnome-epub-thumbnailer  # epub and .mobi ebook
+        f3d                     # 3D files
     ];
-}
+} 

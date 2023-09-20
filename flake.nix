@@ -27,6 +27,7 @@
         specialArgs = {
           user="fabian"; 
           hyprpkgs = inputs.hypr_contrib.packages.${system};
+          wallpaper = hosts/desktop/wallpaper.png;
           inherit inputs; 
         };
         modules = [

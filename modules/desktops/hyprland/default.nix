@@ -1,4 +1,4 @@
-{ home-manager, inputs, pkgs, hyprpkgs, user, lib, ... }:
+{ home-manager, inputs, pkgs, hyprpkgs, user, wallpaper, lib, ... }:
 {
   imports = [
     ../../tools/rofi
@@ -65,14 +65,11 @@
       };
 
       home.file = {
-        "wallpaper" = {
-          source = ./hyprpaper/wallpaper.png;
-          target = ".config/hypr/wallpaper.png";
-        };
-        "hyprpaper.conf" = {
-          source = ./hyprpaper/hyprpaper.conf;
-          target = ".config/hypr/hyprpaper.conf";
-        };
+        ".config/hypr/hyprpaper.conf".text = ''
+          preload = ${wallpaper}
+
+          wallpaper = , ${wallpaper}
+        '';
       };
 
 
@@ -205,8 +202,8 @@
           }
 
           misc {
-            #disable_hypr_chan = true
             mouse_move_enables_dpms = true
+            disable_hyprland_logo = true
           }
 
           binds {

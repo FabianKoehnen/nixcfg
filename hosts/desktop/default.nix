@@ -2,22 +2,20 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, inputs, ... }:
+{ config, pkgs, inputs, user, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ../../secrets/desktop
-
-
-      ../../modules/editors/vscodium
-
+      ../../modules/tools/sddm
       ../../modules/desktops/hyprland
+
       ../../modules/terminal/zsh
       ../../modules/terminal/wezterm
 
-
+      ../../modules/editors/vscodium
     ];
   nixpkgs.config.allowUnfree = true;
 
@@ -58,8 +56,6 @@
   services.fstrim.enable = true;
 
   services.flatpak.enable = true;
-
-  services.xserver.displayManager.sddm.enable = true;
 
   security.polkit.enable=true;
 

@@ -14,14 +14,10 @@ in{
   ];
 
   programs.zsh.enable = true;
-
-  programs.fzf = {
-    fuzzyCompletion = true;
-    keybindings = true;
-  };
   
   home-manager.users.${user} = {
     programs.zoxide.enable = true;
+    programs.fzf.enable = true;
     programs.zsh = {
       enable = true;
 

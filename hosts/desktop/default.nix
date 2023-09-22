@@ -16,6 +16,7 @@
       ../../modules/terminal/wezterm
 
       ../../modules/editors/vscodium
+      ../../modules/gaming/steam
     ];
   nixpkgs.config.allowUnfree = true;
 

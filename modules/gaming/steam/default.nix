@@ -1,9 +1,5 @@
 { pkgs, user, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    # superTuxKart
-  ];
-
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -23,26 +19,9 @@
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
-    # package = pkgs.steam.override {
-    #   extraPkgs = pkgs: with pkgs; [
-    #     gamescope
-    #     mangohud
-    #   ];
-    # };
   };
 
   programs.gamescope = {
     enable = true;
-    # capSysNice = true;
   };
-
-  # programs.gamemode = {
-  #   enable = true;
-  # };
-
-  # home-manager.users.${user} = {
-  #   programs.mangohud = {
-  #     enable = true;
-  #   };
-  # };
 }

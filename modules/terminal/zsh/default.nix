@@ -11,6 +11,7 @@ in{
     python3
     chroma
     du-dust
+    eza
   ];
 
   programs.zsh.enable = true;
@@ -24,6 +25,7 @@ in{
       shellAliases = {
         "O_o"= "echo o_O";
         "o_O"= "echo O_o";
+        "ls" = "eza";
         "ll" = "ls -hal";
         ".." = "cd ../";
         "..."= "cd ../../";

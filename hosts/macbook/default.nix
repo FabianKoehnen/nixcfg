@@ -33,8 +33,12 @@
   # Apps in here need to be uninstalled manually
   homebrew = {
     enable=true;
+    taps = [
+      "homebrew/cask-versions"
+    ];
     casks=[
       ## Desktop
+      "firefox-developer-edition"
       "amethyst"
       "logi-options-plus"
       "spotify"

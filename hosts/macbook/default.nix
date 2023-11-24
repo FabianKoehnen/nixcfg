@@ -42,9 +42,11 @@
       "amethyst"
       "logi-options-plus"
       "spotify"
+      "obs"
 
       "docker"
       "tableplus"
+      "another-redis-desktop-manager"
 
       # Editors
       "jetbrains-toolbox"

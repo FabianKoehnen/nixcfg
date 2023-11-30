@@ -57,7 +57,8 @@ in{
       shellAliases = {
         "O_o"= "echo o_O";
         "o_O"= "echo O_o";
-        "ll" = "eza -hal";
+        "ls" = "eza";
+        "ll" = "ls -hal";
         ".." = "cd ../";
         "..."= "cd ../../";
         "size"= "dust";

@@ -14,6 +14,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    secrets = {
+      url = "git+file:/etc/nixos/secrets";
+    };
+
     hyprland = {
       url = "github:hyprwm/Hyprland";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -25,7 +29,7 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, ... }@inputs: {
+  outputs = { self, nixpkgs, nix-darwin, home-manager, secrets,... }@inputs: {
     nixosConfigurations = {
       "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
@@ -45,10 +49,12 @@
 
           ./hosts/desktop/default.nix
 
-
+          # home-manager
           home-manager.nixosModules.home-manager
-          
-          ./hosts/desktop/home.nix       
+          ./hosts/desktop/home.nix
+
+          # others
+          secrets.nixosModules.desktop
         ];
       };
     };

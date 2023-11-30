@@ -8,7 +8,6 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ../../secrets/desktop
       ../../modules/tools/sddm
       ../../modules/desktops/hyprland
 
@@ -16,6 +15,7 @@
       ../../modules/terminal/wezterm
 
       ../../modules/editors/vscodium
+      ../../modules/gaming/steam
     ];
   nixpkgs.config.allowUnfree = true;
 
@@ -23,6 +23,7 @@
     package = pkgs.nix;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
     };
     gc = {
       automatic = true;

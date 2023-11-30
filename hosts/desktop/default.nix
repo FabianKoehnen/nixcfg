@@ -12,7 +12,7 @@
       ../../modules/desktops/hyprland
 
       ../../modules/terminal/zsh
-      ../../modules/terminal/wezterm
+      ../../modules/terminal/kitty
 
       ../../modules/editors/vscodium
       ../../modules/gaming/steam

@@ -6,6 +6,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    gnome.gnome-disk-utility
+    polkit-kde-agent
+
     # Audio
     easyeffects
 
@@ -31,6 +34,7 @@
   };
 
   security.rtkit.enable = true;
+  security.polkit.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -78,16 +82,18 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
-        extraConfig = ''
+        extraConfig = let
+            workspaceCount = 8;
+        in ''
           ###########
           # Monitor #
           ###########
-          monitor = HDMI-A-1, 1920x1080, 0x0, 1
-          monitor = DP-2, 1920x1080, 1920x0, 1
-
+          monitor = DP-1, 1920x1080, 2560x0, 1
+          monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1,bitdepth,10
           #############
           # Autostart #
           #############
+          exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
           exec-once = wl-paste --watch cliphist store
           exec-once = hyprpaper
 
@@ -125,25 +131,10 @@
           bindm = $mainMod, mouse:273, resizewindow
 
           # Worklogs
-          bind = $mainMod, 1, moveworkspacetomonitor, 1 current
-          bind = $mainMod, 1, workspace, 1
-          bind = $mainMod, 2, moveworkspacetomonitor, 2 current
-          bind = $mainMod, 2, workspace, 2
-          bind = $mainMod, 3, moveworkspacetomonitor, 3 current
-          bind = $mainMod, 3, workspace, 3
-          bind = $mainMod, 4, moveworkspacetomonitor, 4 current
-          bind = $mainMod, 4, workspace, 4
-          bind = $mainMod, 5, moveworkspacetomonitor, 5 current
-          bind = $mainMod, 5, workspace, 5
-          bind = $mainMod, 6, moveworkspacetomonitor, 6 current
-          bind = $mainMod, 6, workspace, 6
-
-          bind = $mainMod SHIFT, 1, movetoworkspace, 1
-          bind = $mainMod SHIFT, 2, movetoworkspace, 2
-          bind = $mainMod SHIFT, 3, movetoworkspace, 3
-          bind = $mainMod SHIFT, 4, movetoworkspace, 4
-          bind = $mainMod SHIFT, 5, movetoworkspace, 5
-          bind = $mainMod SHIFT, 6, movetoworkspace, 6
+          ${builtins.concatStringsSep "\n" (builtins.map (n: ''
+            bind = $mainMod, ${n}, workspace, ${n}
+            bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
+          '') ["1" "2" "3" "4" "5" "6" "7" "8"])}
 
           # Clipboard
           bind = $mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
@@ -153,7 +144,7 @@
 
           # Launch Apps
           bindr= $mainMod, SUPER_L, exec, pkill rofi || rofi -show combi
-          bind = $mainMod, Return, exec, wezterm
+          bind = $mainMod, Return, exec, kitty
           bind = $mainMod, e, exec, thunar
 
           #########

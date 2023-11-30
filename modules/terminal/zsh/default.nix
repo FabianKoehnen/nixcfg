@@ -21,6 +21,38 @@ in{
     programs.fzf.enable = true;
     programs.zsh = {
       enable = true;
+      
+      antidote = {
+        enable = true;
+        plugins = [
+          "zsh-users/zsh-completions"
+          "zsh-users/zsh-autosuggestions"
+          "zsh-users/zsh-history-substring-search"
+          "zsh-users/zsh-syntax-highlighting"
+
+          "ChrisPenner/copy-pasta"
+        ]++
+        (lib.lists.optionals (darwinSystem) [
+          "zsh-users/zsh-apple-touchbar"
+        ]);
+      };
+
+      oh-my-zsh = {
+        enable = true;
+        plugins = 
+        [
+          "git"
+          "sudo"
+          "alias-finder"
+          "colored-man-pages"
+          "colorize"
+        ]++
+        (lib.lists.optionals (darwinSystem) [
+          "macos"
+          "iterm2"
+          ])
+        ;
+      };
 
       shellAliases = {
         "O_o"= "echo o_O";
@@ -58,37 +90,16 @@ in{
         "k8se"="k8s exec -it";
       };
 
-      antidote = {
-        enable = true;
-        plugins = [
-          "zsh-users/zsh-completions"
-          "zsh-users/zsh-autosuggestions"
-          "zsh-users/zsh-history-substring-search"
-          "zsh-users/zsh-syntax-highlighting"
-
-          "ChrisPenner/copy-pasta"
-        ]++
-        (lib.lists.optionals (darwinSystem) [
-          "zsh-users/zsh-apple-touchbar"
-        ]);
-      };
-
-      oh-my-zsh = {
-        enable = true;
-        plugins = 
+      initExtraFirst = lib.strings.concatStringsSep "\n" (
         [
-          "git"
-          "sudo"
-          "alias-finder"
-          "colored-man-pages"
-          "colorize"
-        ]++
-        (lib.lists.optionals (darwinSystem) [
-          "macos"
-          "iterm2"
-          ])
-        ;
-      };
+          # General
+        ]++ (if darwinSystem then [
+          # Darwin spezific
+        ] else [
+          # Linux spezific
+          "stty intr ^X" # interrupt commands with ctrl + x instead of c
+        ])
+      );
     };
   };
 }

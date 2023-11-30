@@ -116,8 +116,12 @@
 
           bind = $mainMod, w, killactive,
 
-          bind = $mainMod, h, workspace, e-1
-          bind = $mainMod, l, workspace, +1
+          bind = $mainMod ALT, Left, workspace, r-100
+          bind = $mainMod CTRL, Left, workspace, r-1
+          bind = $mainMod_CTRL_TAB, Left, workspace, r-1
+
+          bind = $mainMod CTRL, Right, workspace, r+1
+          bind = $mainMod_CTRL_TAB, Right, workspace, r+1
 
           bind = $mainMod, Tab, cyclenext,
           bind = $mainMod SHIFT, Tab, cyclenext, prev
@@ -130,8 +134,9 @@
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
 
-          # Worklogs
+          # workspace
           ${builtins.concatStringsSep "\n" (builtins.map (n: ''
+            workspace = ${n},monitor:${if ((lib.strings.charToInt n) >= 5) then "DP-2" else "DP-1"}
             bind = $mainMod, ${n}, workspace, ${n}
             bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
           '') ["1" "2" "3" "4" "5" "6" "7" "8"])}

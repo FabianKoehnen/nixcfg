@@ -117,17 +117,15 @@
           bind = $mainMod, w, killactive,
 
           bind = $mainMod ALT, Left, workspace, r-100
-          bind = $mainMod CTRL, Left, workspace, r-1
-          bind = $mainMod_CTRL_TAB, Left, workspace, r-1
+          bind = $mainMod, Left, workspace, r-1
+          bind = $mainMod SHIFT, Left, movetoworkspace, r-1
 
-          bind = $mainMod CTRL, Right, workspace, r+1
-          bind = $mainMod_CTRL_TAB, Right, workspace, r+1
+          bind = $mainMod , Right, workspace, r+1
+          bind = $mainMod SHIFT, Right, movetoworkspace, r+1
 
           bind = $mainMod, Tab, cyclenext,
           bind = $mainMod SHIFT, Tab, cyclenext, prev
           
-          bind = $mainMod CTRL, Tab, focusmonitor, +1
-
           bind = $mainMod SHIFT, f, togglefloating
 
           # Move/resize windows with mainMod + LMB/RMB and dragging

@@ -24,8 +24,10 @@
 
     # Xfce Tools
     xfce.ristretto
+    xfce.thunar
     xfce.xfce4-taskmanager
     xfce.mousepad
+    xfce.exo
   ];
 
   programs.hyprland = {
@@ -71,7 +73,18 @@
         };
       };
 
+      xfconf.settings = {
+        thunar = {
+          "last-show-hidden" = true;
+        };
+      };
+
       home.file = {
+        ".config/xfce4/helpers.rc".text = ''
+          TerminalEmulator=kitty
+          FileManager=thunar
+          WebBrowser=firefox
+        '';
         ".config/hypr/hyprpaper.conf".text = ''
           preload = ${wallpaper}
 
@@ -89,7 +102,7 @@
           # Monitor #
           ###########
           monitor = DP-1, 1920x1080, 2560x0, 1
-          monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1,bitdepth,10
+          monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1
           #############
           # Autostart #
           #############

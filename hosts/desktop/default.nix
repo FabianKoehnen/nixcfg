@@ -16,6 +16,7 @@
 
       ../../modules/editors/vscodium
       ../../modules/gaming/steam
+      ../../modules/tools/openscad
     ];
   nixpkgs.config.allowUnfree = true;
 
@@ -71,12 +72,6 @@
     comma
 
     firefox
-    (vscode-with-extensions.override {
-      vscode = vscodium;
-      vscodeExtensions = with vscode-extensions; [
-        bbenoist.nix
-      ];
-    })
   ];
 
   # Enable CUPS to print documents.

@@ -23,7 +23,7 @@
         packages = with pkgs; [
           piper
           
-          teamspeak5_client
+          teamspeak_client
           signal-desktop
           discord
         ];

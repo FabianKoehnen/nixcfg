@@ -16,7 +16,7 @@
       ];
       extraConfig = {
         terminal=                         "kitty";
-        ssh-client=                       "ssh -X";
+        ssh-client=                       "kitten ssh -X";
         ssh-command=                      "{terminal} -e zsh -c \"stty intr ^X && {ssh-client} {host}\"";
         scroll-method=                    1;
         show-icons=                       true;

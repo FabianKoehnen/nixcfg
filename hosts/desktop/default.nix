@@ -16,9 +16,11 @@
 
       ../../modules/editors/vscodium
       ../../modules/gaming/steam
-      ../../modules/tools/openscad
+      ../../modules/tools/cad
     ];
   nixpkgs.config.allowUnfree = true;
+
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nix = {
     package = pkgs.nix;
@@ -108,6 +110,8 @@
     ];
   };
 
+  services.yubikey-agent.enable = true;
+
   systemd = {
     services = {
       NetworkManager-wait-online.enable = false;
@@ -132,7 +136,6 @@
     };
   };
 
-
   services.ratbagd.enable = true;
 
   programs.kdeconnect.enable = true;
@@ -153,10 +156,14 @@
   # services.openssh.enable = true;
 
   # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  networking.firewall.enable = true;
+
+  services.tailscale.enable = true;
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  
+  #services.nginx.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

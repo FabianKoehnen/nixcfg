@@ -8,6 +8,7 @@
   environment.systemPackages = with pkgs; [
     gnome.gnome-disk-utility
     polkit-kde-agent
+    okular
 
     # Audio
     easyeffects

@@ -32,7 +32,13 @@
   fileSystems."/var/log" =
     { device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
       fsType = "btrfs";
-      options = [ "subvol=log" ];
+      options = [ "subvol=var/log" ];
+    };
+
+  fileSystems."/var/lib/tailscale" =
+    { device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+      fsType = "btrfs";
+      options = [ "subvol=var/lib/tailscale" ];
     };
 
   fileSystems."/home" =

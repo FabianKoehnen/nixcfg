@@ -5,10 +5,17 @@
 
   imports = [
     ../../modules/terminal/zsh
+    ../../modules/editors/vscodium
   ];
 
   users.users."fabian" = {
     home="/Users/fabian";
+  };
+
+  system.defaults = {
+    #".GlobalPreferences"."com.apple.mouse.scaling" = (-1.0);
+    finder.AppleShowAllFiles = true;
+    NSGlobalDomain.AppleShowAllFiles = true;
   };
 
   environment.systemPackages = with pkgs; [
@@ -17,6 +24,7 @@
     comma
     nano
     zoxide
+    kubectx
 
     ## Tools
     vscode
@@ -43,10 +51,12 @@
       "logi-options-plus"
       "spotify"
       "obs"
+      "yubico-yubikey-manager"
+      "yubico-authenticator"
 
       "docker"
       "tableplus"
-      "another-redis-desktop-manager"
+      "redisinsight"
 
       # Editors
       "jetbrains-toolbox"

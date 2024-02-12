@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable";
+    nixpkgs-unstable.url = "nixpkgs";
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -66,7 +66,7 @@
       };
     };
 
-    darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
       specialArgs = {
         user="fabian";
         inherit inputs;
@@ -76,6 +76,30 @@
         ./hosts/macbook/default.nix
         ./hosts/macbook/home.nix
         {
+          nix.linux-builder = {
+            enable = true;
+            package = inputs.nixpkgs-unstable.legacyPackages.x86_64-darwin.darwin.linux-builder;
+            config = {
+              nix.settings = {
+                trusted-users = ["builder" "fabian"];
+              };
+              boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+            };
+          };
+          nix.buildMachines = [
+            { 
+              hostName = "linux-builder"; 
+              mandatoryFeatures = [ ]; 
+              maxJobs = 1; 
+              protocol = "ssh"; 
+              publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo="; 
+              speedFactor = 1; 
+              sshKey = "/etc/nix/builder_ed25519"; 
+              sshUser = "builder"; 
+              supportedFeatures = [ "kvm" "benchmark" "big-parallel" ]; 
+              system = "aarch64-linux"; 
+            }
+          ];
           system = {
             stateVersion = 4;
             configurationRevision = self.rev or self.dirtyRev or null;

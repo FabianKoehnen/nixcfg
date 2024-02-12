@@ -2,7 +2,8 @@
 {
   nixpkgs.config.allowUnfree = true;
   nix.settings.experimental-features = "nix-command flakes";
-
+  nix.settings.extra-trusted-users = ["@admin" "fabian"];
+    
   imports = [
     ../../modules/terminal/zsh
     ../../modules/editors/vscodium
@@ -25,6 +26,7 @@
     nano
     zoxide
     kubectx
+    direnv
 
     ## Tools
     vscode
@@ -69,6 +71,8 @@
       "WireGuard"=1451685025;
       "Sequel Ace"=1518036000;
       "Numbers"=409203825;
+      "Whatsapp"=310633997;
+      "Battery Monitor"=836505650;
     };
   };
 }

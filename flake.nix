@@ -5,6 +5,8 @@
     nixpkgs.url = "nixpkgs/nixos-23.11";
     nixpkgs-unstable.url = "nixpkgs";
 
+    sops-nix.url = "github:Mic92/sops-nix";
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +22,7 @@
     };
 
     hyprland = {
-      url = "github:hyprwm/Hyprland";
+      url = "github:hyprwm/Hyprland/v0.33.1";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -34,12 +36,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, secrets,... }@inputs: {
+  outputs = { self, nixpkgs, nix-darwin, home-manager, secrets, nixpkgs-unstable,... }@inputs: {
     nixosConfigurations = {
       "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec{
         system = "x86_64-linux";
         specialArgs = {
           user="fabian"; 
+          unstable= nixpkgs-unstable.legacyPackages.${system};
           hyprpkgs = inputs.hypr_contrib.packages.${system};
           wallpaper = hosts/desktop/wallpaper.png;
           inherit inputs; 
@@ -59,9 +62,20 @@
           # home-manager
           home-manager.nixosModules.home-manager
           ./hosts/desktop/home.nix
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+            };
+            home-manager.sharedModules = [
+              inputs.sops-nix.homeManagerModules.sops
+            ];
+          }
 
           # others
           secrets.nixosModules.desktop
+          inputs.sops-nix.nixosModules.sops
         ];
       };
     };

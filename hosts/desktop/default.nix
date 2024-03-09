@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
 
-{ config, pkgs, inputs, user, ... }:
+{ config, pkgs, inputs, unstable, user, ... }:
 
 {
   imports =
@@ -18,9 +18,13 @@
       ../../modules/gaming/steam
       ../../modules/tools/cad
     ];
-  nixpkgs.config.allowUnfree = true;
+  nixpkgs.config = {
+    permittedInsecurePackages = [ "nix-2.16.2" ];
+    allowUnfree = true;
+  };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {
     package = pkgs.nix;
@@ -72,17 +76,40 @@
 
   environment.systemPackages = with pkgs; [
     util-linux
+    wget
     killall
     gparted
+    parted
     unzip
     zip
     git
-    
+    nvtop-amd
+    docker-compose
+    sops
+    symfony-cli
+    spotify
+    headsetcontrol
+
     comma
 
     firefox
   ];
 
+  virtualisation.docker = {
+    enable = true;
+  };
+
+  programs.direnv = {
+    enable = true;
+    package = pkgs.direnv;
+    silent = false;
+    loadInNixShell = true;
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
+    };
+  };
+  
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -90,9 +117,13 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = ["wheel"];
+      extraGroups = ["wheel" "docker"];
       shell = pkgs.zsh;
     };
+  };
+
+  programs.git = {
+    enable = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -118,21 +149,21 @@
       systemd-udev-settle.enable = false;
     };
     user = {
-      services = {
-        polkit-gnome-authentication-agent-1 = {
-          description = "polkit-gnome-authentication-agent-1";
-          wantedBy = ["graphical-session.target"];
-          wants = ["graphical-session.target"];
-          after = ["graphical-session.target"];
-          serviceConfig = {
-            Type = "simple";
-            ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-            Restart = "on-failure";
-            RestartSec = 1;
-            TimeoutStopSec = 10;
-          };
-        };
-      };
+      # services = {
+      #   polkit-kde-authentication-agent-1 = {
+      #     description = "polkit-kde-authentication-agent-1";
+      #     wantedBy = ["graphical-session.target"];
+      #     wants = ["graphical-session.target"];
+      #     after = ["graphical-session.target"];
+      #     serviceConfig = {
+      #       Type = "simple";
+      #       ExecStart = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
+      #       Restart = "on-failure";
+      #       RestartSec = 1;
+      #       TimeoutStopSec = 10;
+      #     };
+      #   };
+      # };
     };
   };
 
@@ -141,6 +172,15 @@
   programs.kdeconnect.enable = true;
 
 
+  services.udev  = {
+    enable = true;
+    extraRules = ''
+      # SteelSeries Arctis Nova 7
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="2202", TAG+="uaccess"
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="2206", TAG+="uaccess"
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="220a", TAG+="uaccess"
+      '';
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

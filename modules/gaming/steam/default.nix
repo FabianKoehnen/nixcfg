@@ -21,8 +21,9 @@
     remotePlay.openFirewall = true;
   };
   
-  environment.systemPackages = with pkgs; [ gamescope ];
-    nixpkgs.config.packageOverrides = pkgs: {
+  environment.systemPackages = with pkgs; [ gamescope gamemode mangohud ];
+
+  nixpkgs.config.packageOverrides = pkgs: {
     steam = pkgs.steam.override {
       extraPkgs = pkgs: with pkgs; [
         xorg.libXcursor
@@ -37,5 +38,10 @@
         keyutils
       ];
     };
+  };
+
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock.enable = true;
   };
 }

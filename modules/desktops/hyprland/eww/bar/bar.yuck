@@ -1,0 +1,79 @@
+(defwindow bar0
+  :monitor 0
+  :exclusive true
+  :geometry (geometry
+      :y "0"
+      :width "99.8%"
+      :height "0"
+      :anchor "top center")
+  (bar)
+)
+
+(defwindow bar1
+  :monitor 1
+  :exclusive true
+  :geometry (geometry 
+      :y "0"
+      :width "99.8%"
+      :height "0"
+      :anchor "top center")
+  (bar)
+)
+
+
+
+
+(defwidget bar []
+  (centerbox :orientation "h"
+    (box    :orientation "horizontal"
+            :halign "start"
+        ; "test1"
+        ; "test2"
+    )
+    (box    :orientation "horizontal"
+            :halign "center"
+        ; "test1"
+        ; "test2"
+    )
+    (box    :orientation "horizontal"
+            :halign "end"
+            :style "padding-right: 5px;"
+        ; "test1"
+        (button 
+          :onclick "eww open --screen 0 --toggle calendar"
+          :timeout 1000
+            time
+        )
+    )
+  )
+)
+
+
+
+
+
+;;;;;;;;  Calendar  ;;;;;;;
+(defwindow calendar 
+  :geometry (geometry :x "2px" :y "2px" :anchor "top right")
+  (cal)
+)
+
+(defpoll time :interval "10s"
+  "date '+%H:%M %b %d, %Y'")
+
+(defwidget cal []
+  (box :class "border-box extra-bottom-margin"
+      (calendar :halign "center" 
+              :valign "center" 
+              :class "cal" 
+              :month current_month 
+              :year current_year 
+              :day current_day
+              :show-details true
+              :show-week-numbers true
+      )
+  )
+)
+(defpoll current_year :interval "1m" "date +'%Y'")
+(defpoll current_month :interval "1m" "date +'%m'")
+(defpoll current_day :interval "1m" "date +'%d'")

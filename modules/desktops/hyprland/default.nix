@@ -1,4 +1,4 @@
-{ home-manager, inputs, pkgs, hyprpkgs, user, wallpaper, lib, ... }:
+{ home-manager, inputs, pkgs, hyprpkgs, user, wallpaper, lib, unstable, ... }:
 {
   imports = [
     ../../tools/rofi
@@ -6,12 +6,22 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    unstable.libdrm
+
+    libreoffice-fresh
     gnome.gnome-disk-utility
+    baobab
     polkit-kde-agent
     okular
-
+    vlc
+    libnotify
+    xarchiver
+    
     # Audio
     easyeffects
+    pamixer
+    pavucontrol
+    helvum
 
     # Sreenshot
     hyprpkgs.grimblast
@@ -110,6 +120,8 @@
           exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
           exec-once = wl-paste --watch cliphist store
           exec-once = hyprpaper
+          exec-once = eww open bar0
+          exec-once = eww open bar1
 
           ################
           # Window Rules #
@@ -160,7 +172,7 @@
           bind = , Print, exec, grimblast --notify copysave area
 
           # Launch Apps
-          bindr= $mainMod, SUPER_L, exec, pkill rofi || rofi -show combi
+          bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
           bind = $mainMod, Return, exec, kitty
           bind = $mainMod, e, exec, thunar
 

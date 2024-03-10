@@ -2,10 +2,13 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-23.11";
-    nixpkgs-unstable.url = "nixpkgs";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.11";
+    nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    sops-nix.url = "github:Mic92/sops-nix";
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
@@ -19,6 +22,7 @@
 
     secrets = {
       url = "git+file:/etc/nixos/secrets";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
@@ -33,6 +37,7 @@
 
     nixifiedAi = {
       url = "github:nixified-ai/flake";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

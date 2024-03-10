@@ -79,7 +79,7 @@
     ];
     userSettings = {
         "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "nil";
+        "nix.serverPath" = "${pkgs.nil}/bin/nil";
         "terminal.external.linuxExec" = "kitty";
     };
   };

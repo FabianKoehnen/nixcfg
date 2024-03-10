@@ -19,7 +19,6 @@
       ../../modules/tools/cad
     ];
   nixpkgs.config = {
-    permittedInsecurePackages = [ "nix-2.16.2" ];
     allowUnfree = true;
   };
 

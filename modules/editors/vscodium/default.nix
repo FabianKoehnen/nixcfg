@@ -1,11 +1,6 @@
 { pkgs, user, ... }:
 
 {
-
-  environment.systemPackages = with pkgs; [
-    nixd
-  ];
-
   home-manager.users.${user}.programs.vscode = {
     enable=true;
     package=pkgs.vscodium;

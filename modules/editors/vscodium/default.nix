@@ -1,6 +1,10 @@
 { pkgs, user, ... }:
 
 {
+  environment.systemPackages = with pkgs; [
+    nil
+  ];
+
   home-manager.users.${user}.programs.vscode = {
     enable=true;
     package=pkgs.vscodium;
@@ -58,7 +62,25 @@
       {
         key = "ctrl+d";
         command = "editor.action.duplicateSelection";
+      }      
+      
+
+      # Terminal
+      {
+        key = "ctrl+c";
+        command = "workbench.action.terminal.copySelection";
+        when = "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused";
+      }
+      {
+        key = "ctrl+v";
+        command = "workbench.action.terminal.paste";
+        when = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
       }
     ];
+    userSettings = {
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+        "terminal.external.linuxExec" = "kitty";
+    };
   };
 }

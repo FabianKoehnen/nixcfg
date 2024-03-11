@@ -78,7 +78,6 @@ in{
         "runcli"="dc run cli";
 
           ### Symfony Alias
-        "console"="bin/console";
         "d-console"="dc exec php-fpm bin/console";
 
           ### K8s

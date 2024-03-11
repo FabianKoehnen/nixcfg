@@ -55,7 +55,7 @@
       "obs"
       "yubico-yubikey-manager"
       "yubico-authenticator"
-
+      
       "docker"
       "tableplus"
       "redisinsight"

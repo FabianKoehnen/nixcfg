@@ -33,46 +33,66 @@
         version = "0.16.0";
         sha256 = "sha256-u2AFjvhm3zio1ygW9yD9ZwbywLrEssd0O7/0AtfCvMo=";
       }
-    ];
-    keybindings = [
       {
-        key = "ctrl+-";
+        name = "vscode-jetbrains-icon-theme";
+        publisher = "chadalen";
+        version = "2.15.0";
+        sha256 = "sha256-c2akqxYyoSLuEVaVOOKdkO3GDauUZ4bhL/NdZoiRSAY=";
+      }
+     {
+       name = "webstorm-new-dark";
+       publisher = "eenaree";
+       version = "2.6.2";
+       sha256 = "sha256-LKpDAc8XaaeLU8GFmPoZoFAMcGin1o+4pmKvyFCjljE=";
+     }
+    ];
+    keybindings = let
+      darwinSystem = pkgs.system == "x86_64-darwin";
+      
+      linux-mod1 = "ctrl";
+      darwin-mod1 = "cmd";
+
+      mod1 = if darwinSystem then darwin-mod1 else linux-mod1;
+
+    in[
+      {
+        key = "${mod1}+-";
         command = "-workbench.action.zoomOut";
       }
       {
-        key = "ctrl+k ctrl+c";
+        key = "${mod1}+k ${mod1}+c";
         command = "-editor.action.addCommentLine";
         when = "editorTextFocus && !editorReadonly";
       }
       {
-        key = "ctrl+-";
+        key = "${mod1}+-";
         command = "editor.action.commentLine";
         when = "editorTextFocus && !editorReadonly";
       }
       {
-        key = "ctrl+shift+7";
+        key = "${mod1}+shift+7";
         command = "-editor.action.commentLine";
         when = "editorTextFocus && !editorReadonly";
       }
       {
-        key = "ctrl+d";
+        key = "${mod1}+d";
         command = "-editor.action.addSelectionToNextFindMatch";
         when = "editorFocus";
       }
       {
-        key = "ctrl+d";
+        key = "${mod1}+d";
         command = "editor.action.duplicateSelection";
       }      
       
 
       # Terminal
       {
-        key = "ctrl+c";
+        key = "${mod1}+c";
         command = "workbench.action.terminal.copySelection";
         when = "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused";
       }
       {
-        key = "ctrl+v";
+        key = "${mod1}+v";
         command = "workbench.action.terminal.paste";
         when = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
       }
@@ -81,6 +101,8 @@
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "${pkgs.nil}/bin/nil";
         "terminal.external.linuxExec" = "kitty";
+        "workbench.iconTheme"= "vscode-jetbrains-icon-theme-2023-auto";
+        "workbench.colorTheme"= "Webstorm New Light";
     };
   };
 }

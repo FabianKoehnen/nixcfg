@@ -22,7 +22,6 @@
 
     secrets = {
       url = "git+file:/etc/nixos/secrets";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     hyprland = {
@@ -99,9 +98,15 @@ darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
             enable = true;
             package = inputs.nixpkgs-unstable.legacyPackages.x86_64-darwin.darwin.linux-builder;
             config = {
-              nix.settings = {
-                trusted-users = ["builder" "fabian"];
+              nix = {
+                settings = {
+                  trusted-users = ["builder" "fabian"];
+                };
+                gc.automatic = true;
+                settings.auto-optimise-store = true;
               };
+
+
               boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
             };
           };

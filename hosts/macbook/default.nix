@@ -1,8 +1,22 @@
 { config, pkgs, inputs, lib, ... }:
 {
   nixpkgs.config.allowUnfree = true;
-  nix.settings.experimental-features = "nix-command flakes";
-  nix.settings.extra-trusted-users = ["@admin" "fabian"];
+
+  nix = {
+    package = pkgs.nix;
+    settings = {
+      experimental-features = [ "nix-command" "flakes" ];
+      auto-optimise-store = true;
+      trusted-users = [
+        "@admin"
+        "fabian"
+      ];
+    };
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 7d";
+    };
+  };
     
   imports = [
     ../../modules/terminal/zsh

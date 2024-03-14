@@ -45,6 +45,12 @@
        version = "2.6.2";
        sha256 = "sha256-LKpDAc8XaaeLU8GFmPoZoFAMcGin1o+4pmKvyFCjljE=";
      }
+     {
+       name = "gitlens";
+       publisher = "eamodio";
+       version = "2024.3.1405";
+       sha256 = "sha256-7ILcHH3JrhN/mgXVaXGawYa4XdjqPyXO8y4hLbOzLQs=";
+     }
     ];
     keybindings = let
       darwinSystem = pkgs.system == "x86_64-darwin";

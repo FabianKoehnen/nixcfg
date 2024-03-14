@@ -1,6 +1,8 @@
-{ pkgs, hyprland, inputs, user, ... }:
-
-{ 
+{
+  pkgs,
+  user,
+  ...
+}: {
   home-manager.users.${user} = {
     config = {
       xdg.enable = true;
@@ -17,7 +19,7 @@
         };
         packages = with pkgs; [
           piper
-          
+
           teamspeak_client
           signal-desktop
           discord
@@ -27,7 +29,6 @@
       programs = {
         eza.enable = true;
       };
-
     };
   };
 }

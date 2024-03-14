@@ -1,5 +1,7 @@
-{ pkgs, user, ... }:
 {
+  pkgs,
+  ...
+}: {
   environment.systemPackages = with pkgs; [
     flatcam
   ];

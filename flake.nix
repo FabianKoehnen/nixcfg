@@ -15,7 +15,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    home-manager = { 
+    home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -38,22 +38,37 @@
       url = "github:nixified-ai/flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    treefmt-nix.url = "github:numtide/treefmt-nix";
   };
 
-  outputs = { self, nixpkgs, nix-darwin, home-manager, secrets, nixpkgs-unstable,... }@inputs: {
+  outputs = {
+    self,
+    nixpkgs,
+    nix-darwin,
+    home-manager,
+    secrets,
+    systems,
+    nixpkgs-unstable,
+    ...
+  } @ inputs: let
+    eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+
+    treefmtEval = eachSystem (pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+  in {
     nixosConfigurations = {
-      "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec{
+      "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
         system = "x86_64-linux";
         specialArgs = {
-          user="fabian"; 
-          unstable= nixpkgs-unstable.legacyPackages.${system};
+          user = "fabian";
+          unstable = nixpkgs-unstable.legacyPackages.${system};
           hyprpkgs = inputs.hypr_contrib.packages.${system};
           wallpaper = hosts/desktop/wallpaper.png;
-          inherit inputs; 
+          inherit inputs;
         };
         modules = [
           inputs.nixifiedAi.nixosModules.invokeai-amd
-          {  
+          {
             nix.settings = {
               trusted-users = ["fabian"];
               substituters = ["https://hyprland.cachix.org"];
@@ -84,13 +99,13 @@
       };
     };
 
-darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+    darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
       specialArgs = {
-        user="fabian";
+        user = "fabian";
         inherit inputs;
       };
       modules = [
-        home-manager.darwinModules.home-manager 
+        home-manager.darwinModules.home-manager
         ./hosts/macbook/default.nix
         ./hosts/macbook/home.nix
         {
@@ -106,22 +121,21 @@ darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
                 settings.auto-optimise-store = true;
               };
 
-
-              boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+              boot.binfmt.emulatedSystems = ["aarch64-linux"];
             };
           };
           nix.buildMachines = [
-            { 
-              hostName = "linux-builder"; 
-              mandatoryFeatures = [ ]; 
-              maxJobs = 1; 
-              protocol = "ssh"; 
-              publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo="; 
-              speedFactor = 1; 
-              sshKey = "/etc/nix/builder_ed25519"; 
-              sshUser = "builder"; 
-              supportedFeatures = [ "kvm" "benchmark" "big-parallel" ]; 
-              system = "aarch64-linux"; 
+            {
+              hostName = "linux-builder";
+              mandatoryFeatures = [];
+              maxJobs = 1;
+              protocol = "ssh";
+              publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
+              speedFactor = 1;
+              sshKey = "/etc/nix/builder_ed25519";
+              sshUser = "builder";
+              supportedFeatures = ["kvm" "benchmark" "big-parallel"];
+              system = "aarch64-linux";
             }
           ];
           system = {
@@ -135,5 +149,11 @@ darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
     };
 
     darwinPackages = self.darwinConfigurations."MacBook-Pro-FK".pkgs;
+
+    formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+
+    checks = eachSystem (pkgs: {
+      formatting = treefmtEval.${pkgs.system}.config.build.check self;
+    });
   };
 }

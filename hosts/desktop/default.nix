@@ -1,34 +1,38 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-
-{ config, pkgs, inputs, unstable, user, ... }:
-
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ../../modules/tools/sddm
-      ../../modules/desktops/hyprland
+  config,
+  pkgs,
+  inputs,
+  unstable,
+  user,
+  ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ../../modules/tools/sddm
+    ../../modules/desktops/hyprland
 
-      ../../modules/terminal/zsh
-      ../../modules/terminal/kitty
+    ../../modules/terminal/zsh
+    ../../modules/terminal/kitty
 
-      ../../modules/editors/vscodium
-      ../../modules/gaming/steam
-      ../../modules/tools/cad
-    ];
+    ../../modules/editors/vscodium
+    ../../modules/gaming/steam
+    ../../modules/tools/cad
+  ];
   nixpkgs.config = {
     allowUnfree = true;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
     };
     gc = {
@@ -57,9 +61,9 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "de_DE.UTF-8";
   console = {
-  #   font = "Lat2-Terminus16";
-     keyMap = "de";
-  #   useXkbConfig = true; # use xkbOptions in tty.
+    #   font = "Lat2-Terminus16";
+    keyMap = "de";
+    #   useXkbConfig = true; # use xkbOptions in tty.
   };
   services.xserver.layout = "de";
 
@@ -71,7 +75,7 @@
 
   services.flatpak.enable = true;
 
-  security.polkit.enable=true;
+  security.polkit.enable = true;
 
   environment.systemPackages = with pkgs; [
     util-linux
@@ -108,7 +112,7 @@
       package = pkgs.nix-direnv;
     };
   };
-  
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -170,15 +174,14 @@
 
   programs.kdeconnect.enable = true;
 
-
-  services.udev  = {
+  services.udev = {
     enable = true;
     extraRules = ''
       # SteelSeries Arctis Nova 7
       KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="2202", TAG+="uaccess"
       KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="2206", TAG+="uaccess"
       KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="220a", TAG+="uaccess"
-      '';
+    '';
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -200,8 +203,8 @@
   networking.firewall.enable = true;
 
   services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
-  
+  networking.firewall.trustedInterfaces = ["tailscale0"];
+
   #services.nginx.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
@@ -216,6 +219,4 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
-
 }
-

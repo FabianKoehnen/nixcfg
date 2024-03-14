@@ -1,11 +1,16 @@
-{ config, pkgs, inputs, lib, ... }:
 {
+  config,
+  pkgs,
+  inputs,
+  lib,
+  ...
+}: {
   nixpkgs.config.allowUnfree = true;
 
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
       trusted-users = [
         "@admin"
@@ -17,14 +22,14 @@
       options = "--delete-older-than 7d";
     };
   };
-    
+
   imports = [
     ../../modules/terminal/zsh
     ../../modules/editors/vscodium
   ];
 
   users.users."fabian" = {
-    home="/Users/fabian";
+    home = "/Users/fabian";
   };
 
   system.defaults = {
@@ -44,23 +49,22 @@
 
     ## Tools
     vscode
-    
+
     ## Kube
     k9s
-    
+
     ## JS
     nodejs
     yarn
-
   ];
 
   # Apps in here need to be uninstalled manually
   homebrew = {
-    enable=true;
+    enable = true;
     taps = [
       "homebrew/cask-versions"
     ];
-    casks=[
+    casks = [
       ## Desktop
       "firefox-developer-edition"
       "amethyst"
@@ -69,7 +73,7 @@
       "obs"
       "yubico-yubikey-manager"
       "yubico-authenticator"
-      
+
       "docker"
       "tableplus"
       "redisinsight"
@@ -81,12 +85,12 @@
       "onlyoffice"
     ];
 
-    masApps={
-      "WireGuard"=1451685025;
-      "Sequel Ace"=1518036000;
-      "Numbers"=409203825;
-      "Whatsapp"=310633997;
-      "Battery Monitor"=836505650;
+    masApps = {
+      "WireGuard" = 1451685025;
+      "Sequel Ace" = 1518036000;
+      "Numbers" = 409203825;
+      "Whatsapp" = 310633997;
+      "Battery Monitor" = 836505650;
     };
   };
 }

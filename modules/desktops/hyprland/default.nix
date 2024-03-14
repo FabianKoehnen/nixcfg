@@ -1,5 +1,14 @@
-{ home-manager, inputs, pkgs, hyprpkgs, user, wallpaper, lib, unstable, ... }:
 {
+  home-manager,
+  inputs,
+  pkgs,
+  hyprpkgs,
+  user,
+  wallpaper,
+  lib,
+  unstable,
+  ...
+}: {
   imports = [
     ../../tools/rofi
     ../../tools/thunar
@@ -16,7 +25,7 @@
     vlc
     libnotify
     xarchiver
-    
+
     # Audio
     easyeffects
     pamixer
@@ -54,12 +63,11 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
-  
+
   xdg.portal = {
     enable = true;
     # extraPortals = [pkgs.xdg-desktop-portal-hyprland];
   };
-
 
   ##################
   ## home-manager ##
@@ -103,11 +111,10 @@
         '';
       };
 
-
       wayland.windowManager.hyprland = {
         enable = true;
         extraConfig = let
-            workspaceCount = 8;
+          workspaceCount = 8;
         in ''
           ###########
           # Monitor #
@@ -151,7 +158,7 @@
 
           bind = $mainMod, Tab, cyclenext,
           bind = $mainMod SHIFT, Tab, cyclenext, prev
-          
+
           bind = $mainMod SHIFT, f, togglefloating
 
           # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -160,7 +167,11 @@
 
           # workspace
           ${builtins.concatStringsSep "\n" (builtins.map (n: ''
-            workspace = ${n},monitor:${if ((lib.strings.charToInt n) >= 5) then "DP-2" else "DP-1"}
+            workspace = ${n},monitor:${
+              if ((lib.strings.charToInt n) >= 5)
+              then "DP-2"
+              else "DP-1"
+            }
             bind = $mainMod, ${n}, workspace, ${n}
             bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
           '') ["1" "2" "3" "4" "5" "6" "7" "8"])}

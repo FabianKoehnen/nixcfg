@@ -1,13 +1,12 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{
-  config,
-  pkgs,
-  inputs,
-  unstable,
-  user,
-  ...
+{ config
+, pkgs
+, inputs
+, unstable
+, user
+, ...
 }: {
   imports = [
     # Include the results of the hardware scan.
@@ -27,12 +26,12 @@
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
     };
     gc = {
@@ -52,6 +51,8 @@
       efi.canTouchEfiVariables = true;
     };
   };
+
+  environment.variables.VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
 
   networking.hostName = "fabians-nix-desktop";
 
@@ -93,6 +94,9 @@
     spotify
     headsetcontrol
 
+    vulkan-tools
+    glxinfo
+
     comma
 
     firefox
@@ -120,7 +124,7 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = ["wheel" "docker"];
+      extraGroups = [ "wheel" "docker" ];
       shell = pkgs.zsh;
     };
   };
@@ -203,7 +207,7 @@
   networking.firewall.enable = true;
 
   services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = ["tailscale0"];
+  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   #services.nginx.enable = false;
 

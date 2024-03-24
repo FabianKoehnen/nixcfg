@@ -1,13 +1,12 @@
-{
-  home-manager,
-  inputs,
-  pkgs,
-  hyprpkgs,
-  user,
-  wallpaper,
-  lib,
-  unstable,
-  ...
+{ home-manager
+, inputs
+, pkgs
+, hyprpkgs
+, user
+, wallpaper
+, lib
+, unstable
+, ...
 }: {
   imports = [
     ../../tools/rofi
@@ -113,9 +112,7 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
-        extraConfig = let
-          workspaceCount = 8;
-        in ''
+        extraConfig = ''
           ###########
           # Monitor #
           ###########

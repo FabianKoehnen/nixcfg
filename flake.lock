@@ -413,11 +413,11 @@
         "rev": "fa796738a07b6d97d2f988ee15552579766fe3e6",
         "revCount": 5,
         "type": "git",
-        "url": "file:/etc/nixos/secrets"
+        "url": "file:./secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:/etc/nixos/secrets"
+        "url": "file:./secrets"
       }
     },
     "sops-nix": {

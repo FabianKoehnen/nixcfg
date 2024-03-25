@@ -21,7 +21,7 @@
     };
 
     secrets = {
-      url = "git+file:/etc/nixos/secrets";
+      url = "git+file:./secrets";
     };
 
     hyprland = {

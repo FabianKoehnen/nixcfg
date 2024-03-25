@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}: {
+{ pkgs, ... }: {
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -21,7 +18,7 @@
     remotePlay.openFirewall = true;
   };
 
-  environment.systemPackages = with pkgs; [gamescope gamemode mangohud];
+  environment.systemPackages = with pkgs; [ gamescope gamemode mangohud ];
 
   nixpkgs.config.packageOverrides = pkgs: {
     steam = pkgs.steam.override {

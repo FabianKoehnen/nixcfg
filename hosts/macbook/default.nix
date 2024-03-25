@@ -1,16 +1,14 @@
-{
-  config,
-  pkgs,
-  inputs,
-  lib,
-  ...
+{ config
+, pkgs
+, unstable
+, ...
 }: {
   nixpkgs.config.allowUnfree = true;
 
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = ["nix-command" "flakes"];
+      experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
       trusted-users = [
         "@admin"
@@ -56,6 +54,8 @@
     ## JS
     nodejs
     yarn
+
+    unstable.youtube-music
   ];
 
   # Apps in here need to be uninstalled manually

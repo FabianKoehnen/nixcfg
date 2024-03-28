@@ -100,6 +100,35 @@
             inputs.sops-nix.nixosModules.sops
           ];
         };
+
+        "fabians-nix-laptop" = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = {
+            user = "fabian";
+            inherit inputs;
+          };
+          modules = [
+            ./hosts/laptop/default.nix
+                        
+            # home-manager
+            home-manager.nixosModules.home-manager
+            ./hosts/laptop/home.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.sharedModules = [
+                inputs.sops-nix.homeManagerModules.sops
+              ];
+
+            }
+
+            secrets.nixosModules.laptop
+            inputs.sops-nix.nixosModules.sops
+          ];
+        };
       };
 
       darwinConfigurations."MacBook-Pro-FK" =

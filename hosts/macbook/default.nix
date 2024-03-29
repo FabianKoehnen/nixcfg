@@ -30,10 +30,17 @@
     home = "/Users/fabian";
   };
 
-  system.defaults = {
-    #".GlobalPreferences"."com.apple.mouse.scaling" = (-1.0);
-    finder.AppleShowAllFiles = true;
-    NSGlobalDomain.AppleShowAllFiles = true;
+  system = {
+    defaults = {
+      #".GlobalPreferences"."com.apple.mouse.scaling" = (-1.0);
+      finder.AppleShowAllFiles = true;
+      NSGlobalDomain.AppleShowAllFiles = true;
+    };
+
+    keyboard = {
+      enableKeyMapping = true;
+      remapCapsLockToEscape = true;
+    };
   };
 
   environment.systemPackages = with pkgs; [

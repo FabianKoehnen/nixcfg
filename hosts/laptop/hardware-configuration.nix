@@ -50,6 +50,12 @@
     { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
       fsType = "btrfs";
       options = [ "subvol=nixos-config" ];
+    };  
+    
+    fileSystems."/persist" =
+    { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
+      fsType = "btrfs";
+      options = [ "subvol=persist" ];
     };
 
   swapDevices = [ ];

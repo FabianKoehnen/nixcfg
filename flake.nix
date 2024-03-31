@@ -41,6 +41,8 @@
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+
+    impermanence.url = "github:nix-community/impermanence";
   };
 
   outputs =
@@ -127,6 +129,7 @@
 
             secrets.nixosModules.laptop
             inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
           ];
         };
       };

@@ -98,6 +98,8 @@
     spotify
     headsetcontrol
 
+    gnomeExtensions.ideapad
+
     comma
 
     firefox
@@ -136,6 +138,17 @@
     ];
   };
 
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/bluetooth"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+
   services.yubikey-agent.enable = true;
 
   systemd = {
@@ -144,6 +157,8 @@
       systemd-udev-settle.enable = false;
     };
   };
+
+  networking.wireless.userControlled.enable = true;
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

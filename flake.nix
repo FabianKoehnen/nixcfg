@@ -109,7 +109,7 @@
           };
           modules = [
             ./hosts/laptop/default.nix
-                        
+
             # home-manager
             home-manager.nixosModules.home-manager
             ./hosts/laptop/home.nix
@@ -122,7 +122,6 @@
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
               ];
-
             }
 
             secrets.nixosModules.laptop
@@ -131,59 +130,56 @@
         };
       };
 
-      darwinConfigurations."MacBook-Pro-FK" =
-        let
-          system = "x86_64-darwin";
-        in
-        nix-darwin.lib.darwinSystem {
-          specialArgs = {
-            unstable = nixpkgs-unstable.legacyPackages.${system};
-            user = "fabian";
-            inherit inputs;
-          };
-          modules = [
-            home-manager.darwinModules.home-manager
-            ./hosts/macbook/default.nix
-            ./hosts/macbook/home.nix
-            {
-              nix.linux-builder = {
-                enable = true;
-                package = inputs.nixpkgs-unstable.legacyPackages.${system}.darwin.linux-builder;
-                config = {
-                  nix = {
-                    settings = {
-                      trusted-users = [ "builder" "fabian" ];
-                    };
-                    gc.automatic = true;
-                    settings.auto-optimise-store = true;
-                  };
-
-                  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-                };
-              };
-              nix.buildMachines = [
-                {
-                  hostName = "linux-builder";
-                  mandatoryFeatures = [ ];
-                  maxJobs = 1;
-                  protocol = "ssh";
-                  publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
-                  speedFactor = 1;
-                  sshKey = "/etc/nix/builder_ed25519";
-                  sshUser = "builder";
-                  supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
-                  system = "aarch64-linux";
-                }
-              ];
-              system = {
-                stateVersion = 4;
-                configurationRevision = self.rev or self.dirtyRev or null;
-              };
-              nixpkgs.hostPlatform = "x86_64-darwin";
-              services.nix-daemon.enable = true;
-            }
-          ];
+      darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+        specialArgs = {
+          unstable = nixpkgs-unstable.legacyPackages.x86_64-darwin;
+          user = "fabian";
+          inherit inputs;
         };
+        modules = [
+          home-manager.darwinModules.home-manager
+          ./hosts/macbook/default.nix
+          ./hosts/macbook/home.nix
+          {
+            nix.linux-builder = {
+              enable = true;
+              #                ephemeral = true;
+              #                trusted-users = [ "builder" "fabian" ];
+              #                package = inputs.nixpkgs-unstable.legacyPackages.x86_64-darwin.darwin.linux-builder;
+              #                config = {
+              #                  nix = {
+              #                    settings = {
+              #                      trusted-users = [ "builder" "fabian" ];
+              #                    };
+              ##                    gc.automatic = true;
+              #                  };
+
+              #                  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+              #                };
+            };
+            nix.buildMachines = [
+              {
+                hostName = "linux-builder";
+                mandatoryFeatures = [ ];
+                maxJobs = 1;
+                protocol = "ssh";
+                publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
+                speedFactor = 1;
+                sshKey = "/etc/nix/builder_ed25519";
+                sshUser = "builder";
+                supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+                system = "x86_64-linux";
+              }
+            ];
+            system = {
+              stateVersion = 4;
+              configurationRevision = self.rev or self.dirtyRev or null;
+            };
+            nixpkgs.hostPlatform = "x86_64-darwin";
+            services.nix-daemon.enable = true;
+          }
+        ];
+      };
 
       darwinPackages = self.darwinConfigurations."MacBook-Pro-FK".pkgs;
 

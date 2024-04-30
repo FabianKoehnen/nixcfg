@@ -9,7 +9,6 @@
     package = pkgs.nix;
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
       trusted-users = [
         "@admin"
         "fabian"
@@ -76,7 +75,6 @@
 
       "docker"
       "tableplus"
-      "redisinsight"
 
       # Editors
       "jetbrains-toolbox"

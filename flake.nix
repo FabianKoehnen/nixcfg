@@ -39,6 +39,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    impermanence.url = "github:nix-community/impermanence";
+
+    stylix.url = "github:danth/stylix/release-23.11";
+
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
@@ -51,6 +55,7 @@
     , secrets
     , systems
     , nixpkgs-unstable
+    , stylix
     , ...
     } @ inputs:
     let
@@ -70,6 +75,13 @@
             inherit inputs;
           };
           modules = [
+            #stylix.nixosModules.stylix
+            #{
+            #  stylix.image = nixpkgs.lib.mkDefault hosts/desktop/wallpaper.png;
+            #  stylix.autoEnable=false;
+            #  home-manager.users.fabian.stylix.targets.firefox.profileNames = ["default-release"];
+            #}
+
             inputs.nixifiedAi.nixosModules.invokeai-amd
             {
               nix.settings = {
@@ -126,6 +138,7 @@
 
             secrets.nixosModules.laptop
             inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
           ];
         };
       };

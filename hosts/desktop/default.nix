@@ -19,6 +19,8 @@
     ../../modules/editors/vscodium
     ../../modules/gaming/steam
     ../../modules/tools/cad
+
+    ../../modules/virt/virt-manager
   ];
   nixpkgs.config = {
     allowUnfree = true;

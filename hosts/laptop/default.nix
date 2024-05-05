@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
       ../../modules/base/git
@@ -51,7 +52,7 @@
   };
 
   networking.hostName = "fabians-nix-laptop";
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   time.timeZone = "Europe/Berlin";
 
@@ -70,7 +71,7 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -133,6 +134,17 @@
         type = "rsa";
         bits = 4096;
       }
+    ];
+  };
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/bluetooth"
+    ];
+    files = [
+      "/etc/machine-id"
     ];
   };
 

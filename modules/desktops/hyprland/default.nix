@@ -6,9 +6,12 @@
 , wallpaper
 , lib
 , unstable
+, config
 , ...
 }: {
   imports = [
+    # ../../theming/darkman
+
     ../../tools/rofi
     ../../tools/thunar
   ];
@@ -72,9 +75,9 @@
   ## home-manager ##
   ##################
   home-manager = {
-    sharedModules = [
-      inputs.hyprland.homeManagerModules.default
-    ];
+    # sharedModules = [
+    #   inputs.hyprland.homeManagerModules.default
+    # ];
 
     users.${user} = {
       programs = {

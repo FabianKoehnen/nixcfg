@@ -1,10 +1,12 @@
 { lib
 , pkgs
 , user
+, unstable
 , ...
 }: {
   environment.systemPackages = with pkgs; [
     nil
+    unstable.nixd
   ];
 
   home-manager.users.${user}.programs.vscode = {
@@ -119,7 +121,7 @@
       ];
     userSettings = {
       "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "${pkgs.nil}/bin/nil";
+      "nix.serverPath" = "${pkgs.nixd}/bin/nixd";
       "terminal.external.linuxExec" = "kitty";
       "window.autoDetectColorScheme" = false;
       "workbench.iconTheme" = "vscode-jetbrains-icon-theme-2023-auto";

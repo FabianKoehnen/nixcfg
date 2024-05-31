@@ -71,6 +71,8 @@
     # extraPortals = [pkgs.xdg-desktop-portal-hyprland];
   };
 
+  programs.kdeconnect.enable = true;
+
   ##################
   ## home-manager ##
   ##################
@@ -83,7 +85,6 @@
       programs = {
         eww = {
           enable = true;
-          package = pkgs.eww-wayland;
           configDir = ./eww;
         };
       };
@@ -119,12 +120,13 @@
           ###########
           # Monitor #
           ###########
-          monitor = DP-1, 1920x1080, 2560x0, 1
+          monitor = DP-1, 1920x1080, 2560x0, 1,vrr,1
           monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1
           #############
           # Autostart #
           #############
           exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
+          exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
           exec-once = wl-paste --watch cliphist store
           exec-once = hyprpaper
           exec-once = eww open bar0
@@ -149,17 +151,21 @@
 
           bind = $mainMod, w, killactive,
 
-          bind = $mainMod ALT, Left, workspace, r-100
-          bind = $mainMod, Left, workspace, r-1
-          bind = $mainMod SHIFT, Left, movetoworkspace, r-1
+          bind = $mainMod ALT, Left, workspace, m-100
+          bind = $mainMod, Left, workspace, m-1
+          bind = $mainMod CONTROL, Left, workspace, r-1
+          bind = $mainMod SHIFT, Left, movetoworkspace, m-1
 
-          bind = $mainMod , Right, workspace, r+1
-          bind = $mainMod SHIFT, Right, movetoworkspace, r+1
+          bind = $mainMod , Right, workspace, m+1
+          bind = $mainMod CONTROL, Right, workspace, r+1
+          bind = $mainMod SHIFT, Right, movetoworkspace, m+1
+          bind = $mainMod SHIFT CONTROL, Right, movetoworkspace, r+1
 
           bind = $mainMod, Tab, cyclenext,
           bind = $mainMod SHIFT, Tab, cyclenext, prev
 
           bind = $mainMod SHIFT, f, togglefloating
+
 
           # Move/resize windows with mainMod + LMB/RMB and dragging
           bindm = $mainMod, mouse:272, movewindow
@@ -186,7 +192,7 @@
           bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
           bind = $mainMod, Return, exec, kitty
           bind = $mainMod, e, exec, thunar
-
+          
           #########
           # Decor #
           #########
@@ -212,7 +218,7 @@
             animation = workspaces, 1, 5, default
           }
 
-                    ###########
+          ###########
           # General #
           ###########
           input {

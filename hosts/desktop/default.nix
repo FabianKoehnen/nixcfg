@@ -65,7 +65,7 @@
     keyMap = "de";
     #   useXkbConfig = true; # use xkbOptions in tty.
   };
-  services.xserver.layout = "de";
+  services.xserver.xkb.layout = "de";
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -86,13 +86,18 @@
     unzip
     zip
     git
-    nvtop-amd
+    nvtopPackages.amd
     docker-compose
     sops
     symfony-cli
     spotify
     headsetcontrol
     unstable.youtube-music
+
+    wineWowPackages.waylandFull
+    winetricks
+    lutris
+    flightgear
 
     comma
 
@@ -172,8 +177,6 @@
   };
 
   services.ratbagd.enable = true;
-
-  programs.kdeconnect.enable = true;
 
   services.udev = {
     enable = true;

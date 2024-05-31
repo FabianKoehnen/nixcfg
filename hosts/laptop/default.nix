@@ -92,7 +92,7 @@
     unzip
     zip
     git
-    nvtop-amd
+    nvtopPackages.amd
     docker-compose
     sops
     symfony-cli

@@ -24,13 +24,20 @@
       url = "git+file:./secrets";
     };
 
-    hyprland = {
-      url = "github:hyprwm/Hyprland/v0.33.1";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # hyprland = {
+    #   url = "github:hyprwm/Hyprland/v0.33.1";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     hypr_contrib = {
       url = "github:hyprwm/contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    Hyprspace = {
+      url = "github:KZDKM/Hyprspace";
+
+      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

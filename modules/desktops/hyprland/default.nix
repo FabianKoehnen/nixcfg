@@ -54,7 +54,6 @@
 
   programs.hyprland = {
     enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
 
   security.rtkit.enable = true;
@@ -116,6 +115,9 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
+        plugins = [
+          # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
+        ];
         extraConfig = ''
           ###########
           # Monitor #
@@ -192,6 +194,7 @@
           bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
           bind = $mainMod, Return, exec, kitty
           bind = $mainMod, e, exec, thunar
+          bind = $mainMod, f, exec, firefox
           
           #########
           # Decor #

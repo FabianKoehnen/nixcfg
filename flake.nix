@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.05";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
     sops-nix = {
       url = "github:Mic92/sops-nix";
@@ -148,6 +149,53 @@
             inputs.impermanence.nixosModules.impermanence
           ];
         };
+
+
+
+
+        ##########
+        ## Work ##
+        ##########
+        "tuxSiriusGen2-fk" = nixpkgs.lib.nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = {
+            user = "fabian";
+            unstable = nixpkgs-unstable.legacyPackages.${system};
+            hyprpkgs = inputs.hypr_contrib.packages.${system};
+            wallpaper = hosts/work/tuxSiriusGen2/wallpaper.png;
+            inherit inputs;
+          };
+          modules = [
+            {
+              nix.settings = {
+                trusted-users = [ "fabian" ];
+                substituters = [ "https://hyprland.cachix.org" ];
+                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+              };
+            }
+
+            ./hosts/work/tuxSiriusGen2/default.nix
+
+            # home-manager
+            home-manager.nixosModules.home-manager
+            ./hosts/work/tuxSiriusGen2/home.nix
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+              };
+              home-manager.sharedModules = [
+                inputs.sops-nix.homeManagerModules.sops
+              ];
+            }
+
+            # others
+            secrets.nixosModules.tuxSiriusGen2
+            inputs.sops-nix.nixosModules.sops
+          ];
+        };
+
       };
 
       darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {

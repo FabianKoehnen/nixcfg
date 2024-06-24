@@ -74,8 +74,6 @@
 
   services.blueman.enable = true;
 
-  hardware.bluetooth.enable = true;
-
   # Trim SSDs periodicly
   services.fstrim.enable = true;
 

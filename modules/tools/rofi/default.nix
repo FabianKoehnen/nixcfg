@@ -28,7 +28,7 @@
         disable-history = false;
         sorting-method = "fzf";
         window-format = "{w:4} {c:15} {t}";
-        modi = "powermenu:${pkgs.rofi-power-menu}/bin/rofi-power-menu --symbols-font \"Symbols Nerd Font Mono\" --choices \"shutdown/lockscreen/logout/reboot\",combi,ssh";
+        modi = "powermenu:${pkgs.rofi-power-menu}/bin/rofi-power-menu --symbols-font \"Symbols Nerd Font Mono\" --choices \"shutdown/lockscreen/suspend/reboot\",combi,ssh";
         combi-modi = "window,drun";
         kb-cancel = "Escape,Alt+F1";
         kb-move-char-back = "Control+b";

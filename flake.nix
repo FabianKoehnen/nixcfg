@@ -26,7 +26,7 @@
     };
 
     # hyprland = {
-    #   url = "github:hyprwm/Hyprland/v0.33.1";
+    #   url = "github:hyprwm/Hyprland";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
 
@@ -35,17 +35,23 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    Hyprspace = {
-      url = "github:KZDKM/Hyprspace";
+    # Hyprspace = {
+    #   url = "github:KZDKM/Hyprspace";
 
-      # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    #   # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
+    #   inputs.hyprland.follows = "hyprland";
+    # };
 
     nixifiedAi = {
       url = "github:nixified-ai/flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    anyrun = {
+      url = "github:Kirottu/anyrun";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
 
     impermanence.url = "github:nix-community/impermanence";
 

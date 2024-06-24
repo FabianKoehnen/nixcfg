@@ -19,6 +19,8 @@
   environment.systemPackages = with pkgs; [
     unstable.libdrm
 
+    # pyprland
+
     libreoffice-fresh
     gnome.gnome-disk-utility
     baobab
@@ -35,14 +37,11 @@
     helvum
 
     # Sreenshot
-    hyprpkgs.grimblast
+    grimblast
 
     # Clipboard
     cliphist
     wl-clipboard
-
-    # Wallpaper
-    hyprpaper
 
     # Xfce Tools
     xfce.ristretto
@@ -106,16 +105,148 @@
           FileManager=thunar
           WebBrowser=firefox
         '';
-        ".config/hypr/hyprpaper.conf".text = ''
-          preload = ${wallpaper}
-
-          wallpaper = , ${wallpaper}
+        ".config/hypr/pyprland.toml".text = ''
+          [pyprland]
+          plugins = [
+              "magnify"
+          ]
         '';
       };
+
+      services.hyprpaper = {
+        enable = true;
+        settings = {
+          splash = false;
+          preload = [
+            "${wallpaper}"
+          ];
+          wallpaper = [
+            ",${wallpaper}"
+          ];
+        };
+      };
+
+      programs.hyprlock = {
+        enable = true;
+        settings = {
+          background = [
+            {
+              monitor = "";
+              path = "${wallpaper}";
+
+              blur_passes = 2; # 0 disables blurring
+              blur_size = 7;
+              noise = 0.0117;
+              contrast = 0.8916;
+              brightness = 0.8172;
+              vibrancy = 0.1696;
+              vibrancy_darkness = 0.0;
+            }
+          ];
+          input-field = [
+            {
+              monitor = "";
+              size = "200, 50";
+              outline_thickness = 3;
+              dots_size = 0.33; # Scale of input-field height, 0.2 - 0.8
+              dots_spacing = 0.15; # Scale of dots' absolute size, 0.0 - 1.0
+              dots_center = true;
+              dots_rounding = -1; # -1 default circle, -2 follow input-field rounding
+              outer_color = "rgb(151515)";
+              inner_color = "rgb(FFFFFF)";
+              font_color = "rgb(10, 10, 10)";
+              fade_on_empty = true;
+              fade_timeout = 1000; # Milliseconds before fade_on_empty is triggered.
+              placeholder_text = "<i>Input Password...</i>"; # Text rendered in the input box when it's empty.
+              hide_input = false;
+              rounding = -1; # -1 means complete rounding (circle/oval)
+              check_color = "rgb(204, 136, 34)";
+              fail_color = "rgb(204, 34, 34)"; # if authentication failed, changes outer_color and fail message color
+              fail_text = "<i>$FAIL <b>($ATTEMPTS)</b></i>"; # can be set to empty
+              fail_transition = 300; # transition time in ms between normal outer_color and fail_color
+              capslock_color = -1;
+              numlock_color = -1;
+              bothlock_color = -1; # when both locks are active. -1 means don't change outer color (same for above)
+              invert_numlock = false; # change color if numlock is off
+              swap_font_color = false; # see below
+              position = "0, -20";
+              halign = "center";
+              valign = "center";
+            }
+          ];
+
+          label = [
+            {
+              monitor = "";
+              text = "cmd[update:1000] echo \"$TIME\"";
+              color = "rgba(200, 200, 200, 1.0)";
+              font_size = 55;
+              font_family = "Fira Semibold";
+              position = "-100, -40";
+              halign = "right";
+              valign = "bottom";
+              shadow_passes = 5;
+              shadow_size = 10;
+            }
+            {
+              monitor = "";
+              text = "$USER";
+              color = "rgba(200, 200, 200, 1.0)";
+              font_size = 20;
+              font_family = "Fira Semibold";
+              position = "-100, 160";
+              halign = "right";
+              valign = "bottom";
+              shadow_passes = 5;
+              shadow_size = 10;
+            }
+          ];
+        };
+      };
+
+      services.hypridle = {
+        enable = true;
+        settings = {
+          general = {
+            lock_cmd = "${pkgs.procps}/bin/pidof hyprlock || ${config.programs.hyprlock.package}/bin/hyprlock"; # avoid starting multiple hyprlock instances.
+            before_sleep_cmd = "loginctl lock-session"; # lock before suspend.
+            after_sleep_cmd = "${config.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; # to avoid having to press a key twice to turn on the display.
+          };
+          listener = [
+            {
+              timeout = 150; # 2.5min.
+              on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -s set 10 | true"; # set monitor backlight to minimum, avoid 0 on OLED monitor.
+              on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -r | true"; # monitor backlight restore.
+            }
+            {
+              timeout = 150; # 2.5min.
+              on-timeout = "${pkgs.brightnessctl}/bin/brightnessctl -sd rgb:kbd_backlight set 0 | true"; # turn off keyboard backlight.
+              on-resume = "${pkgs.brightnessctl}/bin/brightnessctl -rd rgb:kbd_backlight | true"; # turn on keyboard backlight.
+            }
+            {
+              timeout = 900; # 5min
+              on-timeout = "loginctl lock-session"; # lock screen when timeout has passed
+            }
+            {
+              timeout = 930; # 5.5min
+              on-timeout = "${config.programs.hyprland.package}/bin/hyprctl dispatch dpms off"; # screen off when timeout has passed
+              on-resume = "${config.programs.hyprland.package}/bin/hyprctl dispatch dpms on"; # screen on when activity is detected after timeout has fired.
+            }
+            {
+              timeout = 2700; # 30min
+              on-timeout = "systemctl suspend"; # suspend pc
+            }
+          ];
+        };
+
+      };
+
 
       wayland.windowManager.hyprland = {
         enable = true;
         plugins = [
+          pkgs.hyprlandPlugins.hyprexpo
+
           # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
         ];
         extraConfig = ''
@@ -130,7 +261,9 @@
           exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
           exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
           exec-once = wl-paste --watch cliphist store
-          exec-once = hyprpaper
+          exec = ${pkgs.nwg-dock-hyprland}/bin/nwg-dock-hyprland -d
+          # exec-once = ${pkgs.pyprland}/bin/pypr
+          # exec-once = hyprpaper
           exec-once = eww open bar0
           exec-once = eww open bar1
 
@@ -153,25 +286,30 @@
 
           bind = $mainMod, w, killactive,
 
-          bind = $mainMod ALT, Left, workspace, m-100
-          bind = $mainMod, Left, workspace, m-1
-          bind = $mainMod CONTROL, Left, workspace, r-1
-          bind = $mainMod SHIFT, Left, movetoworkspace, m-1
+          bind = $mainMod ALT, Left, workspace, m-1000
+          bind = $mainMod, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous
+          bind = $mainMod SHIFT, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --move
 
-          bind = $mainMod , Right, workspace, m+1
-          bind = $mainMod CONTROL, Right, workspace, r+1
-          bind = $mainMod SHIFT, Right, movetoworkspace, m+1
-          bind = $mainMod SHIFT CONTROL, Right, movetoworkspace, r+1
+          bind = $mainMod , Right, exec, ${pkgs.hyprnome}/bin/hyprnome
+          bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
 
           bind = $mainMod, Tab, cyclenext,
           bind = $mainMod SHIFT, Tab, cyclenext, prev
 
           bind = $mainMod SHIFT, f, togglefloating
+          bind = $mainMod, dead_circumflex, hyprexpo:expo, toggle
 
 
           # Move/resize windows with mainMod + LMB/RMB and dragging
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
+
+
+          bind = $mainMod, l, exec, ${pkgs.procps}/bin/pidof hyprlock || ${config.programs.hyprlock.package}/bin/hyprlock
+
+          # # Zoom
+          # bind = $mainMod, plus, exec, ${pkgs.pyprland}/bin/pypr zoom ++0.5
+          # bind = $mainMod SHIFT, plus, exec, ${pkgs.pyprland}/bin/pypr zoom
 
           # workspace
           ${builtins.concatStringsSep "\n" (builtins.map (n: ''
@@ -233,9 +371,12 @@
             gaps_in = 2
             gaps_out = 5
             border_size = 0
-            cursor_inactive_timeout = 30
             resize_on_border = true
             layout = dwindle
+          }
+
+          cursor {
+            inactive_timeout = 3
           }
 
           dwindle {
@@ -255,6 +396,21 @@
 
           xwayland {
             force_zero_scaling = true
+          }
+
+
+          plugin {
+              hyprexpo {
+                  columns = 3
+                  gap_size = 5
+                  bg_col = rgb(111111)
+                  workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
+
+                  enable_gesture = true # laptop touchpad
+                  gesture_fingers = 3  # 3 or 4
+                  gesture_distance = 300 # how far is the "max"
+                  gesture_positive = true # positive = swipe down. Negative = swipe up.
+              }
           }
         '';
       };

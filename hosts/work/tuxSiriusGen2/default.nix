@@ -10,17 +10,17 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/base/nix-ld.nix
-    ../../modules/hardware/tuxedo
+    ../../../modules/base/nix-ld.nix
+    ../../../modules/hardware/tuxedo
 
-    ../../modules/tools/sddm
-    ../../modules/desktops/hyprland
+    ../../../modules/tools/sddm
+    ../../../modules/desktops/hyprland
 
-    ../../modules/terminal/zsh
-    ../../modules/terminal/kitty
+    ../../../modules/terminal/zsh
+    ../../../modules/terminal/kitty
 
-    ../../modules/editors/jetbrains
-    ../../modules/editors/vscodium
+    ../../../modules/editors/jetbrains
+    ../../../modules/editors/vscodium
   ];
   nixpkgs.config = {
     allowUnfree = true;
@@ -68,6 +68,7 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  networking.networkmanager.enable = true;
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot

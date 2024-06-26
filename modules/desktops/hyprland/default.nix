@@ -2,6 +2,7 @@
 , inputs
 , pkgs
 , hyprpkgs
+, hyprland-extra-config
 , user
 , wallpaper
 , lib
@@ -18,6 +19,8 @@
 
   environment.systemPackages = with pkgs; [
     unstable.libdrm
+
+    nwg-displays
 
     # pyprland
 
@@ -250,11 +253,17 @@
           # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
         ];
         extraConfig = ''
+          ##
+          # System dependend hyperland config
+          ##
+          ${hyprland-extra-config}
+
           ###########
           # Monitor #
           ###########
-          monitor = DP-1, 1920x1080, 2560x0, 1,vrr,1
-          monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1
+
+          source = ~/.config/hypr/monitors.conf
+
           #############
           # Autostart #
           #############
@@ -262,8 +271,7 @@
           exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
           exec-once = wl-paste --watch cliphist store
           exec = ${pkgs.nwg-dock-hyprland}/bin/nwg-dock-hyprland -d
-          # exec-once = ${pkgs.pyprland}/bin/pypr
-          # exec-once = hyprpaper
+
           exec-once = eww open bar0
           exec-once = eww open bar1
 

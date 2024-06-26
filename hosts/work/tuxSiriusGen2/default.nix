@@ -13,6 +13,8 @@
     ../../../modules/base/nix-ld.nix
     ../../../modules/hardware/tuxedo
 
+    ../../../modules/hardware/logitech/mxmaster
+
     ../../../modules/tools/sddm
     ../../../modules/desktops/hyprland
 
@@ -98,11 +100,23 @@
     spotify
     headsetcontrol
     unstable.youtube-music
+    slack
 
     comma
 
     firefox
   ];
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+    ];
+    files = [
+      "/etc/machine-id"
+      { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
+    ];
+  };
 
   virtualisation.docker = {
     enable = true;

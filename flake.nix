@@ -172,6 +172,7 @@
             inherit inputs;
           };
           modules = [
+            inputs.impermanence.nixosModules.impermanence
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];

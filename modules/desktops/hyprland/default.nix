@@ -297,7 +297,7 @@
           bind = $mainMod SHIFT, Tab, cyclenext, prev
 
           bind = $mainMod SHIFT, f, togglefloating
-          bind = $mainMod, dead_circumflex, hyprexpo:expo, toggle
+          bind = $mainMod, UP, hyprexpo:expo, toggle
 
 
           # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -338,8 +338,8 @@
           # Decor #
           #########
           decoration {
-            active_opacity = 0.90
-            inactive_opacity = 0.82
+            active_opacity = 0.98
+            inactive_opacity = 0.90
             rounding = 8
             dim_inactive = false
             dim_strength = 0.3

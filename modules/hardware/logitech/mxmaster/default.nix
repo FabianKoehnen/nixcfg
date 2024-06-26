@@ -5,12 +5,10 @@
   # Create systemd service
   systemd.services.logiops = {
     description = "An unofficial userspace driver for HID++ Logitech devices";
-    wantedBy = [ "graphical-session.target" ];
+    wantedBy = [ "graphical.target" ];
     serviceConfig = {
       ExecStart = "${pkgs.logiops}/bin/logid";
     };
-    after = [ "graphical-session-pre.target" ];
-    partOf = [ "graphical-session.target" ];
     restartTriggers = [ config.environment.etc."logid.cfg".source ];
   };
 

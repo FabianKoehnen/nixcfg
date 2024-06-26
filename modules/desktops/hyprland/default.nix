@@ -287,8 +287,8 @@
           bind = $mainMod, w, killactive,
 
           bind = $mainMod ALT, Left, workspace, m-1000
-          bind = $mainMod, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous
-          bind = $mainMod SHIFT, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --move
+          bind = $mainMod, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --no-empty
+          bind = $mainMod SHIFT, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --move --no-empty
 
           bind = $mainMod , Right, exec, ${pkgs.hyprnome}/bin/hyprnome
           bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move

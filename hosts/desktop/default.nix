@@ -22,6 +22,7 @@
     ../../modules/tools/cad
 
     ../../modules/virt/virt-manager
+    ../../modules/theming/darkman
   ];
   nixpkgs.config = {
     allowUnfree = true;

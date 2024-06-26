@@ -86,7 +86,7 @@
             unstable = nixpkgs-unstable.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper = hosts/desktop/wallpaper.png;
-            hyprland-desktop-config = ''
+            hyprland-extra-config = ''
               monitor = DP-1, 1920x1080, 2560x0, 1,vrr,1
               monitor = DP-2, 2560x1440@165,0x0, 1,vrr,1
             '';

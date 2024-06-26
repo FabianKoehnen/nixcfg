@@ -17,6 +17,7 @@
     ../../modules/terminal/kitty
 
     ../../modules/editors/vscodium
+    ../../modules/editors/jetbrains
     ../../modules/gaming/steam
     ../../modules/tools/cad
 

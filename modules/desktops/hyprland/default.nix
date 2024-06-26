@@ -308,6 +308,9 @@
           bind = $mainMod, UP, hyprexpo:expo, toggle
 
 
+          bind = $mainMod, g, togglegroup
+
+
           # Move/resize windows with mainMod + LMB/RMB and dragging
           bindm = $mainMod, mouse:272, movewindow
           bindm = $mainMod, mouse:273, resizewindow
@@ -373,6 +376,11 @@
           input {
             kb_layout = de
             sensitivity = 0
+          }
+
+          input:touchpad {
+            natural_scroll = true
+            clickfinger_behavior = true
           }
 
           general {

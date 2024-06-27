@@ -174,7 +174,8 @@
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper = hosts/work/tuxSiriusGen2/wallpaper.png;
             hyprland-extra-config = ''
-
+              bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-2, disable"
+              bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-2, 2560x1440@165.0,1920x1440,1.0"
             '';
             inherit inputs;
           };

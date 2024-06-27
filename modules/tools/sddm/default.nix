@@ -12,6 +12,7 @@
 
   services.displayManager.sddm = {
     enable = true;
+    autoNumlock = true;
     theme = "chili";
   };
 }

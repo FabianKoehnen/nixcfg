@@ -19,7 +19,10 @@
 
   environment.systemPackages = with pkgs; [
     unstable.libdrm
+
     hyprnome
+    hyprpicker
+    hyprcursor
 
     nwg-displays
 
@@ -39,6 +42,7 @@
     pamixer
     pavucontrol
     helvum
+    playerctl
 
     # Sreenshot
     grimblast
@@ -92,7 +96,10 @@
       };
 
       services = {
-        dunst = {
+        swaync = {
+          enable = true;
+        };
+        swayosd = {
           enable = true;
         };
       };
@@ -250,6 +257,7 @@
         enable = true;
         plugins = [
           pkgs.hyprlandPlugins.hyprexpo
+          pkgs.hyprlandPlugins.hyprtrails
 
           # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
         ];
@@ -271,6 +279,8 @@
           exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
           exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
           exec-once = wl-paste --watch cliphist store
+          exec-once = ${pkgs.solaar}/bin/solaar -w hide
+          exec-once = ${pkgs.wlsunset}/bin/wlsunset
           exec = ${pkgs.nwg-dock-hyprland}/bin/nwg-dock-hyprland -d
 
           exec-once = eww open bar0
@@ -302,14 +312,14 @@
           bind = $mainMod , Right, exec, ${pkgs.hyprnome}/bin/hyprnome
           bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
 
-          bind = $mainMod, Tab, cyclenext,
-          bind = $mainMod SHIFT, Tab, cyclenext, prev
-
           bind = $mainMod SHIFT, f, togglefloating
           bind = $mainMod, UP, hyprexpo:expo, toggle
           bind = $mainMod, DOWN, hyprexpo:expo, toggle
 
+          # Groups
           bind = $mainMod, g, togglegroup
+          bind = $mainMod, Tab, changegroupactive, f
+          bind = $mainMod SHIFT, Tab, changegroupactive, b
 
 
           # Move/resize windows with mainMod + LMB/RMB and dragging
@@ -345,6 +355,23 @@
           bind = $mainMod, Return, exec, kitty
           bind = $mainMod, e, exec, thunar
           bind = $mainMod, f, exec, firefox
+
+
+          # Mediakeys and osd
+          bind= $mainMod, n, exec, ${config.home-manager.users.${user}.services.swaync.package}/bin/swaync-client -t
+          
+          bindn=, Caps_Lock, exec, sleep 0.25 && ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --caps-lock
+          
+          bindel=, XF86AudioRaiseVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=+5
+          bindel=, XF86AudioLowerVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=-5
+          bindl=, XF86AudioMute, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=mute-toggle
+          
+          bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
+          bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
+          
+          bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
+          bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
+          bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
           
           #########
           # Decor #
@@ -400,6 +427,7 @@
             pseudotile = true
             preserve_split = true # you probably want this
             smart_split = true
+            no_gaps_when_only = true
           }
 
           misc {
@@ -427,6 +455,9 @@
                   gesture_fingers = 3  # 3 or 4
                   gesture_distance = 300 # how far is the "max"
                   gesture_positive = false # positive = swipe down. Negative = swipe up.
+              }
+              hyprtrails {
+                color = rgba(f74802ff)
               }
           }
         '';

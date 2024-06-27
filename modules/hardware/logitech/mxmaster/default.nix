@@ -1,21 +1,12 @@
 { pkgs, config, user, ... }: {
-  # Install logiops package
-  environment.systemPackages = [ pkgs.logiops ];
 
-  # Create systemd service
-  systemd.services.logiops = {
-    description = "An unofficial userspace driver for HID++ Logitech devices";
-    wantedBy = [ "graphical.target" ];
-    serviceConfig = {
-      ExecStart = "${pkgs.logiops}/bin/logid";
-    };
-    restartTriggers = [ config.environment.etc."logid.cfg".source ];
-  };
+  imports = [
+    ../default.nix
+  ];
 
   environment.etc."logid.cfg".text = ''
     devices: ({
       name: "MX Master 3S";
-      
       dpi: 1000;
       
       smartshift: {
@@ -61,7 +52,7 @@
                 action =
                 {
                     type: "Keypress";
-                    keys: ["KEY_LEFTMETA", "KEY_UP"];
+                    keys: ["KEY_LEFTMETA", "KEY_DOWN"];
                 };
               },
               {

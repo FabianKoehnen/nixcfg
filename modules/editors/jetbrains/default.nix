@@ -1,9 +1,12 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, user, ... }: {
 
   # https://nixos.wiki/wiki/Jetbrains_Tools
   environment.systemPackages = with pkgs; [
     pkgs.jetbrains-toolbox
   ];
+
+
+  environment.localBinInPath = true;
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [

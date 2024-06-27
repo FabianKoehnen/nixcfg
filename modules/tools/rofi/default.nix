@@ -68,7 +68,6 @@
             border = mkLiteral "0px";
             border-color = mkLiteral "@border";
             border-radius = mkLiteral "10px";
-            width = mkLiteral "40%";
             location = mkLiteral "center";
             x-offset = 0;
             y-offset = 0;

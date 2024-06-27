@@ -11,9 +11,11 @@
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../../../modules/base/nix-ld.nix
+    ../../../modules/base/bin-bash-fix.nix
     ../../../modules/hardware/tuxedo
-
     ../../../modules/hardware/logitech/mxmaster
+
+    ../../../modules/theming/darkman
 
     ../../../modules/tools/sddm
     ../../../modules/desktops/hyprland
@@ -23,6 +25,8 @@
 
     ../../../modules/editors/jetbrains
     ../../../modules/editors/vscodium
+
+    ../../../modules/dev/ambimax
   ];
   nixpkgs.config = {
     allowUnfree = true;
@@ -114,7 +118,6 @@
     ];
     files = [
       "/etc/machine-id"
-      { file = "/var/keys/secret_file"; parentDirectory = { mode = "u=rwx,g=,o="; }; }
     ];
   };
 
@@ -197,6 +200,8 @@
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
+
+  environment.etc.hosts.mode = "0644";
 
   # Open ports in the firewall.
   # networking.firewall.allowedUDPPorts = [ ... ];

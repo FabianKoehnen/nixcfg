@@ -1,5 +1,6 @@
 { pkgs, ... }: {
   environment.systemPackages = with pkgs; [
-    pkgs.bc
+    bc
+    k9s
   ];
 }

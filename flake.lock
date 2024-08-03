@@ -423,16 +423,17 @@
     },
     "secrets": {
       "locked": {
-        "dirtyRev": "fa796738a07b6d97d2f988ee15552579766fe3e6-dirty",
-        "dirtyShortRev": "fa79673-dirty",
-        "lastModified": 1710435076,
+        "lastModified": 1711656601,
         "narHash": "sha256-yOhMmhTEh+evVwbwcndwcRlFEEtbacXlAnoJPoUD3Mc=",
+        "ref": "2c435a4a2fdea9a247cf49973f74882385698c5f",
+        "rev": "2c435a4a2fdea9a247cf49973f74882385698c5f",
+        "revCount": 6,
         "type": "git",
-        "url": "file:./secrets"
+        "url": "file:secrets"
       },
       "original": {
         "type": "git",
-        "url": "file:./secrets"
+        "url": "file:secrets"
       }
     },
     "sops-nix": {

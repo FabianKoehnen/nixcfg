@@ -1,10 +1,12 @@
-{
-  pkgs,
-  user,
-  ...
+{ lib
+, pkgs
+, user
+, unstable
+, ...
 }: {
   environment.systemPackages = with pkgs; [
     nil
+    unstable.nixd
   ];
 
   home-manager.users.${user}.programs.vscode = {
@@ -55,65 +57,77 @@
           version = "2024.3.1405";
           sha256 = "sha256-7ILcHH3JrhN/mgXVaXGawYa4XdjqPyXO8y4hLbOzLQs=";
         }
+        {
+          name = "vscode-sundial";
+          publisher = "muuvmuuv";
+          version = "3.4.1";
+          sha256 = "R7lqKGFZjDfBMCuh4yY5EtF5mwxx3nVGfx/Yq1vwZFc=";
+        }
       ];
-    keybindings = let
-      darwinSystem = pkgs.system == "x86_64-darwin";
 
-      linux-mod1 = "ctrl";
-      darwin-mod1 = "cmd";
+    keybindings =
+      let
+        darwinSystem = pkgs.system == "x86_64-darwin";
 
-      mod1 =
-        if darwinSystem
-        then darwin-mod1
-        else linux-mod1;
-    in [
-      {
-        key = "${mod1}+-";
-        command = "-workbench.action.zoomOut";
-      }
-      {
-        key = "${mod1}+k ${mod1}+c";
-        command = "-editor.action.addCommentLine";
-        when = "editorTextFocus && !editorReadonly";
-      }
-      {
-        key = "${mod1}+-";
-        command = "editor.action.commentLine";
-        when = "editorTextFocus && !editorReadonly";
-      }
-      {
-        key = "${mod1}+shift+7";
-        command = "-editor.action.commentLine";
-        when = "editorTextFocus && !editorReadonly";
-      }
-      {
-        key = "${mod1}+d";
-        command = "-editor.action.addSelectionToNextFindMatch";
-        when = "editorFocus";
-      }
-      {
-        key = "${mod1}+d";
-        command = "editor.action.duplicateSelection";
-      }
+        linux-mod1 = "ctrl";
+        darwin-mod1 = "cmd";
 
-      # Terminal
-      {
-        key = "${mod1}+c";
-        command = "workbench.action.terminal.copySelection";
-        when = "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused";
-      }
-      {
-        key = "${mod1}+v";
-        command = "workbench.action.terminal.paste";
-        when = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
-      }
-    ];
+        mod1 =
+          if darwinSystem
+          then darwin-mod1
+          else linux-mod1;
+      in
+      [
+        {
+          key = "${mod1}+-";
+          command = "-workbench.action.zoomOut";
+        }
+        {
+          key = "${mod1}+k ${mod1}+c";
+          command = "-editor.action.addCommentLine";
+          when = "editorTextFocus && !editorReadonly";
+        }
+        {
+          key = "${mod1}+-";
+          command = "editor.action.commentLine";
+          when = "editorTextFocus && !editorReadonly";
+        }
+        {
+          key = "${mod1}+shift+7";
+          command = "-editor.action.commentLine";
+          when = "editorTextFocus && !editorReadonly";
+        }
+        {
+          key = "${mod1}+d";
+          command = "-editor.action.addSelectionToNextFindMatch";
+          when = "editorFocus";
+        }
+        {
+          key = "${mod1}+d";
+          command = "editor.action.duplicateSelection";
+        }
+
+        # Terminal
+        {
+          key = "${mod1}+c";
+          command = "workbench.action.terminal.copySelection";
+          when = "terminalTextSelectedInFocused || terminalFocus && terminalHasBeenCreated && terminalTextSelected || terminalFocus && terminalProcessSupported && terminalTextSelected || terminalFocus && terminalTextSelected && terminalTextSelectedInFocused || terminalHasBeenCreated && terminalTextSelected && terminalTextSelectedInFocused || terminalProcessSupported && terminalTextSelected && terminalTextSelectedInFocused";
+        }
+        {
+          key = "${mod1}+v";
+          command = "workbench.action.terminal.paste";
+          when = "terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported";
+        }
+      ];
     userSettings = {
       "nix.enableLanguageServer" = true;
-      "nix.serverPath" = "${pkgs.nil}/bin/nil";
+      "nix.serverPath" = "${pkgs.nixd}/bin/nixd";
       "terminal.external.linuxExec" = "kitty";
+      "window.autoDetectColorScheme" = false;
       "workbench.iconTheme" = "vscode-jetbrains-icon-theme-2023-auto";
-      "workbench.colorTheme" = "Webstorm New Light";
+      "workbench.colorTheme" = lib.mkDefault "Webstorm New Light";
+      "workbench.preferredLightColorTheme" = lib.mkDefault "Webstorm New Light";
+      "workbench.preferredDarkColorTheme" = lib.mkDefault "Webstorm New Darcula";
     };
   };
 }

@@ -10,26 +10,29 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/tools/sddm
-    ../../modules/desktops/hyprland
+    ../../../modules/base/nix-ld.nix
+    ../../../modules/base/bin-bash-fix.nix
+    ../../../modules/hardware/tuxedo
+    ../../../modules/hardware/logitech/mxmaster
 
-    ../../modules/terminal/zsh
-    ../../modules/terminal/kitty
+    ../../../modules/theming/darkman
 
-    ../../modules/editors/vscodium
-    ../../modules/editors/jetbrains
-    ../../modules/gaming/steam
-    ../../modules/tools/cad
+    ../../../modules/tools/sddm
+    ../../../modules/desktops/hyprland
 
-    ../../modules/virt/virt-manager
-    ../../modules/theming/darkman
+    ../../../modules/terminal/zsh
+    ../../../modules/terminal/kitty
+
+    ../../../modules/editors/jetbrains
+    ../../../modules/editors/vscodium
+
+    ../../../modules/dev/ambimax
   ];
   nixpkgs.config = {
     allowUnfree = true;
   };
 
   boot.kernelPackages = pkgs.linuxPackages_latest;
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {
     package = pkgs.nix;
@@ -55,15 +58,7 @@
     };
   };
 
-  networking.hostName = "fabians-nix-desktop";
-  #  networking.extraHosts = ''
-  #    192.168.178.157 esphome.internal
-  #    192.168.178.157 hass.internal
-  #    127.0.0.1 airshow-manager.internal
-  #  '';
-  #     127.0.0.1 airshow-manager.internal
-  # 192.168.178.157 airshow-manager.internal
-
+  networking.hostName = "tuxSiriusGen2-fk";
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -79,6 +74,12 @@
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
+  networking.networkmanager.enable = true;
+
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
+  services.blueman.enable = true;
 
   # Trim SSDs periodicly
   services.fstrim.enable = true;
@@ -103,16 +104,22 @@
     spotify
     headsetcontrol
     unstable.youtube-music
-
-    wineWowPackages.waylandFull
-    winetricks
-    lutris
-    flightgear
+    slack
 
     comma
 
     firefox
   ];
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
 
   virtualisation.docker = {
     enable = true;
@@ -167,23 +174,6 @@
       NetworkManager-wait-online.enable = false;
       systemd-udev-settle.enable = false;
     };
-    user = {
-      # services = {
-      #   polkit-kde-authentication-agent-1 = {
-      #     description = "polkit-kde-authentication-agent-1";
-      #     wantedBy = ["graphical-session.target"];
-      #     wants = ["graphical-session.target"];
-      #     after = ["graphical-session.target"];
-      #     serviceConfig = {
-      #       Type = "simple";
-      #       ExecStart = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
-      #       Restart = "on-failure";
-      #       RestartSec = 1;
-      #       TimeoutStopSec = 10;
-      #     };
-      #   };
-      # };
-    };
   };
 
   services.ratbagd.enable = true;
@@ -211,15 +201,12 @@
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
+  environment.etc.hosts.mode = "0644";
+
   # Open ports in the firewall.
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
-  #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
-  #  networking.firewall.allowedUDPPorts = [3979];
-
-  services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   #services.nginx.enable = false;
 
@@ -234,5 +221,5 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "23.05"; # Did you read the comment?
+  system.stateVersion = "24.05"; # Did you read the comment?
 }

@@ -1,7 +1,6 @@
-{
-  pkgs,
-  wallpaper,
-  ...
+{ pkgs
+, wallpaper
+, ...
 }: {
   environment.systemPackages = with pkgs; [
     (sddm-chili-theme.override {
@@ -11,8 +10,9 @@
     })
   ];
 
-  services.xserver.displayManager.sddm = {
+  services.displayManager.sddm = {
     enable = true;
+    autoNumlock = true;
     theme = "chili";
   };
 }

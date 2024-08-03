@@ -1,11 +1,12 @@
-{
-  lib,
-  pkgs,
-  user,
-  ...
-}: let
+{ lib
+, pkgs
+, user
+, ...
+}:
+let
   darwinSystem = pkgs.system == "x86_64-darwin";
-in {
+in
+{
   imports = [
     ../starship
   ];
@@ -90,6 +91,8 @@ in {
         "k8si" = "k8s get ingress";
         "k8sl" = "k8s logs";
         "k8se" = "k8s exec -it";
+
+        "batt" = "${pkgs.acpi}/bin/acpi";
       };
 
       initExtraFirst = lib.strings.concatStringsSep "\n" (

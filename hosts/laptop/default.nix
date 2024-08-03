@@ -6,7 +6,8 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
       ../../modules/base/git
@@ -51,7 +52,7 @@
   };
 
   networking.hostName = "fabians-nix-laptop";
-  networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
   virtualisation.docker.enable = true;
 
@@ -78,8 +79,8 @@
 
   programs.dconf = {
     enable = true;
-  };  
-  
+  };
+
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
@@ -100,7 +101,7 @@
     unzip
     zip
     git
-    nvtop-amd
+    nvtopPackages.amd
     docker-compose
     sops
     symfony-cli

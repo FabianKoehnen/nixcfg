@@ -54,6 +54,8 @@
   networking.hostName = "fabians-nix-laptop";
   networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
+  virtualisation.docker.enable = true;
+
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
@@ -71,6 +73,13 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  dbus.packages = [ pkgs.gnome3.dconf ];
+  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
+
+  programs.dconf = {
+    enable = true;
+  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -98,6 +107,10 @@
     symfony-cli
     spotify
     headsetcontrol
+
+    gnome.gnome-tweaks
+    gnomeExtensions.ideapad
+    gnomeExtensions.pop-shell
 
     comma
 
@@ -156,6 +169,8 @@
       systemd-udev-settle.enable = false;
     };
   };
+
+  networking.wireless.userControlled.enable = true;
 
 
   # Define a user account. Don't forget to set a password with ‘passwd’.

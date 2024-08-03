@@ -157,6 +157,7 @@
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
               ];
+
             }
 
             secrets.nixosModules.laptop

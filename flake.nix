@@ -22,7 +22,7 @@
     };
 
     secrets = {
-      url = "git+file:./secrets";
+      url = "github:fabianKoehnen/nixcfg-secrets";
     };
 
     # hyprland = {
@@ -52,6 +52,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    microvm = {
+      url = "github:astro/microvm.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     impermanence.url = "github:nix-community/impermanence";
 
@@ -69,7 +73,6 @@
     , secrets
     , systems
     , nixpkgs-unstable
-    , stylix
     , ...
     } @ inputs:
     let
@@ -99,6 +102,8 @@
             #  stylix.autoEnable=false;
             #  home-manager.users.fabian.stylix.targets.firefox.profileNames = ["default-release"];
             #}
+
+            # inputs.microvm.nixosModules.host
 
             inputs.nixifiedAi.nixosModules.invokeai-amd
             {

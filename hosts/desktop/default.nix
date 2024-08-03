@@ -56,6 +56,14 @@
   };
 
   networking.hostName = "fabians-nix-desktop";
+  #  networking.extraHosts = ''
+  #    192.168.178.157 esphome.internal
+  #    192.168.178.157 hass.internal
+  #    127.0.0.1 airshow-manager.internal
+  #  '';
+  #     127.0.0.1 airshow-manager.internal
+  # 192.168.178.157 airshow-manager.internal
+
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -207,6 +215,8 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
+  #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
+  #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;
   networking.firewall.trustedInterfaces = [ "tailscale0" ];

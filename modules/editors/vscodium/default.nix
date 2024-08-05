@@ -15,9 +15,11 @@
     extensions = with pkgs.vscode-extensions;
       [
         rust-lang.rust-analyzer
+        golang.go
         jnoortheen.nix-ide
         ms-azuretools.vscode-docker
         ms-vscode-remote.remote-ssh
+        xdebug.php-debug
         antyos.openscad
       ]
       ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -50,12 +52,6 @@
           publisher = "eenaree";
           version = "2.6.2";
           sha256 = "sha256-LKpDAc8XaaeLU8GFmPoZoFAMcGin1o+4pmKvyFCjljE=";
-        }
-        {
-          name = "gitlens";
-          publisher = "eamodio";
-          version = "2024.3.1405";
-          sha256 = "sha256-7ILcHH3JrhN/mgXVaXGawYa4XdjqPyXO8y4hLbOzLQs=";
         }
         {
           name = "vscode-sundial";

@@ -281,7 +281,6 @@
           exec-once = wl-paste --watch cliphist store
           exec-once = ${pkgs.solaar}/bin/solaar -w hide
           exec-once = ${pkgs.wlsunset}/bin/wlsunset
-          exec = ${pkgs.nwg-dock-hyprland}/bin/nwg-dock-hyprland -d
 
           exec-once = eww open bar0
           exec-once = eww open bar1
@@ -297,6 +296,9 @@
           env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
           env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
           env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
+          env = GDK_SCALE,1
+          env = XCURSOR_SIZE,40
+          env = NIXOS_OZONE_WL,1
 
           ############
           # Keybinds #
@@ -349,6 +351,7 @@
 
           # Screenshot
           bind = , Print, exec, grimblast --notify copysave area
+          bind = $mainMod SHIFT, S, exec, grimblast --notify copysave area
 
           # Launch Apps
           bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi

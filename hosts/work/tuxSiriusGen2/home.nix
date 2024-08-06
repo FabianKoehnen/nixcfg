@@ -4,6 +4,7 @@
 }: {
   home-manager.users.${user} = {
     config = {
+      services.gnome-keyring.enable = true;
       xdg.enable = true;
       home = {
         stateVersion = "24.05";

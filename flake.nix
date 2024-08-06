@@ -57,6 +57,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
+
     impermanence.url = "github:nix-community/impermanence";
 
     stylix.url = "github:danth/stylix/release-23.11";
@@ -73,6 +75,7 @@
     , secrets
     , systems
     , nixpkgs-unstable
+    , stylix
     , ...
     } @ inputs:
     let
@@ -187,6 +190,7 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
+            inputs.nix-flatpak.nixosModules.nix-flatpak
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];

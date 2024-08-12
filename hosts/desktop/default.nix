@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../../modules/tools/sddm
     ../../modules/desktops/hyprland
+    ../../modules/desktops/cosmic
 
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty

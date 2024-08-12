@@ -63,6 +63,12 @@
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+
+
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -106,11 +112,12 @@
             # inputs.microvm.nixosModules.host
 
             inputs.nixifiedAi.nixosModules.invokeai-amd
+            inputs.nixos-cosmic.nixosModules.default
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];
-                substituters = [ "https://hyprland.cachix.org" ];
-                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+                substituters = [ "https://hyprland.cachix.org" "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
               };
             }
 

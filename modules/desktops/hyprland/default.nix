@@ -61,6 +61,7 @@
 
   programs.hyprland = {
     enable = true;
+    package = unstable.hyprland;
   };
 
   security.rtkit.enable = true;
@@ -255,6 +256,7 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
+        package = unstable.hyprland;
         plugins = [
           pkgs.hyprlandPlugins.hyprexpo
           pkgs.hyprlandPlugins.hyprtrails
@@ -262,204 +264,205 @@
           # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
         ];
         extraConfig = ''
-          ##
-          # System dependend hyperland config
-          ##
-          ${hyprland-extra-config}
+          #          ##
+          #          # System dependend hyperland config
+          #          ##
+          #          ${hyprland-extra-config}
+          #
+          #          ###########
+          #          # Monitor #
+          #          ###########
 
-          ###########
-          # Monitor #
-          ###########
+          #          source = ~/.config/hypr/monitors.conf
+          #
+          #          #############
+          #          # Autostart #
+          #          #############
+          #          exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
+          #          exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
+          #          exec-once = wl-paste --watch cliphist store
+          #          exec-once = ${pkgs.solaar}/bin/solaar -w hide
+          #          exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
-          source = ~/.config/hypr/monitors.conf
+          #          exec-once = eww open bar0
+          #          exec-once = eww open bar1
 
-          #############
-          # Autostart #
-          #############
-          exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
-          exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
-          exec-once = wl-paste --watch cliphist store
-          exec-once = ${pkgs.solaar}/bin/solaar -w hide
-          exec-once = ${pkgs.wlsunset}/bin/wlsunset
-          exec = ${pkgs.nwg-dock-hyprland}/bin/nwg-dock-hyprland -d
+                    ################
+                    # Window Rules #
+                    ################
+          #          windowrulev2=float,title:^(Firefox — Sharing Indicator)$
 
-          exec-once = eww open bar0
-          exec-once = eww open bar1
+                    ########
+                    # Envs #
+                    ########
+                    env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
+                    env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
+                    env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
 
-          ################
-          # Window Rules #
-          ################
-          windowrulev2=float,title:^(Firefox — Sharing Indicator)$
+                    ############
+                    # Keybinds #
+                    ############
+                    $mainMod = SUPER
 
-          ########
-          # Envs #
-          ########
-          env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
-          env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
-          env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
+                    bind = $mainMod, w, killactive,
 
-          ############
-          # Keybinds #
-          ############
-          $mainMod = SUPER
+          #          bind = $mainMod ALT, Left, workspace, m-1000
+          #          bind = $mainMod, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --no-empty
+          #          bind = $mainMod SHIFT, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --move --no-empty
 
-          bind = $mainMod, w, killactive,
+          #          bind = $mainMod , Right, exec, ${pkgs.hyprnome}/bin/hyprnome
+          #          bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
 
-          bind = $mainMod ALT, Left, workspace, m-1000
-          bind = $mainMod, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --no-empty
-          bind = $mainMod SHIFT, Left, exec, ${pkgs.hyprnome}/bin/hyprnome --previous --move --no-empty
+          #          bind = $mainMod SHIFT, f, togglefloating
+          #          bind = $mainMod, UP, hyprexpo:expo, toggle
+          #          bind = $mainMod, DOWN, hyprexpo:expo, toggle
 
-          bind = $mainMod , Right, exec, ${pkgs.hyprnome}/bin/hyprnome
-          bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
-
-          bind = $mainMod SHIFT, f, togglefloating
-          bind = $mainMod, UP, hyprexpo:expo, toggle
-          bind = $mainMod, DOWN, hyprexpo:expo, toggle
-
-          # Groups
-          bind = $mainMod, g, togglegroup
-          bind = $mainMod, Tab, changegroupactive, f
-          bind = $mainMod SHIFT, Tab, changegroupactive, b
-
-
-          # Move/resize windows with mainMod + LMB/RMB and dragging
-          bindm = $mainMod, mouse:272, movewindow
-          bindm = $mainMod, mouse:273, resizewindow
+                    # Groups
+          #          bind = $mainMod, g, togglegroup
+          #          bind = $mainMod, Tab, changegroupactive, f
+          #          bind = $mainMod SHIFT, Tab, changegroupactive, b
 
 
-          bind = $mainMod, l, exec, ${pkgs.procps}/bin/pidof hyprlock || ${config.programs.hyprlock.package}/bin/hyprlock
-
-          # # Zoom
-          # bind = $mainMod, plus, exec, ${pkgs.pyprland}/bin/pypr zoom ++0.5
-          # bind = $mainMod SHIFT, plus, exec, ${pkgs.pyprland}/bin/pypr zoom
-
-          # workspace
-          ${builtins.concatStringsSep "\n" (builtins.map (n: ''
-            workspace = ${n},monitor:${
-              if ((lib.strings.charToInt n) >= 5)
-              then "DP-2"
-              else "DP-1"
-            }
-            bind = $mainMod, ${n}, workspace, ${n}
-            bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
-          '') ["1" "2" "3" "4" "5" "6" "7" "8"])}
-
-          # Clipboard
-          bind = $mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
-
-          # Screenshot
-          bind = , Print, exec, grimblast --notify copysave area
-
-          # Launch Apps
-          bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
-          bind = $mainMod, Return, exec, kitty
-          bind = $mainMod, e, exec, thunar
-          bind = $mainMod, f, exec, firefox
+                    # Move/resize windows with mainMod + LMB/RMB and dragging
+                    bindm = $mainMod, mouse:272, movewindow
+                    bindm = $mainMod, mouse:273, resizewindow
 
 
-          # Mediakeys and osd
-          bind= $mainMod, n, exec, ${config.home-manager.users.${user}.services.swaync.package}/bin/swaync-client -t
+          #          bind = $mainMod, l, exec, ${pkgs.procps}/bin/pidof hyprlock || ${config.programs.hyprlock.package}/bin/hyprlock
+
+                    # # Zoom
+                    # bind = $mainMod, plus, exec, ${pkgs.pyprland}/bin/pypr zoom ++0.5
+                    # bind = $mainMod SHIFT, plus, exec, ${pkgs.pyprland}/bin/pypr zoom
+
+                    # workspace
+                    ${builtins.concatStringsSep "\n" (builtins.map (n: ''
+                      workspace = ${n},monitor:${
+                        if ((lib.strings.charToInt n) >= 5)
+                        then "DP-2"
+                        else "DP-1"
+                      }
+                      bind = $mainMod, ${n}, workspace, ${n}
+                      bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
+                    '') ["1" "2" "3" "4" "5" "6" "7" "8"])}
+
+                    # Clipboard
+          #          bind = $mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
+
+                    # Screenshot
+          #          bind = , Print, exec, grimblast --notify copysave area
+
+                    # Launch Apps
+          #          bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
+          #          bind = $mainMod, Return, exec, kitty
+          #          bind = $mainMod, e, exec, thunar
+          #          bind = $mainMod, f, exec, firefox
+
+
+                    # Mediakeys and osd
+          #          bind= $mainMod, n, exec, ${config.home-manager.users.${user}.services.swaync.package}/bin/swaync-client -t
           
-          bindn=, Caps_Lock, exec, sleep 0.25 && ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --caps-lock
+          #          bindn=, Caps_Lock, exec, sleep 0.25 && ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --caps-lock
           
-          bindel=, XF86AudioRaiseVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=+5
-          bindel=, XF86AudioLowerVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=-5
-          bindl=, XF86AudioMute, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=mute-toggle
+          #          bindel=, XF86AudioRaiseVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=+5
+          #          bindel=, XF86AudioLowerVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=-5
+          #          bindl=, XF86AudioMute, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=mute-toggle
           
-          bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
-          bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
+          #          bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
+          #          bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
           
-          bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
-          bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
-          bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
+          #          bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
+          #          bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
+          #          bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
           
-          #########
-          # Decor #
-          #########
-          decoration {
-            active_opacity = 0.98
-            inactive_opacity = 0.90
-            rounding = 8
-            dim_inactive = false
-            dim_strength = 0.3
-            drop_shadow = false
+                    #########
+                    # Decor #
+                    #########
+                    decoration {
+                      active_opacity = 0.98
+                      inactive_opacity = 0.90
+                      rounding = 8
+                      dim_inactive = false
+                      dim_strength = 0.3
+                      drop_shadow = false
 
-            blur {
-              size = 10
-              passes = 3
-            }
-          }
+                      blur {
+                        size = 10
+                        passes = 3
+                      }
+                    }
 
-          animations {
-            animation = windowsIn, 1, 7, default, slide
-            animation = windowsOut, 1, 7, default, slide
-            animation = border, 1, 10, default
-            animation = fade, 1, 7, default
-            animation = workspaces, 1, 5, default
-          }
+                    animations {
+                      animation = windowsIn, 1, 7, default, slide
+                      animation = windowsOut, 1, 7, default, slide
+                      animation = border, 1, 10, default
+                      animation = fade, 1, 7, default
+                      animation = workspaces, 1, 5, default
+                    }
 
-          ###########
-          # General #
-          ###########
-          input {
-            kb_layout = de
-            sensitivity = 0
-          }
+                    ###########
+                    # General #
+                    ###########
+                    input {
+                      kb_layout = de
+                      sensitivity = 0
+                    }
 
-          input:touchpad {
-            natural_scroll = true
-            clickfinger_behavior = true
-          }
+                    input:touchpad {
+                      natural_scroll = true
+                      clickfinger_behavior = true
+                    }
 
-          general {
-            gaps_in = 2
-            gaps_out = 5
-            border_size = 0
-            resize_on_border = true
-            layout = dwindle
-          }
+                    debug:disable-logs = false
 
-          cursor {
-            inactive_timeout = 3
-          }
+                    general {
+                      gaps_in = 2
+                      gaps_out = 5
+                      border_size = 0
+                      resize_on_border = true
+                      layout = dwindle
+                    }
 
-          dwindle {
-            pseudotile = true
-            preserve_split = true # you probably want this
-            smart_split = true
-            no_gaps_when_only = true
-          }
+                    cursor {
+                      inactive_timeout = 3
+                    }
 
-          misc {
-            mouse_move_enables_dpms = true
-            disable_hyprland_logo = true
-          }
+                    dwindle {
+                      pseudotile = true
+                      preserve_split = true # you probably want this
+                      smart_split = true
+                      no_gaps_when_only = true
+                    }
 
-          binds {
-            allow_workspace_cycles = true
-          }
+                    misc {
+                      mouse_move_enables_dpms = true
+                      disable_hyprland_logo = true
+                    }
 
-          xwayland {
-            force_zero_scaling = true
-          }
+                    binds {
+                      allow_workspace_cycles = true
+                    }
+
+                    xwayland {
+                      force_zero_scaling = true
+                    }
 
 
-          plugin {
-              hyprexpo {
-                  columns = 3
-                  gap_size = 8
-                  bg_col = rgb(111111)
-                  workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
+          #          plugin {
+          #              hyprexpo {
+          #                  columns = 3
+          #                  gap_size = 8
+          #                  bg_col = rgb(111111)
+          #                  workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
 
-                  enable_gesture = true # laptop touchpad
-                  gesture_fingers = 3  # 3 or 4
-                  gesture_distance = 300 # how far is the "max"
-                  gesture_positive = false # positive = swipe down. Negative = swipe up.
-              }
-              hyprtrails {
-                color = rgba(f74802ff)
-              }
-          }
+          #                  enable_gesture = true # laptop touchpad
+          #                  gesture_fingers = 3  # 3 or 4
+          #                  gesture_distance = 300 # how far is the "max"
+          #                  gesture_positive = false # positive = swipe down. Negative = swipe up.
+          #              }
+          #              hyprtrails {
+          #                color = rgba(f74802ff)
+          #              }
+          #          }
         '';
       };
     };

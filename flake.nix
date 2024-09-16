@@ -140,6 +140,7 @@
             # others
             secrets.nixosModules.desktop
             inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
           ];
         };
 

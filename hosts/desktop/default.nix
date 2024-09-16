@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../../modules/tools/sddm
     ../../modules/desktops/hyprland
+    # ../../modules/desktops/hyprland/cosmic-tools.nix
     ../../modules/desktops/cosmic
 
     ../../modules/terminal/zsh
@@ -55,6 +56,9 @@
       efi.canTouchEfiVariables = true;
     };
   };
+
+  networking.networkmanager.enable = true;
+
 
   networking.hostName = "fabians-nix-desktop";
   #  networking.extraHosts = ''
@@ -108,11 +112,12 @@
     wineWowPackages.waylandFull
     winetricks
     lutris
-    flightgear
+    # flightgear
 
     comma
 
     firefox
+    nextcloud-client
   ];
 
   virtualisation.docker = {
@@ -158,6 +163,17 @@
         type = "rsa";
         bits = 4096;
       }
+    ];
+  };
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/bluetooth"
+    ];
+    files = [
+      "/etc/machine-id"
     ];
   };
 

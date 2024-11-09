@@ -37,10 +37,16 @@
     options = [ "subvol=var/log" ];
   };
 
-  fileSystems."/var/lib/tailscale" = {
+#  fileSystems."/var/lib/tailscale" = {
+#    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+#    fsType = "btrfs";
+#    options = [ "subvol=var/lib/tailscale" ];
+#  };
+
+  fileSystems."/var/lib" = {
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
     fsType = "btrfs";
-    options = [ "subvol=var/lib/tailscale" ];
+    options = [ "subvol=var/lib" ];
   };
 
   fileSystems."/home" = {
@@ -61,11 +67,11 @@
     options = [ "subvol=persist" ];
   };  
   
-  fileSystems."/tmp" = {
-    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
-    fsType = "btrfs";
-    options = [ "subvol=big-tmp" ];
-  };
+#  fileSystems."/tmp" = {
+#    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+#    fsType = "btrfs";
+#    options = [ "subvol=big-tmp" ];
+#  };
 
   fileSystems."/btrfs-root" = {
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";

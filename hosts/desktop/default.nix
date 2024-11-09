@@ -116,6 +116,8 @@
     comma
 
     firefox
+
+    nextcloud-client
   ];
 
   virtualisation.docker = {
@@ -170,6 +172,20 @@
       }
     ];
   };
+
+
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/bluetooth"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+
 
   services.yubikey-agent.enable = true;
 

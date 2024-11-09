@@ -22,8 +22,8 @@
     };
 
     secrets = {
-#      url = "github:fabianKoehnen/nixcfg-secrets";
-      url= "git+file:/etc/nixos/secrets";
+      #  url = "github:fabianKoehnen/nixcfg-secrets";
+      url = "git+file:/etc/nixos/secrets";
     };
 
     # hyprland = {
@@ -58,12 +58,19 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
+
     impermanence.url = "github:nix-community/impermanence";
 
     stylix.url = "github:danth/stylix/release-23.11";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+
+
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+    };
   };
 
   outputs =
@@ -74,6 +81,7 @@
     , secrets
     , systems
     , nixpkgs-unstable
+    , stylix
     , ...
     } @ inputs:
     let
@@ -107,11 +115,12 @@
             # inputs.microvm.nixosModules.host
 
             inputs.nixifiedAi.nixosModules.invokeai-amd
+            inputs.nixos-cosmic.nixosModules.default
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];
-                substituters = [ "https://hyprland.cachix.org" ];
-                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+                substituters = [ "https://hyprland.cachix.org" "https://cosmic.cachix.org/" ];
+                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
               };
             }
 
@@ -134,6 +143,7 @@
             # others
             secrets.nixosModules.desktop
             inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
           ];
         };
 
@@ -189,6 +199,7 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
+            inputs.nix-flatpak.nixosModules.nix-flatpak
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];

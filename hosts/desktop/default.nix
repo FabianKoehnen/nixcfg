@@ -12,6 +12,7 @@
     ./hardware-configuration.nix
     ../../modules/tools/sddm
     ../../modules/desktops/hyprland
+    # ../../modules/desktops/cosmic
 
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty
@@ -64,6 +65,7 @@
   #     127.0.0.1 airshow-manager.internal
   # 192.168.178.157 airshow-manager.internal
 
+  networking.networkmanager.enable = true;
 
   # Set your time zone.
   time.timeZone = "Europe/Berlin";
@@ -103,15 +105,19 @@
     spotify
     headsetcontrol
     unstable.youtube-music
+    prismlauncher
+    r2modman
 
     wineWowPackages.waylandFull
     winetricks
     lutris
-    flightgear
+    #flightgear
 
     comma
 
     firefox
+
+    nextcloud-client
   ];
 
   virtualisation.docker = {
@@ -128,6 +134,13 @@
       package = pkgs.nix-direnv;
     };
   };
+
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
+
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -159,6 +172,20 @@
       }
     ];
   };
+
+
+
+  environment.persistence."/persist/impermanence" = {
+    hideMounts = true;
+    directories = [
+      "/etc/NetworkManager/system-connections"
+      "/var/lib/bluetooth"
+    ];
+    files = [
+      "/etc/machine-id"
+    ];
+  };
+
 
   services.yubikey-agent.enable = true;
 

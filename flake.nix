@@ -22,7 +22,8 @@
     };
 
     secrets = {
-      url = "github:fabianKoehnen/nixcfg-secrets";
+    #  url = "github:fabianKoehnen/nixcfg-secrets";
+      url = "git+file:/etc/nixos/secrets";
     };
 
     # hyprland = {
@@ -67,7 +68,6 @@
 
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

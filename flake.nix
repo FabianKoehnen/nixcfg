@@ -22,7 +22,7 @@
     };
 
     secrets = {
-    #  url = "github:fabianKoehnen/nixcfg-secrets";
+      #  url = "github:fabianKoehnen/nixcfg-secrets";
       url = "git+file:/etc/nixos/secrets";
     };
 
@@ -140,6 +140,7 @@
             # others
             secrets.nixosModules.desktop
             inputs.sops-nix.nixosModules.sops
+            inputs.impermanence.nixosModules.impermanence
           ];
         };
 

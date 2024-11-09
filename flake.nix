@@ -22,7 +22,8 @@
     };
 
     secrets = {
-      url = "github:fabianKoehnen/nixcfg-secrets";
+#      url = "github:fabianKoehnen/nixcfg-secrets";
+      url= "git+file:/etc/nixos/secrets";
     };
 
     # hyprland = {
@@ -139,6 +140,7 @@
         "fabians-nix-laptop" = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
+            unstable = nixpkgs-unstable.legacyPackages.${system};
             user = "fabian";
             inherit inputs;
           };
@@ -160,7 +162,7 @@
 
             }
 
-            secrets.nixosModules.laptop
+            secrets.nixosModules.desktop
             inputs.sops-nix.nixosModules.sops
             inputs.impermanence.nixosModules.impermanence
           ];

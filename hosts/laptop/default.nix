@@ -10,6 +10,8 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
+      ../../modules/tools/plymouth
+
       ../../modules/base/git
 
       ../../modules/terminal/zsh

@@ -90,8 +90,6 @@
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  hardware.pulseaudio.enable = true;
-
 #  dbus.packages = [ pkgs.gnome3.dconf ];
 #  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
 
@@ -102,7 +100,13 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.printing.drivers = with pkgs; [ pkgs.gutenprint pkgs.hplipWithPlugin pkgs.samsung-unified-linux-driver pkgs.brlaser pkgs.brgenml1lpr  ];
+  services.printing.drivers = with pkgs; [ 
+    pkgs.gutenprint 
+    pkgs.hplipWithPlugin
+    # pkgs.samsung-unified-linux-driver
+    pkgs.brlaser
+    pkgs.brgenml1lpr
+  ];
   # Trim SSDs periodicly
   services.fstrim.enable = true;
 

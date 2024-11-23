@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{ pkgs, ... }: {
   programs.thunar.enable = true;
   services.gvfs.enable = true;
   services.tumbler.enable = true;
@@ -7,7 +7,7 @@
     xfce.thunar-media-tags-plugin
     xfce.thunar-archive-plugin
     xfce.thunar-volman
-    gnome.adwaita-icon-theme
+    pkgs.adwaita-icon-theme
 
     # https://wiki.archlinux.org/title/File_manager_functionality
     webp-pixbuf-loader # webp preview

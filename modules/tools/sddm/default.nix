@@ -14,6 +14,6 @@
     enable = true;
     autoNumlock = true;
     wayland.enable = true;
-    theme = "chili";
+    #    theme = "chili";
   };
 }

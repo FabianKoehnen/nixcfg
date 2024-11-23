@@ -9,7 +9,7 @@
     # pyprland
 
     libreoffice-fresh
-    gnome.gnome-disk-utility
+    pkgs.gnome-disk-utility
     baobab
     # polkit-kde-agent
     okular

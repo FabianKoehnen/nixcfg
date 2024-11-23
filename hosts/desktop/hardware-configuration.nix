@@ -11,9 +11,14 @@
   ];
 
   boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
+  boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
+  boot.kernelParams = [
+    "video=DP-2:2560x1440@144"
+    "video=HDMI-A-1:1920x1080@60"
+    "plymouth.use-simpledrm"
+  ];
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/9411-24B3";
@@ -37,11 +42,11 @@
     options = [ "subvol=var/log" ];
   };
 
-#  fileSystems."/var/lib/tailscale" = {
-#    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
-#    fsType = "btrfs";
-#    options = [ "subvol=var/lib/tailscale" ];
-#  };
+  #  fileSystems."/var/lib/tailscale" = {
+  #    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+  #    fsType = "btrfs";
+  #    options = [ "subvol=var/lib/tailscale" ];
+  #  };
 
   fileSystems."/var/lib" = {
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
@@ -65,13 +70,13 @@
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
     fsType = "btrfs";
     options = [ "subvol=persist" ];
-  };  
-  
-#  fileSystems."/tmp" = {
-#    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
-#    fsType = "btrfs";
-#    options = [ "subvol=big-tmp" ];
-#  };
+  };
+
+  #  fileSystems."/tmp" = {
+  #    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+  #    fsType = "btrfs";
+  #    options = [ "subvol=big-tmp" ];
+  #  };
 
   fileSystems."/btrfs-root" = {
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";

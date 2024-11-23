@@ -4,12 +4,9 @@
   boot = {
     plymouth = {
       enable = true;
-      theme = "loader";
+      theme = "nixos-bgrt";
       themePackages = with pkgs; [
-        # By default we would install all themes
-        (adi1090x-plymouth-themes.override {
-          selected_themes = [ "loader" ];
-        })
+        nixos-bgrt-plymouth
       ];
     };
 

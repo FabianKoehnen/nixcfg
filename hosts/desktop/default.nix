@@ -10,6 +10,9 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+
+    ../../modules/tools/plymouth
+
     ../../modules/tools/sddm
     ../../modules/desktops/hyprland
     # ../../modules/desktops/cosmic
@@ -48,6 +51,7 @@
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader = {
+      timeout = 1;
       systemd-boot = {
         enable = true;
         configurationLimit = 50;

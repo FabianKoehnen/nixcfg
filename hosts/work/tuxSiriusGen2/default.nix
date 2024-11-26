@@ -15,7 +15,7 @@
     ../../../modules/hardware/tuxedo
     ../../../modules/hardware/logitech/mxmaster
 
-    ../../../modules/theming/darkman
+    ../../../modules/tools/darkman
 
     ../../../modules/tools/sddm
     #    ../../../modules/desktops/hyprland

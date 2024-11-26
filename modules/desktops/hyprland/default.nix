@@ -11,8 +11,7 @@
 , ...
 }: {
   imports = [
-    # ../../theming/darkman
-
+    ../../tools/darkman
     ../../tools/rofi
     ../../tools/thunar
   ];
@@ -53,12 +52,22 @@
     cliphist
     wl-clipboard
 
+    orchis-theme
+
     # Xfce Tools
     xfce.ristretto
     xfce.thunar
     xfce.xfce4-taskmanager
     xfce.mousepad
     xfce.exo
+  ];
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    fira-code
+    fira-code-symbols
   ];
 
   programs.hyprland = {
@@ -81,6 +90,7 @@
   };
 
   programs.kdeconnect.enable = true;
+  services.dbus.enable = true;
 
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -95,9 +105,36 @@
 
     users.${user} = {
       programs = {
-        eww = {
+        # eww = {
+        #   enable = true;
+        #   configDir = ./eww;
+        # };
+
+        waybar = {
           enable = true;
-          configDir = ./eww;
+          settings = {
+            mainBar = {
+              layer = "top";
+              position = "top";
+              height = 15;
+              modules-left = [ "hyprland/workspaces" "hyprland/submap" ];
+              modules-center = [ "hyprland/window" ];
+              modules-right = [ "battery" "clock" ];
+              battery = {
+                format = "{capacity}% {icon}";
+                format-icons = [ "" "" "" "" "" ];
+              };
+              clock = {
+                format-alt = "{:%a, %d. %b  %H:%M}";
+              };
+              "hyprland/workspaces" = {
+                format = "{icon}";
+              };
+              "hyprland/window" = {
+                separate-outputs = true;
+              };
+            };
+          };
         };
       };
 
@@ -131,12 +168,16 @@
           '';
         };
         pointerCursor = {
-          package = pkgs.vanilla-dmz;
-          name = "Vanilla-DMZ";
+          # package = pkgs.phinger-cursors;
+          # name = "phinger-cursors-light";
+          package = pkgs.rose-pine-cursor;
+          name = "BreezeX-RosePine-Linux";
           gtk.enable = true;
           x11.enable = true;
         };
       };
+
+
 
       services.hyprpaper = {
         enable = true;
@@ -207,7 +248,7 @@
               color = "rgba(200, 200, 200, 1.0)";
               font_size = 55;
               font_family = "Fira Semibold";
-              position = "-100, -40";
+              position = "-100, 60";
               halign = "right";
               valign = "bottom";
               shadow_passes = 5;
@@ -266,15 +307,13 @@
 
       };
 
-
       wayland.windowManager.hyprland = {
         enable = true;
-        #       package = unstable.hyprland;
+        systemd.enable = true;
+        
         plugins = [
-          # pkgs.hyprlandPlugins.hyprexpo
-          # pkgs.hyprlandPlugins.hyprtrails
-
-          # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
+          pkgs.hyprlandPlugins.hyprtrails
+          pkgs.hyprlandPlugins.hyprspace
         ];
         extraConfig = ''
                   ##
@@ -297,8 +336,7 @@
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
                     exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
-                  exec-once = eww open bar0
-                  exec-once = eww open bar1
+                    exec-once = waybar
 
                   ################
                   # Window Rules #
@@ -312,7 +350,6 @@
                     env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
                     env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
                     env = GDK_SCALE,1
-                    env = XCURSOR_SIZE,40
                     env = NIXOS_OZONE_WL,1
 
                   ############
@@ -330,8 +367,8 @@
                   bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
 
                   bind = $mainMod SHIFT, f, togglefloating
-                  bind = $mainMod, UP, hyprexpo:expo, toggle
-                  bind = $mainMod, DOWN, hyprexpo:expo, toggle
+                  bind = $mainMod, UP, overview:toggle
+                  bind = $mainMod, DOWN, overview:toggle
 
                   # Groups
                   bind = $mainMod, g, togglegroup
@@ -401,11 +438,91 @@
                     rounding = 8
                     dim_inactive = false
                     dim_strength = 0.3
-                    drop_shadow = false
+         #           drop_shadow = false
 
                     blur {
                       size = 10
                       passes = 3
+                    }
+                  }
+
+                  animations {
+                    animation = windowsIn, 1, 7, default, slide
+                    animation = windowsOut, 1, 7, default, slide
+                    animation = border, 1, 10, default
+                    animation = fade, 1, 7, default
+                    animation = workspaces, 1, 5, default
+                  }
+
+                  ###########
+                  # General #
+                  ###########
+                  input {
+                    kb_layout = de
+                    sensitivity = 0
+                  }
+
+                  input:touchpad {
+                    natural_scroll = true
+                    clickfinger_behavior = true
+                  }
+
+                  general {
+                    gaps_in = 2
+                    gaps_out = 5
+                    border_size = 0
+                    resize_on_border = true
+                    layout = dwindle
+                  }
+
+                  cursor {
+                    inactive_timeout = 3
+                  }
+
+                  dwindle {
+                    pseudotile = true
+                    preserve_split = true # you probably want this
+                    smart_split = true
+        #            no_gaps_when_only = true
+                  }
+
+                  misc {
+                    mouse_move_enables_dpms = true
+                    disable_hyprland_logo = true
+                  }
+
+                  binds {
+                    allow_workspace_cycles = true
+                  }
+
+                  xwayland {
+                    force_zero_scaling = true
+                  }
+
+
+                  plugin {
+                      # hyprexpo {
+                      #     columns = 3
+                      #     gap_size = 8
+                      #     bg_col = rgb(111111)
+                      #     workspace_method = center current # [center/first] [workspace] e.g. first 1 or center m+1
+
+                      #     enable_gesture = true # laptop touchpad
+                      #     gesture_fingers = 3  # 3 or 4
+                      #     gesture_distance = 300 # how far is the "max"
+                      #     gesture_positive = false # positive = swipe down. Negative = swipe up.
+                      # }
+
+                      overview {
+                        showEmptyWorkspace = false
+                        hideBackgroundLayers = true
+                        exitOnSwitch = true
+                        affectStrut = false
+                      }
+
+                      hyprtrails {
+                        color = rgba(f74802ff)
+                      }
                     }
                   }
 

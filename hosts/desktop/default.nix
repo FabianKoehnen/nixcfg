@@ -26,13 +26,13 @@
     ../../modules/tools/cad
 
     ../../modules/virt/virt-manager
-    ../../modules/theming/darkman
+    ../../modules/tools/darkman
   ];
   nixpkgs.config = {
     allowUnfree = true;
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = unstable.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {

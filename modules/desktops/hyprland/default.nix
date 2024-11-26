@@ -43,6 +43,8 @@
     helvum
     playerctl
 
+    gamemode
+
     # Sreenshot
     grimblast
 
@@ -62,7 +64,7 @@
 
   fonts.packages = with pkgs; [
     noto-fonts
-    noto-fonts-cjk
+    noto-fonts-cjk-sans
     noto-fonts-emoji
     fira-code
     fira-code-symbols
@@ -110,10 +112,21 @@
             mainBar = {
               layer = "top";
               position = "top";
-              height = 15;
-              modules-left = [ "hyprland/workspaces" "hyprland/submap" ];
+              height = 24;
+              spacing = 10;
+              modules-left = [ "idle_inhibitor" "hyprland/workspaces" "hyprland/submap" ];
               modules-center = [ "hyprland/window" ];
-              modules-right = [ "battery" "clock" ];
+              modules-right = [ "tray" "gamemode" "wireplumber" "bluetooth" "network" "battery" "custom/notification" "clock" ];
+              idle_inhibitor = {
+                format = "{icon}";
+                format-icons = {
+                  activated = "";
+                  deactivated = "";
+                };
+              };
+              tray = {
+                spacing = 10;
+              };
               battery = {
                 format = "{capacity}% {icon}";
                 format-icons = [ "" "" "" "" "" ];
@@ -126,6 +139,26 @@
               };
               "hyprland/window" = {
                 separate-outputs = true;
+              };
+              "custom/notification" = {
+                tooltip = false;
+                format = "{icon}";
+                "format-icons" = {
+                  notification = "<span foreground='red'><sup></sup></span>";
+                  none = "";
+                  "dnd-notification" = "<span foreground='red'><sup></sup></span>";
+                  "dnd-none" = "";
+                  "inhibited-notification" = "<span foreground='red'><sup></sup></span>";
+                  "inhibited-none" = "";
+                  "dnd-inhibited-notification" = "<span foreground='red'><sup></sup></span>";
+                  "dnd-inhibited-none" = "";
+                };
+                "return-type" = "json";
+                "exec-if" = "which swaync-client";
+                exec = "swaync-client -swb";
+                "on-click" = "swaync-client -t -sw";
+                "on-click-right" = "swaync-client -d -sw";
+                escape = true;
               };
             };
           };
@@ -172,6 +205,7 @@
       };
 
 
+      services.mpd-mpris.enable = true;
 
       services.hyprpaper = {
         enable = true;
@@ -327,7 +361,7 @@
                     exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
                     exec-once = wl-paste --watch cliphist store
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
-                    exec-once = ${pkgs.wlsunset}/bin/wlsunset
+                    exec-once = ${pkgs.wlsunset}/bin/wlsunset -t 3500
 
                     exec-once = waybar
 

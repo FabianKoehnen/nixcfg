@@ -68,7 +68,7 @@ in
         ".." = "cd ../";
         "..." = "cd ../../";
         "size" = "dust";
-        "z" = "zoxide";
+        #        "z" = "zoxide";
 
         ### docker
         "d" = "docker";

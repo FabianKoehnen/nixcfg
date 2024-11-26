@@ -10,6 +10,8 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
 
+      ../../modules/tools/plymouth
+
       ../../modules/base/git
 
       ../../modules/terminal/zsh
@@ -65,17 +67,31 @@
     keyMap = "de";
     #   useXkbConfig = true; # use xkbOptions in tty.
   };
-  services.xserver.layout = "de";
+  services.xserver.xkb.layout = "de";
+
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+
+  services.ollama.enable = true;
 
   # Enable the X11 windowing system.
-  services.xserver.enable = true;
+#  services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-  services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
+#  services.xserver.displayManager.gdm.enable = true;
+#  services.xserver.desktopManager.gnome.enable = true;
 
-  dbus.packages = [ pkgs.gnome3.dconf ];
-  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
+
+  services.xserver.enable = true;
+  services.displayManager.sddm.enable = true;
+  services.desktopManager.plasma6.enable = true;
+
+#  dbus.packages = [ pkgs.gnome3.dconf ];
+#  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
 
   programs.dconf = {
     enable = true;
@@ -84,7 +100,13 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-
+  services.printing.drivers = with pkgs; [ 
+    pkgs.gutenprint 
+    pkgs.hplipWithPlugin
+    # pkgs.samsung-unified-linux-driver
+    pkgs.brlaser
+    pkgs.brgenml1lpr
+  ];
   # Trim SSDs periodicly
   services.fstrim.enable = true;
 
@@ -107,18 +129,29 @@
     symfony-cli
     spotify
     headsetcontrol
+    vivaldi
 
-    gnome.gnome-tweaks
-    gnomeExtensions.ideapad
-    gnomeExtensions.pop-shell
+    #calligra
+
+    #gnome.gnome-tweaks
+    #gnomeExtensions.ideapad
+    #gnomeExtensions.pop-shell
+
+    #kdePackages.umbrello
+    kdePackages.discover
+
 
     comma
 
     firefox
+    libreoffice-qt
+    hunspell
+    hunspellDicts.uk_UA
+    hunspellDicts.th_TH
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).
-  services.xserver.libinput.enable = true;
+  services.libinput.enable = true;
 
   users = {
     mutableUsers = false;

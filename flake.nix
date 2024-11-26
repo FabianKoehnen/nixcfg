@@ -22,7 +22,8 @@
     };
 
     secrets = {
-      url = "github:fabianKoehnen/nixcfg-secrets";
+      # url = "github:fabianKoehnen/nixcfg-secrets";
+      url = "git+file:./secrets";
     };
 
     # hyprland = {
@@ -34,6 +35,8 @@
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    woomer.url = "github:coffeeispower/woomer";
 
     # Hyprspace = {
     #   url = "github:KZDKM/Hyprspace";
@@ -67,7 +70,6 @@
 
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
@@ -194,6 +196,7 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cosmic.nixosModules.default
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];

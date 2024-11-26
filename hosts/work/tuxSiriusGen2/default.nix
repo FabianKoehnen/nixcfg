@@ -18,7 +18,9 @@
     ../../../modules/theming/darkman
 
     ../../../modules/tools/sddm
-    ../../../modules/desktops/hyprland
+    #    ../../../modules/desktops/hyprland
+    ../../../modules/desktops/cosmic
+
 
     ../../../modules/terminal/zsh
     ../../../modules/terminal/kitty
@@ -105,11 +107,21 @@
     headsetcontrol
     unstable.youtube-music
     slack
+    kubectl
 
     comma
 
     firefox
+    ungoogled-chromium
+    vivaldi
+
+    libsForQt5.polonium
   ];
+
+  services.desktopManager.plasma6.enable = true;
+  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
+
+  services.languagetool.enable = true;
 
   environment.persistence."/persist/impermanence" = {
     hideMounts = true;
@@ -138,6 +150,11 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
 
   users = {
     mutableUsers = false;

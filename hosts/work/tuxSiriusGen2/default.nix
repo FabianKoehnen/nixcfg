@@ -99,6 +99,7 @@
     unzip
     zip
     git
+    powertop
     nvtopPackages.amd
     docker-compose
     sops
@@ -123,6 +124,18 @@
 
   services.languagetool.enable = true;
 
+  services.flatpak = {
+    update.auto = {
+      enable = true;
+      onCalendar = "weekly";
+    };
+    uninstallUnmanaged = true;
+    packages = [
+      "com.github.dynobo.normcap"
+    ];
+  };
+
+
   environment.persistence."/persist/impermanence" = {
     hideMounts = true;
     directories = [
@@ -146,6 +159,11 @@
       enable = true;
       package = pkgs.nix-direnv;
     };
+  };
+
+  programs.corectrl = {
+    enable = true;
+    gpuOverclock.enable = true;
   };
 
   # Enable CUPS to print documents.
@@ -205,6 +223,37 @@
     '';
   };
 
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = true;
+
+
+  powerManagement.powertop.enable = true;
+  #  systemd.sleep.extraConfig = ''
+  #    AllowSuspend=no
+  #    AllowHibernation=no
+  #    AllowHybridSleep=no
+  #    AllowSuspendThenHibernate=no
+  #  '';
+  services.tlp = {
+    enable = true;
+    settings = {
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 50;
+
+      #Optional helps save long term battery health
+      START_CHARGE_THRESH_BAT0 = 70; # 70 and bellow it starts to charge
+      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+    };
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
@@ -224,6 +273,7 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
+  networking.firewall.allowedTCPPorts = [ 22 ];
 
   #services.nginx.enable = false;
 

@@ -11,8 +11,7 @@
 , ...
 }: {
   imports = [
-    # ../../theming/darkman
-
+    ../../tools/darkman
     ../../tools/rofi
     ../../tools/thunar
   ];
@@ -51,12 +50,22 @@
     cliphist
     wl-clipboard
 
+    orchis-theme
+
     # Xfce Tools
     xfce.ristretto
     xfce.thunar
     xfce.xfce4-taskmanager
     xfce.mousepad
     xfce.exo
+  ];
+
+  fonts.packages = with pkgs; [
+    noto-fonts
+    noto-fonts-cjk
+    noto-fonts-emoji
+    fira-code
+    fira-code-symbols
   ];
 
   programs.hyprland = {
@@ -78,6 +87,7 @@
   };
 
   programs.kdeconnect.enable = true;
+  services.dbus.enable = true;
 
   ##################
   ## home-manager ##
@@ -89,9 +99,36 @@
 
     users.${user} = {
       programs = {
-        eww = {
+        # eww = {
+        #   enable = true;
+        #   configDir = ./eww;
+        # };
+
+        waybar = {
           enable = true;
-          configDir = ./eww;
+          settings = {
+            mainBar = {
+              layer = "top";
+              position = "top";
+              height = 15;
+              modules-left = [ "hyprland/workspaces" "hyprland/submap" ];
+              modules-center = [ "hyprland/window" ];
+              modules-right = [ "battery" "clock" ];
+              battery = {
+                format = "{capacity}% {icon}";
+                format-icons = [ "" "" "" "" "" ];
+              };
+              clock = {
+                format-alt = "{:%a, %d. %b  %H:%M}";
+              };
+              "hyprland/workspaces" = {
+                format = "{icon}";
+              };
+              "hyprland/window" = {
+                separate-outputs = true;
+              };
+            };
+          };
         };
       };
 
@@ -125,12 +162,16 @@
           '';
         };
         pointerCursor = {
-          package = pkgs.vanilla-dmz;
-          name = "Vanilla-DMZ";
+          # package = pkgs.phinger-cursors;
+          # name = "phinger-cursors-light";
+          package = pkgs.rose-pine-cursor;
+          name = "BreezeX-RosePine-Linux";
           gtk.enable = true;
           x11.enable = true;
         };
       };
+
+
 
       services.hyprpaper = {
         enable = true;
@@ -201,7 +242,7 @@
               color = "rgba(200, 200, 200, 1.0)";
               font_size = 55;
               font_family = "Fira Semibold";
-              position = "-100, -40";
+              position = "-100, 60";
               halign = "right";
               valign = "bottom";
               shadow_passes = 5;
@@ -260,14 +301,12 @@
 
       };
 
-
       wayland.windowManager.hyprland = {
         enable = true;
+        systemd.enable = true;
         plugins = [
-          # pkgs.hyprlandPlugins.hyprexpo
-          # pkgs.hyprlandPlugins.hyprtrails
-
-          # inputs.Hyprspace.packages.${pkgs.system}.Hyprspace
+          pkgs.hyprlandPlugins.hyprtrails
+          pkgs.hyprlandPlugins.hyprspace
         ];
         extraConfig = ''
                     ##
@@ -290,8 +329,7 @@
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
                     exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
-                    exec-once = eww open bar0
-                    exec-once = eww open bar1
+                    exec-once = waybar
 
                     ################
                     # Window Rules #
@@ -305,7 +343,6 @@
                     env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
                     env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
                     env = GDK_SCALE,1
-                    env = XCURSOR_SIZE,40
                     env = NIXOS_OZONE_WL,1
 
                     ############
@@ -323,8 +360,8 @@
                     bind = $mainMod SHIFT, Right, exec, ${pkgs.hyprnome}/bin/hyprnome --move
 
                     bind = $mainMod SHIFT, f, togglefloating
-                    # bind = $mainMod, UP, hyprexpo:expo, toggle
-                    # bind = $mainMod, DOWN, hyprexpo:expo, toggle
+                    bind = $mainMod, UP, overview:toggle
+                    bind = $mainMod, DOWN, overview:toggle
 
                     # Groups
                     bind = $mainMod, g, togglegroup
@@ -468,9 +505,17 @@
                         #     gesture_distance = 300 # how far is the "max"
                         #     gesture_positive = false # positive = swipe down. Negative = swipe up.
                         # }
-                        # hyprtrails {
-                        #   color = rgba(f74802ff)
-                        # }
+
+                        overview {
+                          showEmptyWorkspace = false
+                          hideBackgroundLayers = true
+                          exitOnSwitch = true
+                          affectStrut = false
+                        }
+
+                        hyprtrails {
+                          color = rgba(f74802ff)
+                        }
                     }
         '';
       };

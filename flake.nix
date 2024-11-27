@@ -23,27 +23,13 @@
 
     secrets = {
       # url = "github:fabianKoehnen/nixcfg-secrets";
-      url = "git+file:./secrets";
+      url = "git+file:/etc/nixos/secrets";
     };
-
-    # hyprland = {
-    #   url = "github:hyprwm/Hyprland";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
 
     hypr_contrib = {
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    woomer.url = "github:coffeeispower/woomer";
-
-    # Hyprspace = {
-    #   url = "github:KZDKM/Hyprspace";
-
-    #   # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-    #   inputs.hyprland.follows = "hyprland";
-    # };
 
     nixifiedAi = {
       url = "github:nixified-ai/flake";

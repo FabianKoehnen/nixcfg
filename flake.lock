@@ -169,27 +169,6 @@
         "type": "github"
       }
     },
-    "crane": {
-      "inputs": {
-        "nixpkgs": [
-          "woomer",
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1716745752,
-        "narHash": "sha256-8K1R9Yg4r08rYk86Yq+lu3E9L3uRUb4xMqYHgl0VGS0=",
-        "owner": "ipetkov",
-        "repo": "crane",
-        "rev": "19ca94ec2d288de334ae932107816b4a97736cd8",
-        "type": "github"
-      },
-      "original": {
-        "owner": "ipetkov",
-        "repo": "crane",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -759,8 +738,7 @@
         "sops-nix": "sops-nix",
         "stylix": "stylix",
         "systems": "systems_3",
-        "treefmt-nix": "treefmt-nix",
-        "woomer": "woomer"
+        "treefmt-nix": "treefmt-nix"
       }
     },
     "rust-overlay": {
@@ -786,11 +764,11 @@
     },
     "secrets": {
       "locked": {
-        "lastModified": 1732359723,
-        "narHash": "sha256-WoIi/Cij6T2P94G4fYyLmEqul2lWtDXhUjVqlxbf1DU=",
-        "ref": "refs/heads/main",
-        "rev": "329455fd125b1ea8f155971520d75afc54a53957",
-        "revCount": 19,
+        "lastModified": 1719512419,
+        "narHash": "sha256-d7TisAQwxBGOeea2RPCmieoO0Kim7mk3Hfb+FAGKgm4=",
+        "ref": "d92270ea47e27c1b03573e3ecd7c3f20b78e0901",
+        "rev": "d92270ea47e27c1b03573e3ecd7c3f20b78e0901",
+        "revCount": 8,
         "type": "git",
         "url": "file:/etc/nixos/secrets"
       },
@@ -909,21 +887,6 @@
         "type": "indirect"
       }
     },
-    "systems_4": {
-      "locked": {
-        "lastModified": 1681028828,
-        "narHash": "sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768=",
-        "owner": "nix-systems",
-        "repo": "default",
-        "rev": "da67096a3b9bf56a91d16901293e51ba5b49a27e",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-systems",
-        "repo": "default",
-        "type": "github"
-      }
-    },
     "textgen-src": {
       "flake": false,
       "locked": {
@@ -956,26 +919,6 @@
       "original": {
         "owner": "numtide",
         "repo": "treefmt-nix",
-        "type": "github"
-      }
-    },
-    "woomer": {
-      "inputs": {
-        "crane": "crane",
-        "flake-utils": "flake-utils_2",
-        "nixpkgs": "nixpkgs_6"
-      },
-      "locked": {
-        "lastModified": 1730453874,
-        "narHash": "sha256-4W6c5Hr7BzGivkmsfw318dmRuI6HfPFfvw4ekuYhFlA=",
-        "owner": "coffeeispower",
-        "repo": "woomer",
-        "rev": "62400d1783b8499e99fd24596835ac2ec9827288",
-        "type": "github"
-      },
-      "original": {
-        "owner": "coffeeispower",
-        "repo": "woomer",
         "type": "github"
       }
     }

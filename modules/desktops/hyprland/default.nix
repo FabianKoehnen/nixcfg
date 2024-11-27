@@ -19,8 +19,6 @@
   environment.systemPackages = with pkgs; [
     unstable.libdrm
 
-    inputs.woomer.packages.${system}.default
-
     hyprnome
     hyprpicker
     hyprcursor
@@ -361,14 +359,14 @@
 
                   source = ~/.config/hypr/monitors.conf
 
-                    #############
-                    # Autostart #
-                    #############
-                    exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
-                    exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
-                    exec-once = wl-paste --watch cliphist store
-                    exec-once = ${pkgs.solaar}/bin/solaar -w hide
-                    exec-once = ${pkgs.wlsunset}/bin/wlsunset -t 3500
+                  #############
+                  # Autostart #
+                  #############
+                  exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
+                  exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
+                  exec-once = wl-paste --watch cliphist store
+                  exec-once = ${pkgs.solaar}/bin/solaar -w hide
+                  exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
                     exec-once = waybar
 
@@ -377,14 +375,15 @@
                   ################
                   windowrulev2=float,title:^(Firefox — Sharing Indicator)$
 
-                    ########
-                    # Envs #
-                    ########
-                    env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
-                    env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
-                    env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
-                    env = GDK_SCALE,1
-                    env = NIXOS_OZONE_WL,1
+                  ########
+                  # Envs #
+                  ########
+                  env = QT_QPA_PLATFORM,wayland;xcb # enables automatic scaling, based on the monitors pixel density
+                  env = QT_AUTO_SCREEN_SCALE_FACTOR,1 # Tell QT applications to use the Wayland backend, and fall back to x11 if Wayland is unavailable
+                  env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
+                  env = GDK_SCALE,1
+                  env = XCURSOR_SIZE,40
+                  env = NIXOS_OZONE_WL,1
 
                   ############
                   # Keybinds #
@@ -449,21 +448,19 @@
 
                   # Mediakeys and osd
                   bind= $mainMod, n, exec, ${config.home-manager.users.${user}.services.swaync.package}/bin/swaync-client -t
-                  bindr= $mainMod, Space, exec, kill $(pgrep waybar) || ${config.home-manager.users.${user}.programs.waybar.package}/bin/waybar
-          
                   bindn=, Caps_Lock, exec, sleep 0.25 && ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --caps-lock
-          
+
                   bindel=, XF86AudioRaiseVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=+5
                   bindel=, XF86AudioLowerVolume, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=-5
                   bindl=, XF86AudioMute, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --output-volume=mute-toggle
-          
+
                   bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
                   bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
-          
+
                   bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
                   bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
                   bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
-          
+
                   #########
                   # Decor #
                   #########

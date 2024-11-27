@@ -442,6 +442,7 @@
 
                     # Mediakeys and osd
                     bind= $mainMod, n, exec, ${config.home-manager.users.${user}.services.swaync.package}/bin/swaync-client -t
+                    bindr= $mainMod, Space, exec, kill $(pgrep waybar) || ${config.home-manager.users.${user}.programs.waybar.package}/bin/waybar
           
                     bindn=, Caps_Lock, exec, sleep 0.25 && ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --caps-lock
           

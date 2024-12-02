@@ -22,26 +22,14 @@
     };
 
     secrets = {
-      #  url = "github:fabianKoehnen/nixcfg-secrets";
+      # url = "github:fabianKoehnen/nixcfg-secrets";
       url = "git+file:/etc/nixos/secrets";
     };
-
-    # hyprland = {
-    #   url = "github:hyprwm/Hyprland";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
 
     hypr_contrib = {
       url = "github:hyprwm/contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Hyprspace = {
-    #   url = "github:KZDKM/Hyprspace";
-
-    #   # Hyprspace uses latest Hyprland. We declare this to keep them in sync.
-    #   inputs.hyprland.follows = "hyprland";
-    # };
 
     nixifiedAi = {
       url = "github:nixified-ai/flake";
@@ -199,6 +187,7 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
+            inputs.nixos-cosmic.nixosModules.default
             inputs.nix-flatpak.nixosModules.nix-flatpak
             {
               nix.settings = {

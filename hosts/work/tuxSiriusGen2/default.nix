@@ -15,10 +15,15 @@
     ../../../modules/hardware/tuxedo
     ../../../modules/hardware/logitech/mxmaster
 
+
+    ../../../modules/tools/plymouth
+
     ../../../modules/tools/darkman
 
     ../../../modules/tools/sddm
     ../../../modules/desktops/hyprland
+    ../../../modules/desktops/cosmic
+
 
     ../../../modules/terminal/zsh
     ../../../modules/terminal/kitty
@@ -106,16 +111,21 @@
     headsetcontrol
     unstable.youtube-music
     slack
-    termscp
-
     kubectl
 
     comma
 
     firefox
+    ungoogled-chromium
+    vivaldi
 
-    # jetbrains.phpstorm
+    polonium
   ];
+
+  # services.desktopManager.plasma6.enable = true;
+  # programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
+
+  services.languagetool.enable = true;
 
   services.flatpak = {
     update.auto = {
@@ -161,6 +171,11 @@
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.ollama = {
+    enable = true;
+    acceleration = "rocm";
+  };
 
   users = {
     mutableUsers = false;
@@ -222,25 +237,25 @@
   #    AllowHybridSleep=no
   #    AllowSuspendThenHibernate=no
   #  '';
-  services.tlp = {
-    enable = true;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+  # services.tlp = {
+  #   enable = true;
+  #   settings = {
+  #     CPU_SCALING_GOVERNOR_ON_AC = "performance";
+  #     CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+  #     CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+  #     CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
 
-      CPU_MIN_PERF_ON_AC = 0;
-      CPU_MAX_PERF_ON_AC = 100;
-      CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;
+  #     CPU_MIN_PERF_ON_AC = 0;
+  #     CPU_MAX_PERF_ON_AC = 100;
+  #     CPU_MIN_PERF_ON_BAT = 0;
+  #     CPU_MAX_PERF_ON_BAT = 50;
 
-      #Optional helps save long term battery health
-      START_CHARGE_THRESH_BAT0 = 70; # 70 and bellow it starts to charge
-      STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-    };
-  };
+  #     #Optional helps save long term battery health
+  #     START_CHARGE_THRESH_BAT0 = 70; # 70 and bellow it starts to charge
+  #     STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
+  #   };
+  # };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

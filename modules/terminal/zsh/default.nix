@@ -16,6 +16,8 @@ in
     chroma
     du-dust
     eza
+    btop
+    tldr
   ];
 
   programs.zsh.enable = true;

@@ -12,11 +12,11 @@
   services.thermald.enable = lib.mkDefault true;
 
   hardware = {
-    #    tuxedo-keyboard.enable = true;
-    #    tuxedo-rs = {
-    #      enable = true;
-    #      tailor-gui.enable = true;
-    #    };
+    tuxedo-drivers.enable = true;
+    tuxedo-rs = {
+      enable = true;
+      tailor-gui.enable = true;
+    };
   };
 
   boot.kernelParams = lib.mkDefault [

@@ -6,5 +6,10 @@
       "ctrl+v" = "paste_from_clipboard";
       "ctrl+c" = "copy_to_clipboard";
     };
+    settings = {
+      enable_audio_bell = false;
+      visual_bell_duration = "0.6 ease";
+      visual_bell_color = "MidnightBlue";
+    };
   };
 }

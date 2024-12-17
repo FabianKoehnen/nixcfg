@@ -182,7 +182,6 @@
             hyprland-extra-config = ''
               bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-2, disable"
               bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-2, 2560x1440@165.0,1920x1440,1.0"
-              env = AQ_DRM_DEVICES,/dev/dri/card1:/dev/dri/card0
             '';
             inherit inputs;
           };

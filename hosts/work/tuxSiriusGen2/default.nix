@@ -20,9 +20,10 @@
 
     ../../../modules/tools/darkman
 
-    ../../../modules/tools/sddm
+    # ../../../modules/tools/sddm
+    ../../../modules/tools/cosmic-greet
     ../../../modules/desktops/hyprland
-    ../../../modules/desktops/cosmic
+    # ../../../modules/desktops/cosmic
 
 
     ../../../modules/terminal/zsh
@@ -33,6 +34,8 @@
 
     ../../../modules/dev/ambimax
   ];
+
+
   nixpkgs.config = {
     allowUnfree = true;
   };
@@ -55,6 +58,7 @@
   # Use the systemd-boot EFI boot loader.
   boot = {
     loader = {
+      timeout = 1;
       systemd-boot = {
         enable = true;
         configurationLimit = 50;
@@ -229,6 +233,13 @@
   services.openssh.enable = true;
   services.openssh.settings.PasswordAuthentication = true;
 
+  services.fprintd = {
+    enable = true;
+    tod = {
+      enable = true;
+      driver = pkgs.libfprint-2-tod1-goodix;
+    };
+  };
 
   powerManagement.powertop.enable = true;
   #  systemd.sleep.extraConfig = ''

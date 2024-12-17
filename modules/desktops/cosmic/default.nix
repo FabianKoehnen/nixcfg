@@ -4,6 +4,9 @@
 , user
 , ...
 }: {
+  imports = [
+    ../../tools/cosmic-greet
+  ];
 
   environment.systemPackages = with pkgs; [
     # pyprland
@@ -33,5 +36,4 @@
   ];
 
   services.desktopManager.cosmic.enable = true;
-  services.displayManager.cosmic-greeter.enable = true;
 }

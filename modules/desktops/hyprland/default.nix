@@ -334,6 +334,7 @@
 
                     cursor {
                       inactive_timeout = 3
+                      # no_hardware_cursors = true
                     }
 
                     dwindle {

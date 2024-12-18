@@ -5,6 +5,7 @@
 , lib
 , unstable
 , config
+, inputs
 , ...
 }: {
   imports = [
@@ -21,7 +22,9 @@
 
     hyprnome
     hyprpicker
+
     hyprcursor
+    inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
 
     unstable.nwg-displays
 
@@ -160,9 +163,10 @@
         enable = true;
         systemd.enable = true;
 
-        plugins = [
-          pkgs.hyprlandPlugins.hyprtrails
-          pkgs.hyprlandPlugins.hyprspace
+        plugins = with pkgs.hyprlandPlugins;[
+          hyprtrails
+          hyprspace
+          hypr-dynamic-cursors
         ];
         extraConfig = ''
                     ##
@@ -185,7 +189,7 @@
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
                     exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
-                      exec-once = waybar
+                    exec-once = waybar
 
                     ################
                     # Window Rules #
@@ -207,6 +211,7 @@
                     env = QT_WAYLAND_DISABLE_WINDOWDECORATION,1 # Disables window decorations on QT applications
                     env = GDK_SCALE,1
                     env = NIXOS_OZONE_WL,1
+                    env = HYPRCURSOR_THEME,rose-pine-hyprcursor
 
                     ############
                     # Keybinds #
@@ -380,6 +385,15 @@
 
                       hyprtrails {
                         color = rgba(f74802ff)
+                      }
+
+                      dynamic-cursors {
+                        enabled = true
+                        mode = stretch
+
+                        shake {
+                          effects = true
+                        }
                       }
                     }
         '';

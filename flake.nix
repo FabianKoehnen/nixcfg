@@ -52,6 +52,8 @@
 
     stylix.url = "github:danth/stylix/release-23.11";
 
+    rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
+
     treefmt-nix.url = "github:numtide/treefmt-nix";
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 

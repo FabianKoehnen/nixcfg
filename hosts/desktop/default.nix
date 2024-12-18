@@ -112,6 +112,9 @@
     prismlauncher
     r2modman
 
+    rustup
+    jetbrains.rust-rover
+
     wineWowPackages.waylandFull
     winetricks
     lutris

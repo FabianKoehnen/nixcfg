@@ -124,6 +124,7 @@
       "workbench.colorTheme" = lib.mkDefault "Webstorm New Light";
       "workbench.preferredLightColorTheme" = lib.mkDefault "Webstorm New Light";
       "workbench.preferredDarkColorTheme" = lib.mkDefault "Webstorm New Darcula";
+      "editor.emptySelectionClipboard" = false;
     };
   };
 }

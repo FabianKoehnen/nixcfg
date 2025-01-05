@@ -61,6 +61,13 @@
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
     };
+
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-24.11";
+      # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
   outputs =
@@ -106,6 +113,7 @@
 
             inputs.nixifiedAi.nixosModules.invokeai-amd
             inputs.nixos-cosmic.nixosModules.default
+
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];
@@ -127,6 +135,7 @@
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
+                inputs.nixvim.homeManagerModules.nixvim
               ];
             }
 

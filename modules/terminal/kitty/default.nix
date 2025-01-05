@@ -6,6 +6,7 @@
       "ctrl+v" = "paste_from_clipboard";
       "ctrl+c" = "copy_to_clipboard";
     };
+    themeFile = "CLRS";
     settings = {
       enable_audio_bell = false;
       visual_bell_duration = "0.6 ease";

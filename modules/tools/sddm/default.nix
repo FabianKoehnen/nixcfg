@@ -14,7 +14,7 @@
     enable = true;
     autoNumlock = true;
     wayland = {
-      enable = true;
+      enable = false;
       # compositor = "weston";
     };
     # theme = "chili";

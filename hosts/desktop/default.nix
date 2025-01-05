@@ -14,6 +14,7 @@
     ../../modules/tools/plymouth
 
     ../../modules/tools/sddm
+    #../../modules/tools/cosmic-greet
     ../../modules/desktops/hyprland
     # ../../modules/desktops/cosmic
 
@@ -22,6 +23,7 @@
 
     ../../modules/editors/vscodium
     ../../modules/editors/jetbrains
+    ../../modules/editors/zed
     ../../modules/gaming/steam
     ../../modules/tools/cad
 
@@ -78,10 +80,10 @@
   i18n.defaultLocale = "de_DE.UTF-8";
   console = {
     #   font = "Lat2-Terminus16";
-    keyMap = "de";
+    keyMap = "us";
     #   useXkbConfig = true; # use xkbOptions in tty.
   };
-  services.xserver.xkb.layout = "de";
+  services.xserver.xkb.layout = "us";
 
   # Enable the X11 windowing system.
   services.xserver.enable = true;
@@ -111,6 +113,8 @@
     unstable.youtube-music
     prismlauncher
     r2modman
+    blender
+
 
     rustup
     jetbrains.rust-rover
@@ -146,6 +150,7 @@
   services.ollama = {
     enable = true;
     acceleration = "rocm";
+    rocmOverrideGfx = "10.3.0";
   };
 
 

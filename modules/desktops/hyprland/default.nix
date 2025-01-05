@@ -320,7 +320,8 @@
                     # General #
                     ###########
                     input {
-                      kb_layout = de
+                      kb_layout = us(altgr-intl),de
+                      kb_options = grp:shifts_toggle,caps:escape_shifted_capslock
                       sensitivity = 0
                     }
 

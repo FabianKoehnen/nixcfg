@@ -43,6 +43,6 @@
           end
           return notify(message, level, merged_opts)
       end
-    ''
-      };
-  }
+    '';
+  };
+}

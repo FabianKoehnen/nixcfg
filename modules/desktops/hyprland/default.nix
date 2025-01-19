@@ -195,6 +195,7 @@
                     # Window Rules #
                     ################
                     windowrulev2=float,title:^(Firefox — Sharing Indicator)$
+                    windowrulev2=tile,class:Godot
 
                     workspace = w[tv1], gapsout:0, gapsin:0
                     workspace = f[1], gapsout:0, gapsin:0
@@ -235,6 +236,9 @@
                     bind = $mainMod, g, togglegroup
                     bind = $mainMod, Tab, changegroupactive, f
                     bind = $mainMod SHIFT, Tab, changegroupactive, b
+
+                    # Fullscreen
+                    bind = $mainMod, m, fullscreen
 
 
                     # Move/resize windows with mainMod + LMB/RMB and dragging

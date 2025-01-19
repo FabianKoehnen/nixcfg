@@ -26,6 +26,7 @@
     ../../modules/editors/zed
     ../../modules/gaming/steam
     ../../modules/tools/cad
+    ../../modules/tools/bambulab
 
     ../../modules/virt/virt-manager
     ../../modules/tools/darkman
@@ -114,7 +115,6 @@
     prismlauncher
     r2modman
     blender
-
 
     rustup
     jetbrains.rust-rover

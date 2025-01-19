@@ -18,6 +18,8 @@
       ../../modules/terminal/kitty
 
       ../../modules/editors/vscodium
+      
+      ../../modules/tools/bambulab
     ];
 
 
@@ -75,6 +77,8 @@
     openFirewall = true;
   };
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
 
   services.ollama.enable = true;
 

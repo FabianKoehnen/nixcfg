@@ -30,6 +30,8 @@
 
     ../../modules/virt/virt-manager
     ../../modules/tools/darkman
+
+    ../../modules/dev/godot
   ];
   nixpkgs.config = {
     allowUnfree = true;
@@ -116,8 +118,8 @@
     r2modman
     blender
 
-    rustup
-    jetbrains.rust-rover
+    # rustup
+    # jetbrains.rust-rover
 
     wineWowPackages.waylandFull
     winetricks

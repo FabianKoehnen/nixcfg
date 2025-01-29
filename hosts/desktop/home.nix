@@ -1,7 +1,7 @@
-{
-  pkgs,
-  user,
-  ...
+{ pkgs
+, unstable
+, user
+, ...
 }: {
   home-manager.users.${user} = {
     config = {
@@ -18,7 +18,7 @@
           WLR_NO_HARDWARE_CURSORS = "1";
         };
         packages = with pkgs; [
-          piper
+          unstable.piper
 
           teamspeak_client
           signal-desktop

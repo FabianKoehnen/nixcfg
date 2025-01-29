@@ -227,7 +227,10 @@
     };
   };
 
-  services.ratbagd.enable = true;
+  services.ratbagd = {
+    enable = true;
+    package = unstable.libratbag;
+  };
 
   services.udev = {
     enable = true;

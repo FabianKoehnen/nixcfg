@@ -239,8 +239,8 @@ in
             transition-left-to-right = false;
           };
           modules = [
-            "custom/power"
             "custom/lock"
+            "custom/power"
             "custom/suspend"
             "custom/exit"
             "custom/reboot"

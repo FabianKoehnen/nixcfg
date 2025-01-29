@@ -81,6 +81,23 @@
   };
   services.xserver.xkb.layout = "de";
 
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
+
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
+  services.printing.drivers = with pkgs; [
+    pkgs.gutenprint
+    pkgs.hplipWithPlugin
+    # pkgs.samsung-unified-linux-driver
+    pkgs.brlaser
+    pkgs.brgenml1lpr
+  ];
+
   # Enable the X11 windowing system.
   services.xserver.enable = true;
   networking.networkmanager.enable = true;
@@ -124,10 +141,11 @@
     vivaldi
 
     polonium
+    system-config-printer
   ];
 
-  # services.desktopManager.plasma6.enable = true;
-  # programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
+  services.desktopManager.plasma6.enable = true;
+  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
 
   services.languagetool.enable = true;
 
@@ -172,9 +190,6 @@
     enable = true;
     gpuOverclock.enable = true;
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   services.ollama = {
     enable = true;

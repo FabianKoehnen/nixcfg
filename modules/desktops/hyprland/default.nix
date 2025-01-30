@@ -324,7 +324,7 @@
                     # General #
                     ###########
                     input {
-                      kb_layout = us(alt-intl),de(qwerty)
+                      kb_layout = us(altgr-intl),de(qwerty)
                       kb_options = grp:switch,caps:escape_shifted_capslock
                       sensitivity = 0
                     }

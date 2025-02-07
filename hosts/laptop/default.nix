@@ -12,6 +12,9 @@
 
       ../../modules/tools/plymouth
 
+      ../../modules/tools/sddm
+      ../../modules/desktops/hyprland
+
       ../../modules/base/git
 
       ../../modules/terminal/zsh
@@ -20,7 +23,7 @@
       ../../modules/editors/vscodium
       
       ../../modules/tools/bambulab
-    ];
+          ];
 
 
   nixpkgs.config = {
@@ -35,6 +38,7 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
+      build-dir = "/nix-build";
     };
     gc = {
       automatic = true;
@@ -63,13 +67,13 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     #   font = "Lat2-Terminus16";
-    keyMap = "de";
+    keyMap = "us";
     #   useXkbConfig = true; # use xkbOptions in tty.
   };
-  services.xserver.xkb.layout = "de";
+  services.xserver.xkb.layout = "us";
 
   services.avahi = {
     enable = true;
@@ -91,8 +95,8 @@
 
 
   services.xserver.enable = true;
-  services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  # services.displayManager.sddm.enable = true;
+  # services.desktopManager.plasma6.enable = true;
 
 #  dbus.packages = [ pkgs.gnome3.dconf ];
 #  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];

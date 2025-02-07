@@ -34,11 +34,17 @@
       options = [ "subvol=nix" ];
     };
 
-  fileSystems."/var/log" =
+  fileSystems."/var/lib" =
     { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
       fsType = "btrfs";
-      options = [ "subvol=var/log" ];
+      options = [ "subvol=var/lib" ];
     };
+
+  fileSystems."/var/log" =
+  { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
+    fsType = "btrfs";
+    options = [ "subvol=var/log" ];
+  };
 
   fileSystems."/home" =
     { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
@@ -52,11 +58,22 @@
       options = [ "subvol=nixos-config" ];
     };  
     
-    fileSystems."/persist" =
-    { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
-      fsType = "btrfs";
-      options = [ "subvol=persist" ];
-    };
+  fileSystems."/persist" =
+  { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
+    fsType = "btrfs";
+    options = [ "subvol=persist" ];
+  };
+
+  fileSystems."/nix-build" =
+  { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
+    fsType = "btrfs";
+    options = [ "subvol=nix-build" ];
+  };
+  # fileSystems."/tmp" =
+  # { device = "/dev/disk/by-uuid/708acdeb-4819-46a3-a8e6-18d32816ecea";
+  #   fsType = "btrfs";
+  #   options = [ "subvol=big-tmp" ];
+  # };
 
   swapDevices = [ ];
 

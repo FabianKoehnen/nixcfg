@@ -63,6 +63,7 @@
     xfce.xfce4-taskmanager
     xfce.mousepad
     xfce.exo
+    libinput-gestures
   ];
 
   fonts.packages = with pkgs; [
@@ -75,7 +76,7 @@
 
   programs.hyprland = {
     enable = true;
-    #    package = unstable.hyprland;
+    package = unstable.hyprland;
   };
 
   security.rtkit.enable = true;
@@ -132,6 +133,8 @@
                 "magnify"
             ]
           '';
+          # "".text = ''
+          # '';
         };
         pointerCursor = {
           # package = pkgs.phinger-cursors;
@@ -161,12 +164,14 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
+        package = pkgs.hyprland;
         systemd.enable = true;
 
         plugins = with pkgs.hyprlandPlugins;[
           hyprtrails
           hyprspace
           hypr-dynamic-cursors
+          hyprgrass
         ];
         extraConfig = ''
                     ##
@@ -381,6 +386,9 @@
                       #     gesture_distance = 300 # how far is the "max"
                       #     gesture_positive = false # positive = swipe down. Negative = swipe up.
                       # }
+                      touch_gestures {
+                        sensitivity = 10.0
+                      }
 
                       overview {
                         showEmptyWorkspace = false

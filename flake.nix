@@ -151,6 +151,10 @@
           specialArgs = {
             unstable = nixpkgs-unstable.legacyPackages.${system};
             user = "fabian";
+            wallpaper = hosts/desktop/wallpaper.png;
+            hyprland-extra-config = ''
+              monitor = DP-1, 1920x1080, 0x0, 1,vrr,1
+            '';
             inherit inputs;
           };
           modules = [

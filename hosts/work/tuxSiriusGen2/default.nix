@@ -134,6 +134,8 @@
     slack
     kubectl
 
+    onlyoffice-desktopeditors
+
     comma
 
     firefox

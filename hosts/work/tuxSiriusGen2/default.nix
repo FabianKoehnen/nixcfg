@@ -149,7 +149,7 @@
   services.desktopManager.plasma6.enable = true;
   programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
 
-  services.languagetool.enable = true;
+  # services.languagetool.enable = true;
 
   services.flatpak = {
     update.auto = {

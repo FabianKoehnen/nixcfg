@@ -68,6 +68,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-module-sentinalone = {
+      url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
+      # ref = "main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -209,6 +214,20 @@
                 trusted-users = [ "fabian" ];
                 substituters = [ "https://hyprland.cachix.org" ];
                 trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+              };
+            }
+
+            inputs.nixos-module-sentinalone.nixosModules.default
+            {
+              environment.systemPackages = [
+                inputs.nixos-module-sentinalone.packages.${system}.default
+              ];
+              services.sentinelone = {
+                enable = true;
+                package = inputs.nixos-module-sentinalone.packages.${system}.default;
+                sentinelOneManagementTokenPath = "/persist/sentinelOneSiteToken";
+                email = "fabian.koehnen@open.de";
+                serialNumber = "EMNM16HP958G344T0337";
               };
             }
 

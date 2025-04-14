@@ -27,9 +27,15 @@ in
     programs.fzf.enable = true;
     programs.zsh = {
       enable = true;
+      enableVteIntegration = true;
+      enableCompletion = true;
+      autosuggestion.enable = true;
+      historySubstringSearch.enable = true;
+      syntaxHighlighting.enable = true;
 
       antidote = {
-        enable = true;
+        enable = false;
+        useFriendlyNames = true;
         plugins =
           [
             "zsh-users/zsh-completions"

@@ -89,6 +89,12 @@
     fsType = "ext4";
   };
 
+  fileSystems."/nix-build" = {
+    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
+    fsType = "btrfs";
+    options = [ "subvol=nix-build" ];
+  };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

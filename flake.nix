@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     secrets = {
       # url = "github:fabianKoehnen/nixcfg-secrets";
       url = "git+file:/etc/nixos/secrets";
@@ -31,10 +36,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixifiedAi = {
-      url = "github:nixified-ai/flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixifiedAi = {
+    #   url = "github:nixified-ai/flake";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     anyrun = {
       url = "github:Kirottu/anyrun";
@@ -75,6 +80,7 @@
     , nixpkgs
     , nix-darwin
     , home-manager
+    , home-manager-unstable
     , secrets
     , systems
     , nixpkgs-unstable
@@ -88,7 +94,7 @@
     in
     {
       nixosConfigurations = {
-        "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-desktop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             user = "fabian";
@@ -111,7 +117,7 @@
 
             # inputs.microvm.nixosModules.host
 
-            inputs.nixifiedAi.nixosModules.invokeai-amd
+            # inputs.nixifiedAi.nixosModules.invokeai-amd
             inputs.nixos-cosmic.nixosModules.default
 
             {
@@ -125,7 +131,7 @@
             ./hosts/desktop/default.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             ./hosts/desktop/home.nix
             {
               home-manager.useGlobalPkgs = true;

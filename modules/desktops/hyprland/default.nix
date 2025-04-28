@@ -33,8 +33,8 @@
     libreoffice-fresh
     pkgs.gnome-disk-utility
     baobab
-    polkit-kde-agent
-    okular
+    pkgs.kdePackages.polkit-kde-agent-1
+    kdePackages.okular
     vlc
     libnotify
     xarchiver
@@ -98,6 +98,21 @@
 
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
+
+  services.sunshine.applications.apps = [
+    {
+      name = "Additional Desktop";
+      prep-cmd = [
+        {
+          do = "hyprctl output create headless sunshine";
+          undo = "hyprctl output remove headless sunshine";
+        }
+      ];
+      exclude-global-prep-cmd = "false";
+      auto-detach = "true";
+    }
+  ];
 
   ##################
   ## home-manager ##
@@ -188,7 +203,7 @@
                     #############
                     # Autostart #
                     #############
-                    exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
+                    exec-once= ${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1
                     exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
                     exec-once = wl-paste --watch cliphist store
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide

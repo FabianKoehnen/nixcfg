@@ -18,6 +18,8 @@
     ../../modules/desktops/hyprland
     # ../../modules/desktops/cosmic
 
+    ../../modules/hardware/headsetcontrol
+
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty
 
@@ -30,6 +32,7 @@
 
     ../../modules/virt/virt-manager
     ../../modules/tools/darkman
+    ../../modules/tools/waylus
 
     ../../modules/dev/godot
   ];
@@ -45,6 +48,7 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
+      build-dir = "/nix-build";
     };
     gc = {
       automatic = true;
@@ -112,11 +116,11 @@
     sops
     symfony-cli
     spotify
-    headsetcontrol
     unstable.youtube-music
     prismlauncher
     r2modman
     blender
+    krita
 
     # rustup
     # jetbrains.rust-rover
@@ -260,6 +264,7 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
   #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
+  networking.firewall.allowedTCPPorts = [ 3131 ];
   #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;

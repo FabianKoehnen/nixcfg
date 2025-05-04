@@ -97,19 +97,21 @@ in
         "batt" = "${pkgs.acpi}/bin/acpi";
       };
 
-      initExtraFirst = lib.strings.concatStringsSep "\n" (
-        [
-          # General
-        ]
-        ++ (
-          if darwinSystem
-          then [
-            # Darwin spezific
+      initContent = lib.mkBefore (
+        lib.strings.concatStringsSep "\n" (
+          [
+            # General
           ]
-          else [
-            # Linux spezific
-            "stty intr ^X" # interrupt commands with ctrl + x instead of c
-          ]
+          ++ (
+            if darwinSystem
+            then [
+              # Darwin spezific
+            ]
+            else [
+              # Linux spezific
+              "stty intr ^X" # interrupt commands with ctrl + x instead of c
+            ]
+          )
         )
       );
     };

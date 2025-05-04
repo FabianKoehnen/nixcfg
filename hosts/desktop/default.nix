@@ -24,7 +24,7 @@
     ../../modules/terminal/kitty
 
     ../../modules/editors/vscodium
-    ../../modules/editors/jetbrains
+    # ../../modules/editors/jetbrains
     ../../modules/editors/zed
     ../../modules/gaming/steam
     ../../modules/tools/cad
@@ -34,7 +34,7 @@
     ../../modules/tools/darkman
     ../../modules/tools/waylus
 
-    ../../modules/dev/godot
+    # ../../modules/dev/godot
   ];
   nixpkgs.config = {
     allowUnfree = true;
@@ -141,6 +141,8 @@
     enable = true;
   };
 
+  programs.adb.enable = true;
+
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -167,7 +169,7 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [ "wheel" "docker" "adbusers" ];
       shell = pkgs.zsh;
     };
   };

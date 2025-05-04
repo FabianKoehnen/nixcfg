@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, unstable, ... }:
 let
   godot_latest_overlay = self: super: {
     godot_latest = super.godot_4.overrideAttrs (oldAttrs: rec {

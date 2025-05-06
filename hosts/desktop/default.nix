@@ -159,6 +159,9 @@
     enable = true;
     acceleration = "rocm";
     rocmOverrideGfx = "10.3.0";
+    environmentVariables = {
+      OLLAMA_GPU_OVERHEAD = "500000000";
+    };
   };
 
 

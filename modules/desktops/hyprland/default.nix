@@ -17,8 +17,16 @@
     ../../tools/thunar
   ];
 
+  # qt = {
+  #   enable = true;
+  #   platformTheme = "gtk2";
+  #   style = "gtk2";
+  # };
+
   environment.systemPackages = with pkgs; [
     unstable.libdrm
+
+    glib
 
     hyprnome
     hyprpicker
@@ -88,42 +96,50 @@
     pulse.enable = true;
   };
 
-  xdg.portal = {
+  programs.kdeconnect.enable = true;
+  programs.dconf = {
     enable = true;
-    # extraPortals = [pkgs.xdg-desktop-portal-hyprland];
   };
 
-  programs.kdeconnect.enable = true;
-  services.dbus.enable = true;
+  services = {
+    dbus = {
+      enable = true;
+      # implementation = "broker";
+      packages = with pkgs; [ gcr gnome-settings-daemon ];
+    };
 
+    gnome.gnome-keyring.enable = true;
+
+    gvfs.enable = true;
+  };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
-
-  services.sunshine.applications.apps = [
-    {
-      name = "Additional Desktop";
-      prep-cmd = [
-        {
-          do = "hyprctl output create headless sunshine";
-          undo = "hyprctl output remove headless sunshine";
-        }
-      ];
-      exclude-global-prep-cmd = "false";
-      auto-detach = "true";
-    }
-  ];
+  # services.sunshine.applications.apps = [
+  #   {
+  #     name = "Additional Desktop";
+  #     prep-cmd = [
+  #       {
+  #         do = "hyprctl output create headless sunshine";
+  #         undo = "hyprctl output remove headless sunshine";
+  #       }
+  #     ];
+  #     exclude-global-prep-cmd = "false";
+  #     auto-detach = "true";
+  #   }
+  # ];
 
   ##################
   ## home-manager ##
   ##################
   home-manager = {
-    # sharedModules = [
-    #   inputs.hyprland.homeManagerModules.default
-    # ];
-
     users.${user} = {
-
+      xdg.portal = {
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          # pkgs.xdg-desktop-portal-gnome
+        ];
+      };
       services = {
         swaync.enable = true;
         swayosd.enable = true;
@@ -162,7 +178,45 @@
       };
 
 
-      services.mpd-mpris.enable = true;
+      # services.mpd-mpris.enable = true;
+      services.darkman = {
+        enable = true;
+        darkModeScripts = {
+          theme = ''
+            ${pkgs.dconf}/bin/dconf write \
+                    /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+          '';
+          hyprsunset = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprsunset temperature 3500
+          '';
+        };
+        lightModeScripts = {
+          hyprsunset = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprsunset temperature 6500
+          '';
+          theme = ''
+            ${pkgs.dconf}/bin/dconf write \
+                    /org/gnome/desktop/interface/color-scheme "'prefer-light'"
+          '';
+        };
+      };
+      services.hyprsunset = {
+        enable = true;
+
+        # transitions = {
+        #   sunrise = {
+        #     calendar = "*-*-* 06:30:00";
+        #     requests = [
+        #       [ "temperature 6500" ]
+        #     ];
+        #   };
+
+        #   sunset = {
+        #     calendar = "*-*-* 19:30:00";
+        #     requests = [ [ "temperature 3500" ] ];
+        #   };
+        # };
+      };
 
       services.hyprpaper = {
         enable = true;
@@ -179,10 +233,9 @@
 
       wayland.windowManager.hyprland = {
         enable = true;
-        package = pkgs.hyprland;
-        systemd.enable = true;
+        package = unstable.hyprland;
 
-        plugins = with pkgs.hyprlandPlugins;[
+        plugins = with unstable.hyprlandPlugins;[
           hyprtrails
           hyprspace
           hypr-dynamic-cursors
@@ -207,7 +260,6 @@
                     exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
                     exec-once = wl-paste --watch cliphist store
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
-                    exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
                     exec-once = waybar
 
@@ -311,8 +363,8 @@
                     bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
                     bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
 
-                    bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
-                    bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
+                    bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles
+                    bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next
                     bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
 
                     #########

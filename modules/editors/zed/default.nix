@@ -16,6 +16,9 @@
       "php"
       "html"
       "gdscript"
+      "intellij-newui-theme"
+      "jetbrains-new-ui-icons"
+      "material-icon-theme"
     ];
 
     userSettings = {
@@ -37,8 +40,8 @@
 
       icon_theme = {
         mode = "system";
-        light = "JetBrains New UI Icons (Light)";
-        dark = "JetBrains New UI Icons (Dark)";
+        light = "Material Icon Theme";
+        dark = "Material Icon Theme";
       };
 
       vim_mode = false;
@@ -52,7 +55,7 @@
       assistant = {
         default_model = {
           provider = "ollama";
-          model = "mistral:latest";
+          model = "qwen3:30b-a3b";
         };
         version = "2";
       };

@@ -15,6 +15,7 @@
       "nix"
       "php"
       "html"
+      "toml"
       "gdscript"
       "intellij-newui-theme"
       "jetbrains-new-ui-icons"
@@ -22,6 +23,20 @@
     ];
 
     userSettings = {
+      ssh_connections = [
+        {
+          host = "halbgar.xyz";
+          projects = [{
+            paths = [ "/etc/nixos" ];
+          }];
+        }
+        {
+          host = "fabian-nas";
+          projects = [{
+            paths = [ "/etc/nixos" ];
+          }];
+        }
+      ];
       telemetry = {
         metrics = false;
         diagnostics = false;

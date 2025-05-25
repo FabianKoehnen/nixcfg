@@ -129,7 +129,6 @@
     docker-compose
     sops
     symfony-cli
-    spotify
     unstable.youtube-music
     slack
     kubectl

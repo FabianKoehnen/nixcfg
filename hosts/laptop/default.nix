@@ -136,7 +136,6 @@
     docker-compose
     sops
     symfony-cli
-    spotify
     vivaldi
 
     #calligra

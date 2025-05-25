@@ -22,6 +22,7 @@
 
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty
+    ../../modules/terminal/ghostty
 
     ../../modules/editors/vscodium
     # ../../modules/editors/jetbrains
@@ -84,7 +85,7 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     #   font = "Lat2-Terminus16";
     keyMap = "us";
@@ -98,11 +99,12 @@
   # Trim SSDs periodicly
   services.fstrim.enable = true;
 
-  services.flatpak.enable = true;
-
   security.polkit.enable = true;
 
+  services.fwupd.enable = true;
+
   environment.systemPackages = with pkgs; [
+    keepassxc
     util-linux
     wget
     killall
@@ -112,10 +114,10 @@
     zip
     git
     nvtopPackages.amd
+    lact
     docker-compose
     sops
     symfony-cli
-    spotify
     unstable.youtube-music
     prismlauncher
     r2modman
@@ -132,10 +134,24 @@
 
     comma
 
-    firefox
+    unstable.firefoxpwa
 
     nextcloud-client
   ];
+
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "org.freecad.FreeCAD"
+    ];
+  };
+
+
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox;
+    nativeMessagingHosts.packages = [ unstable.firefoxpwa ];
+  };
 
   virtualisation.docker = {
     enable = true;

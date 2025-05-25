@@ -9,6 +9,7 @@ in
 {
   imports = [
     ../starship
+    ../yazi
   ];
 
   environment.systemPackages = with pkgs; [

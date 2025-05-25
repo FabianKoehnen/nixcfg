@@ -5,7 +5,7 @@
   environment.systemPackages = with pkgs; [
     (sddm-chili-theme.override {
       themeConfig = {
-        background = "${wallpaper}";
+        background = "${wallpaper.light}";
       };
     })
   ];

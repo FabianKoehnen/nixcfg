@@ -8,7 +8,7 @@
       background = [
         {
           monitor = "";
-          path = "${wallpaper}";
+          path = "${wallpaper.light}";
 
           blur_passes = 2; # 0 disables blurring
           blur_size = 7;

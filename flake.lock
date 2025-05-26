@@ -317,6 +317,27 @@
         "type": "github"
       }
     },
+    "nixos-module-sentinalone": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1741774721,
+        "narHash": "sha256-p1ShzyRW5oSRrZVnL8LphNWz+L7rI6oR8USPtfAldM8=",
+        "ref": "main",
+        "rev": "e89440deb06057ded0c2879849666b9990bb3a5f",
+        "revCount": 1,
+        "type": "git",
+        "url": "ssh://git@github.com/ambimax/nixos-module-sentinalone"
+      },
+      "original": {
+        "ref": "main",
+        "type": "git",
+        "url": "ssh://git@github.com/ambimax/nixos-module-sentinalone"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1747953325,
@@ -474,6 +495,7 @@
         "nix-darwin": "nix-darwin",
         "nix-flatpak": "nix-flatpak",
         "nixos-hardware": "nixos-hardware",
+        "nixos-module-sentinalone": "nixos-module-sentinalone",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "nixvim": "nixvim",

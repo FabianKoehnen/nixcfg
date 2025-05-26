@@ -1,4 +1,4 @@
-{ user, ... }: {
+{ user, pkgs, config, ... }: {
   home-manager.users.${user}.programs.kitty = {
     enable = true;
     shellIntegration.enableZshIntegration = true;

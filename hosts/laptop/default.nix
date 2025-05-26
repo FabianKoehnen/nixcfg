@@ -21,9 +21,10 @@
       ../../modules/terminal/kitty
 
       ../../modules/editors/vscodium
-      
+
       ../../modules/tools/bambulab
-          ];
+      ../../modules/hardware/headsetcontrol
+    ];
 
 
   nixpkgs.config = {
@@ -87,19 +88,19 @@
   services.ollama.enable = true;
 
   # Enable the X11 windowing system.
-#  services.xserver.enable = true;
+  #  services.xserver.enable = true;
 
   # Enable the GNOME Desktop Environment.
-#  services.xserver.displayManager.gdm.enable = true;
-#  services.xserver.desktopManager.gnome.enable = true;
+  #  services.xserver.displayManager.gdm.enable = true;
+  #  services.xserver.desktopManager.gnome.enable = true;
 
 
   services.xserver.enable = true;
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
-#  dbus.packages = [ pkgs.gnome3.dconf ];
-#  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
+  #  dbus.packages = [ pkgs.gnome3.dconf ];
+  #  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
 
   programs.dconf = {
     enable = true;
@@ -108,8 +109,8 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  services.printing.drivers = with pkgs; [ 
-    pkgs.gutenprint 
+  services.printing.drivers = with pkgs; [
+    pkgs.gutenprint
     pkgs.hplipWithPlugin
     # pkgs.samsung-unified-linux-driver
     pkgs.brlaser
@@ -135,8 +136,6 @@
     docker-compose
     sops
     symfony-cli
-    spotify
-    headsetcontrol
     vivaldi
 
     #calligra

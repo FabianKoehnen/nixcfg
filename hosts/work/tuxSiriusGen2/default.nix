@@ -14,6 +14,7 @@
     ../../../modules/base/bin-bash-fix.nix
     ../../../modules/hardware/tuxedo
     ../../../modules/hardware/logitech/mxmaster
+    ../../modules/hardware/headsetcontrol
 
 
     ../../../modules/tools/plymouth
@@ -128,8 +129,6 @@
     docker-compose
     sops
     symfony-cli
-    spotify
-    headsetcontrol
     unstable.youtube-music
     slack
     kubectl

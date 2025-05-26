@@ -110,7 +110,13 @@
     users.${user} = {
 
       services = {
-        swaync.enable = true;
+        swaync = {
+          enable = true;
+          settings = {
+            timeout = 0;
+            timeout-low = 0;
+          };
+        };
         swayosd.enable = true;
       };
 

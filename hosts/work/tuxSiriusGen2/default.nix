@@ -177,6 +177,8 @@
     enable = true;
   };
 
+  services.fwupd.enable = true;
+
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -199,8 +201,16 @@
     acceleration = "rocm";
     environmentVariables = {
       HCC_AMDGPU_TARGET = "gfx1102"; # used to be necessary, but doesn't seem to anymore
+      OLLAMA_GPU_OVERHEAD = "500000000";
     };
     rocmOverrideGfx = "11.0.2";
+  };
+
+  services.open-webui = {
+    enable = true;
+    environment = {
+      WEBUI_AUTH = "false";
+    };
   };
 
   users = {

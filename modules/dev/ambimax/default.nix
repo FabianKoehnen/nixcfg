@@ -5,6 +5,7 @@
     ddev
     mkcert
     nss
+    # awscli2
   ];
 
   virtualisation.docker = {

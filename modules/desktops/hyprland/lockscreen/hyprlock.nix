@@ -10,7 +10,7 @@
           monitor = "";
           path = "${wallpaper.light}";
 
-          blur_passes = 2; # 0 disables blurring
+          blur_passes = 0; # 0 disables blurring
           blur_size = 7;
           noise = 0.0117;
           contrast = 0.8916;

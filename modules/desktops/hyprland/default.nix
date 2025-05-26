@@ -17,12 +17,6 @@
     ../../terminal/ghostty
   ];
 
-  # qt = {
-  #   enable = true;
-  #   platformTheme = "gtk2";
-  #   style = "gtk2";
-  # };
-
   environment.systemPackages = with pkgs; [
     unstable.libdrm
 
@@ -147,7 +141,13 @@
       };
 
       services = {
-        swaync.enable = true;
+        swaync = {
+          enable = true;
+          settings = {
+            timeout = 0;
+            timeout-low = 0;
+          };
+        };
         swayosd.enable = true;
       };
 

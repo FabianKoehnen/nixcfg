@@ -14,7 +14,7 @@
     ../../../modules/base/bin-bash-fix.nix
     ../../../modules/hardware/tuxedo
     ../../../modules/hardware/logitech/mxmaster
-    ../../modules/hardware/headsetcontrol
+    ../../../modules/hardware/headsetcontrol
 
 
     ../../../modules/tools/plymouth
@@ -32,6 +32,7 @@
 
     ../../../modules/editors/jetbrains
     ../../../modules/editors/vscodium
+    ../../../modules/editors/zed
 
     ../../../modules/dev/ambimax
   ];
@@ -145,10 +146,10 @@
     system-config-printer
   ];
 
-  services.desktopManager.plasma6.enable = true;
-  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
+  # services.desktopManager.plasma6.enable = true;
+  # programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
 
-  services.languagetool.enable = true;
+  # services.languagetool.enable = true;
 
   services.flatpak = {
     update.auto = {
@@ -176,6 +177,8 @@
     enable = true;
   };
 
+  services.fwupd.enable = true;
+
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -194,7 +197,20 @@
 
   services.ollama = {
     enable = true;
+    package = unstable.ollama;
     acceleration = "rocm";
+    environmentVariables = {
+      HCC_AMDGPU_TARGET = "gfx1102"; # used to be necessary, but doesn't seem to anymore
+      OLLAMA_GPU_OVERHEAD = "500000000";
+    };
+    rocmOverrideGfx = "11.0.2";
+  };
+
+  services.open-webui = {
+    enable = true;
+    environment = {
+      WEBUI_AUTH = "false";
+    };
   };
 
   users = {

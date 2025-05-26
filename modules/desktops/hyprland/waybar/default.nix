@@ -88,9 +88,11 @@ in
           format = "Cpu: {usage}%";
           tooltip = true;
           interval = 1;
+          on-click = "${pkgs.btop}/bin/btop";
         };
         memory = {
           format = "Mem: {used:0.1f}Gi";
+          on-click = "${pkgs.btop}/bin/btop";
         };
 
         "group/network-modules" = {

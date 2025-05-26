@@ -61,6 +61,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixos-module-sentinalone = {
+      url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
+      # ref = "main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -180,8 +185,8 @@
             unstable = nixpkgs-unstable.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper = {
-              light = hosts/work/tuxSiriusGen2/wallpaper.png;
-              dark = hosts/work/tuxSiriusGen2/wallpaper.png;
+              light = hosts/work/tuxSiriusGen2/wallpaper/light.png;
+              dark = hosts/work/tuxSiriusGen2/wallpaper/dark.png;
             };
             hyprland-extra-config = ''
               bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-2, disable"
@@ -191,13 +196,26 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
-            inputs.nixos-cosmic.nixosModules.default
             inputs.nix-flatpak.nixosModules.nix-flatpak
             {
               nix.settings = {
                 trusted-users = [ "fabian" ];
                 substituters = [ "https://hyprland.cachix.org" ];
                 trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
+              };
+            }
+
+            inputs.nixos-module-sentinalone.nixosModules.default
+            {
+              environment.systemPackages = [
+                inputs.nixos-module-sentinalone.packages.${system}.default
+              ];
+              services.sentinelone = {
+                enable = true;
+                package = inputs.nixos-module-sentinalone.packages.${system}.default;
+                sentinelOneManagementTokenPath = "/persist/sentinelOneSiteToken";
+                email = "fabian.koehnen@open.de";
+                serialNumber = "EMNM16HP958G344T0337";
               };
             }
 

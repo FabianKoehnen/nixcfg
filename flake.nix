@@ -185,8 +185,8 @@
             unstable = nixpkgs-unstable.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper = {
-              light = hosts/work/tuxSiriusGen2/wallpaper.png;
-              dark = hosts/work/tuxSiriusGen2/wallpaper.png;
+              light = hosts/work/tuxSiriusGen2/wallpaper/light.png;
+              dark = hosts/work/tuxSiriusGen2/wallpaper/dark.png;
             };
             hyprland-extra-config = ''
               bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-2, disable"
@@ -196,7 +196,6 @@
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
-            inputs.nixos-cosmic.nixosModules.default
             inputs.nix-flatpak.nixosModules.nix-flatpak
             {
               nix.settings = {

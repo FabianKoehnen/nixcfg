@@ -14,7 +14,7 @@
     ../../../modules/base/bin-bash-fix.nix
     ../../../modules/hardware/tuxedo
     ../../../modules/hardware/logitech/mxmaster
-    ../../modules/hardware/headsetcontrol
+    ../../../modules/hardware/headsetcontrol
 
 
     ../../../modules/tools/plymouth
@@ -32,6 +32,7 @@
 
     ../../../modules/editors/jetbrains
     ../../../modules/editors/vscodium
+    ../../../modules/editors/zed
 
     ../../../modules/dev/ambimax
   ];
@@ -145,8 +146,8 @@
     system-config-printer
   ];
 
-  services.desktopManager.plasma6.enable = true;
-  programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
+  # services.desktopManager.plasma6.enable = true;
+  # programs.ssh.askPassword = pkgs.lib.mkForce "${pkgs.ksshaskpass.out}/bin/ksshaskpass";
 
   # services.languagetool.enable = true;
 

@@ -6,7 +6,7 @@
 }: {
   fonts.packages = with pkgs; [
     jetbrains-mono
-    nerdfonts
+    nerd-fonts.droid-sans-mono
   ];
 
   home-manager.users.${user}.programs = {

@@ -68,7 +68,6 @@
       "firefox-developer-edition"
       "amethyst"
       "logi-options-plus"
-      "spotify"
       "obs"
       "yubico-yubikey-manager"
       "yubico-authenticator"

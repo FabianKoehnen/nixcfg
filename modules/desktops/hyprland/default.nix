@@ -14,11 +14,19 @@
 
     ../../tools/darkman
     ../../tools/rofi
-    ../../tools/thunar
+    ../../terminal/ghostty
   ];
+
+  # qt = {
+  #   enable = true;
+  #   platformTheme = "gtk2";
+  #   style = "gtk2";
+  # };
 
   environment.systemPackages = with pkgs; [
     unstable.libdrm
+
+    glib
 
     hyprnome
     hyprpicker
@@ -33,8 +41,8 @@
     libreoffice-fresh
     pkgs.gnome-disk-utility
     baobab
-    polkit-kde-agent
-    okular
+    pkgs.kdePackages.polkit-kde-agent-1
+    # kdePackages.okular
     vlc
     libnotify
     xarchiver
@@ -55,15 +63,31 @@
     cliphist
     wl-clipboard
 
-    orchis-theme
-
     # Xfce Tools
-    xfce.ristretto
-    xfce.thunar
-    xfce.xfce4-taskmanager
-    xfce.mousepad
-    xfce.exo
+    # xfce.ristretto
+    # xfce.thunar
+    # xfce.xfce4-taskmanager
+    # xfce.mousepad
+    # xfce.exo
+
     libinput-gestures
+
+    # Gnome Tools
+    polkit_gnome
+    nautilus
+    gedit
+    gnome-frog
+    gnome-music
+    gnome-secrets
+    gnome-firmware
+    gnome-calculator
+    gnome-system-monitor
+    adwaita-icon-theme
+    cheese
+    gnome-characters
+    totem
+    evince
+    eog
   ];
 
   fonts.packages = with pkgs; [
@@ -88,14 +112,23 @@
     pulse.enable = true;
   };
 
-  xdg.portal = {
-    enable = true;
-    # extraPortals = [pkgs.xdg-desktop-portal-hyprland];
-  };
-
   programs.kdeconnect.enable = true;
-  services.dbus.enable = true;
+  programs.dconf = {
+    enable = true;
+  };
+  programs.seahorse.enable = true;
 
+  services = {
+    dbus = {
+      enable = true;
+      # implementation = "broker";
+      packages = with pkgs; [ gcr gnome-settings-daemon ];
+    };
+
+    gnome.gnome-keyring.enable = true;
+
+    gvfs.enable = true;
+  };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
 
@@ -103,36 +136,40 @@
   ## home-manager ##
   ##################
   home-manager = {
-    # sharedModules = [
-    #   inputs.hyprland.homeManagerModules.default
-    # ];
-
     users.${user} = {
+      xdg = {
+        portal = {
+          extraPortals = [
+            pkgs.xdg-desktop-portal-gtk
+            # pkgs.xdg-desktop-portal-hyprland
+          ];
+        };
+      };
 
       services = {
         swaync.enable = true;
         swayosd.enable = true;
       };
 
-      xfconf.settings = {
-        thunar = {
-          "last-show-hidden" = true;
-        };
-      };
+      # xfconf.settings = {
+      #   thunar = {
+      #     "last-show-hidden" = true;
+      #   };
+      # };
 
       home = {
         file = {
-          ".config/xfce4/helpers.rc".text = ''
-            TerminalEmulator=kitty
-            FileManager=thunar
-            WebBrowser=firefox
-          '';
-          ".config/hypr/pyprland.toml".text = ''
-            [pyprland]
-            plugins = [
-                "magnify"
-            ]
-          '';
+          # ".config/xfce4/helpers.rc".text = ''
+          #   TerminalEmulator=kitty
+          #   FileManager=thunar
+          #   WebBrowser=firefox
+          # '';
+          # ".config/hypr/pyprland.toml".text = ''
+          #   [pyprland]
+          #   plugins = [
+          #       "magnify"
+          #   ]
+          # '';
           # "".text = ''
           # '';
         };
@@ -147,28 +184,57 @@
       };
 
 
-      services.mpd-mpris.enable = true;
+      # services.mpd-mpris.enable = true;
+      services.darkman = {
+        enable = true;
+        darkModeScripts = {
+          theme = ''
+            ${pkgs.dconf}/bin/dconf write \
+                    /org/gnome/desktop/interface/color-scheme "'prefer-dark'"
+          '';
+          hyprpaper = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprpaper reload ,${wallpaper.dark}
+          '';
+          hyprsunset = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprsunset temperature 3500
+          '';
+        };
+        lightModeScripts = {
+          hyprsunset = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprsunset temperature 6500
+          '';
+          hyprpaper = ''
+            ${pkgs.hyprland}/bin/hyprctl hyprpaper reload ,${wallpaper.light}
+          '';
+          theme = ''
+            ${pkgs.dconf}/bin/dconf write \
+                    /org/gnome/desktop/interface/color-scheme "'prefer-light'"
+          '';
+        };
+      };
+      services.hyprsunset = {
+        enable = true;
+      };
 
       services.hyprpaper = {
         enable = true;
         settings = {
           splash = false;
           preload = [
-            "${wallpaper}"
+            "${wallpaper.light}"
           ];
           wallpaper = [
-            ",${wallpaper}"
+            ",${wallpaper.light}"
           ];
         };
       };
 
       wayland.windowManager.hyprland = {
         enable = true;
-        package = pkgs.hyprland;
-        systemd.enable = true;
+        package = unstable.hyprland;
 
-        plugins = with pkgs.hyprlandPlugins;[
-          hyprtrails
+        plugins = with unstable.hyprlandPlugins;[
+          # hyprtrails
           hyprspace
           hypr-dynamic-cursors
           hyprgrass
@@ -188,11 +254,12 @@
                     #############
                     # Autostart #
                     #############
-                    exec-once= ${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1
+                    # exec-once= ${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1
+                    # exec-once= ${pkgs.hyprpolkitagent}/libexec/polkit-kde-authentication-agent-1
+                    exec-once= ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1
                     exec-once= ${config.programs.kdeconnect.package}/libexec/kdeconnectd
                     exec-once = wl-paste --watch cliphist store
                     exec-once = ${pkgs.solaar}/bin/solaar -w hide
-                    exec-once = ${pkgs.wlsunset}/bin/wlsunset
 
                     exec-once = waybar
 
@@ -208,6 +275,12 @@
                     windowrulev2 = rounding 0, floating:0, onworkspace:w[tv1]
                     windowrulev2 = bordersize 0, floating:0, onworkspace:f[1]
                     windowrulev2 = rounding 0, floating:0, onworkspace:f[1]
+
+
+                    windowrulev2 = opacity 0.95 0.95,class:^(com.mitchellh.ghostty)$
+                    windowrulev2 = opacity 0.95 0.95,class:^(dev.zed.Zed)$
+                    windowrulev2 = opacity 1 override 1 override,title:.*Twitch.*
+                    windowrule = opacity 1 override 1 override,title:.*YouTube.*
 
                     ########
                     # Envs #
@@ -277,8 +350,8 @@
 
                     # Launch Apps
                     bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
-                    bind = $mainMod, Return, exec, kitty
-                    bind = $mainMod, e, exec, thunar
+                    bind = $mainMod, Return, exec, ghostty
+                    bind = $mainMod, e, exec, nautilus -w
                     bind = $mainMod, f, exec, firefox
 
                       bind = Alt, K, exec, thunar
@@ -296,8 +369,8 @@
                     bindle=, XF86MonBrightnessUp, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=+5
                     bindle=, XF86MonBrightnessDown, exec, ${config.home-manager.users.${user}.services.swayosd.package}/bin/swayosd-client --brightness=-5
 
-                    bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles 
-                    bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next 
+                    bindl=, XF86AudioPlay, exec, ${pkgs.playerctl}/bin/playerctl play-pause # the stupid key is called play , but it toggles
+                    bindl=, XF86AudioNext, exec, ${pkgs.playerctl}/bin/playerctl next
                     bindl=, XF86AudioPrev, exec, ${pkgs.playerctl}/bin/playerctl previous
 
                     #########
@@ -312,7 +385,7 @@
            #           drop_shadow = false
 
                       blur {
-                        size = 10
+                        size = 2
                         passes = 3
                       }
                     }

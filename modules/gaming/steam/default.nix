@@ -9,7 +9,7 @@
     remotePlay.openFirewall = true;
   };
 
-  environment.systemPackages = with pkgs; [ gamescope gamemode mangohud ];
+  environment.systemPackages = with pkgs; [ gamescope gamemode mangohud protontricks ];
 
   nixpkgs.config.packageOverrides = pkgs: {
     steam = pkgs.steam.override {

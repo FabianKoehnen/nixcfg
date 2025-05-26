@@ -18,11 +18,14 @@
     ../../modules/desktops/hyprland
     # ../../modules/desktops/cosmic
 
+    ../../modules/hardware/headsetcontrol
+
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty
+    ../../modules/terminal/ghostty
 
     ../../modules/editors/vscodium
-    ../../modules/editors/jetbrains
+    # ../../modules/editors/jetbrains
     ../../modules/editors/zed
     ../../modules/gaming/steam
     ../../modules/tools/cad
@@ -30,8 +33,9 @@
 
     ../../modules/virt/virt-manager
     ../../modules/tools/darkman
+    ../../modules/tools/waylus
 
-    ../../modules/dev/godot
+    # ../../modules/dev/godot
   ];
   nixpkgs.config = {
     allowUnfree = true;
@@ -45,6 +49,7 @@
     settings = {
       experimental-features = [ "nix-command" "flakes" ];
       auto-optimise-store = true;
+      build-dir = "/nix-build";
     };
     gc = {
       automatic = true;
@@ -80,7 +85,7 @@
   time.timeZone = "Europe/Berlin";
 
   # Select internationalisation properties.
-  i18n.defaultLocale = "de_DE.UTF-8";
+  i18n.defaultLocale = "en_US.UTF-8";
   console = {
     #   font = "Lat2-Terminus16";
     keyMap = "us";
@@ -94,11 +99,12 @@
   # Trim SSDs periodicly
   services.fstrim.enable = true;
 
-  services.flatpak.enable = true;
-
   security.polkit.enable = true;
 
+  services.fwupd.enable = true;
+
   environment.systemPackages = with pkgs; [
+    keepassxc
     util-linux
     wget
     killall
@@ -108,15 +114,15 @@
     zip
     git
     nvtopPackages.amd
+    lact
     docker-compose
     sops
     symfony-cli
-    spotify
-    headsetcontrol
     unstable.youtube-music
     prismlauncher
     r2modman
     blender
+    krita
 
     # rustup
     # jetbrains.rust-rover
@@ -128,14 +134,30 @@
 
     comma
 
-    firefox
+    unstable.firefoxpwa
 
     nextcloud-client
   ];
 
+  services.flatpak = {
+    enable = true;
+    packages = [
+      "org.freecad.FreeCAD"
+    ];
+  };
+
+
+  programs.firefox = {
+    enable = true;
+    package = pkgs.firefox;
+    nativeMessagingHosts.packages = [ unstable.firefoxpwa ];
+  };
+
   virtualisation.docker = {
     enable = true;
   };
+
+  programs.adb.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -153,6 +175,9 @@
     enable = true;
     acceleration = "rocm";
     rocmOverrideGfx = "10.3.0";
+    environmentVariables = {
+      OLLAMA_GPU_OVERHEAD = "500000000";
+    };
   };
 
 
@@ -163,7 +188,7 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [ "wheel" "docker" "adbusers" ];
       shell = pkgs.zsh;
     };
   };
@@ -260,6 +285,7 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
   #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
+  networking.firewall.allowedTCPPorts = [ 3131 ];
   #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;

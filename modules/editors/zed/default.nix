@@ -1,4 +1,4 @@
-{ user, ... }: {
+{ user, unstable, ... }: {
 
   services.ollama = {
     enable = true;
@@ -6,13 +6,37 @@
 
   home-manager.users.${user}.programs.zed-editor = {
     enable = true;
+    installRemoteServer = true;
+    package = unstable.zed-editor;
+    themes = {
+      path = ./themes/GitLab_Light.json;
+    };
     extensions = [
       "nix"
       "php"
       "html"
+      "toml"
+      "gdscript"
+      "intellij-newui-theme"
+      "jetbrains-new-ui-icons"
+      "material-icon-theme"
     ];
 
     userSettings = {
+      ssh_connections = [
+        {
+          host = "halbgar.xyz";
+          projects = [{
+            paths = [ "/etc/nixos" ];
+          }];
+        }
+        {
+          host = "fabian-nas";
+          projects = [{
+            paths = [ "/etc/nixos" ];
+          }];
+        }
+      ];
       telemetry = {
         metrics = false;
         diagnostics = false;
@@ -22,13 +46,20 @@
 
       ui_font_size = 16;
       buffer_font_size = 16;
+      tab_size = 2;
       theme = {
         mode = "system";
-        light = "One Light";
-        dark = "One Dark";
+        light = "GitLab Light";
+        dark = "JetBrains New Dark";
       };
 
-      vim_mode = true;
+      icon_theme = {
+        mode = "system";
+        light = "Material Icon Theme";
+        dark = "Material Icon Theme";
+      };
+
+      vim_mode = false;
       vim = {
         use_system_clipboard = "on_yank";
         toggle_relative_line_numbers = true;
@@ -39,7 +70,7 @@
       assistant = {
         default_model = {
           provider = "ollama";
-          model = "mistral:latest";
+          model = "qwen3:30b-a3b";
         };
         version = "2";
       };
@@ -54,10 +85,29 @@
         };
       };
 
+
       terminal = {
         dock = "bottom";
+        copy_on_select = false;
+      };
 
+      lsp = {
+        nix = {
+          binary = {
+            path_lookup = true;
+          };
+        };
       };
     };
+
+    userKeymaps = [
+      {
+        context = "Terminal";
+        bindings = {
+          ctrl-c = "terminal::Copy";
+          ctrl-v = "terminal::Paste";
+        };
+      }
+    ];
   };
 }

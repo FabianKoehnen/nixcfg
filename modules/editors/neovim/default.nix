@@ -5,7 +5,9 @@
   ];
 
 
-  fonts.packages = with pkgs; [ nerdfonts ];
+  fonts.packages = with pkgs; [
+    (pkgs.nerdfonts.override { fonts = [ "0xproto" "DroidSansMono" ]; })
+  ];
 
   home-manager.users.${user}.programs.nixvim = {
     colorschemes = {

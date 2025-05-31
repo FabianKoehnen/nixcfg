@@ -17,6 +17,8 @@
 
       ../../modules/base/git
 
+      ../../modules/gaming/steam
+
       ../../modules/terminal/zsh
       ../../modules/terminal/kitty
 
@@ -138,6 +140,10 @@
     symfony-cli
     vivaldi
 
+    krita
+    blender
+    nextcloud-client
+
     #calligra
 
     #gnome.gnome-tweaks
@@ -175,7 +181,7 @@
 
   programs.zsh.enable = true;
 
-  # Enable the OpenSSH daemon.
+    # Enable the OpenSSH daemon.
   services.openssh = {
     hostKeys = [
       {

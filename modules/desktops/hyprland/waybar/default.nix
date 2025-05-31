@@ -51,9 +51,11 @@ in
           "image"
           "idle_inhibitor"
           "hyprland/workspaces"
+          "gamemode"
         ];
         modules-center = [
           "clock"
+          "privacy"
         ];
         modules-right = [
           "cpu"
@@ -63,7 +65,8 @@ in
           "group/backlight-modules"
           "group/battery-modules"
           "tray"
-          "group/powermenu"
+          "custom/notification"
+          # "group/powermenu"
         ];
 
         "image" = {
@@ -95,6 +98,27 @@ in
           on-click = "${pkgs.btop}/bin/btop";
         };
 
+        "custom/notification" = {
+          tooltip = false;
+          format = "{} {icon}";
+            "format-icons" = {
+              notification = "󱅫 ";
+              none = " ";
+              "dnd-notification" = " ";
+              "dnd-none" = "󰂛 ";
+              "inhibited-notification" = " ";
+              "inhibited-none" = " ";
+              "dnd-inhibited-notification" = " ";
+              "dnd-inhibited-none" = " ";
+            };
+          "return-type" = "json";
+          "exec-if" = "which swaync-client";
+          exec = "swaync-client -swb";
+          "on-click" = "sleep 0.1 && swaync-client -t -sw";
+          "on-click-right" = "sleep 0.1 && swaync-client -d -sw";
+          escape = true;
+        };
+
         "group/network-modules" = {
           modules = [
             "network#icon"
@@ -103,9 +127,9 @@ in
           orientation = "inherit";
         };
         "network#icon" = {
-          format-disconnected = "󰤮";
-          format-ethernet = "󰈀";
-          format-wifi = "󰤨";
+          format-disconnected = "󰤮 ";
+          format-ethernet = "󰈀 ";
+          format-wifi = "󰤨 ";
           tooltip-format-wifi = "WiFi: {essid} ({signalStrength}%)\n󰅃 {bandwidthUpBytes} 󰅀 {bandwidthDownBytes}";
           tooltip-format-ethernet = "Ethernet: {ifname}\n󰅃 {bandwidthUpBytes} 󰅀 {bandwidthDownBytes}";
           tooltip-format-disconnected = "Disconnected";
@@ -148,7 +172,7 @@ in
 
         "group/backlight-modules" = {
           modules = [
-            "backlight#icon"
+            "custom/darkman"
             "backlight#percent"
           ];
           orientation = "inherit";
@@ -156,9 +180,9 @@ in
         "backlight#icon" = {
           format = "{icon}";
           format-icons = [
-            "󰃞"
-            "󰃟"
-            "󰃠"
+            "󰃞 "
+            "󰃟 "
+            "󰃠 "
           ];
           on-scroll-up = "${pkgs.brightnessctl}/bin/brightnessctl set 1%+ &> /dev/null";
           on-scroll-down = "${pkgs.brightnessctl}/bin/brightnessctl set 1%- &> /dev/null";
@@ -167,6 +191,25 @@ in
         "backlight#percent" = {
           format = "{percent}%";
           tooltip-format = "Backlight: {percent}%";
+        };
+        "custom/darkman" = {
+          format = "{icon}";
+          format-icons = {
+            light = "☀️";
+            dark = "🌙";
+          };
+          exec-if = "which ${pkgs.darkman}/bin/darkman";
+          exec = let
+            script = pkgs.writeShellScriptBin "darkman-json.sh" ''
+              set -euo pipefail
+              readonly MODE=$(${pkgs.darkman}/bin/darkman get)
+              printf '{"text":"%s", "alt": "%s"}' "$MODE" "$MODE"
+            '';
+          in "${script}/bin/darkman-json.sh";
+          return-type = "json";
+          interval = 30;
+          on-click = "darkman toggle";
+          tooltip-format = "Current Mode: {text}";
         };
 
         "group/battery-modules" = {
@@ -232,47 +275,6 @@ in
             on-scroll-up = "shift_up";
             on-scroll-down = "shift_down";
           };
-        };
-
-        "group/powermenu" = {
-          drawer = {
-            children-class = "powermenu-child";
-            transition-duration = 300;
-            transition-left-to-right = false;
-          };
-          modules = [
-            "custom/lock"
-            "custom/power"
-            "custom/suspend"
-            "custom/exit"
-            "custom/reboot"
-          ];
-          orientation = "inherit";
-        };
-        "custom/power" = {
-          format = "󰐥";
-          on-click = "${pkgs.systemd}/bin/systemctl poweroff";
-          tooltip = false;
-        };
-        "custom/lock" = {
-          format = "󰌾";
-          on-click = "${pkgs.systemd}/bin/loginctl lock-session";
-          tooltip = false;
-        };
-        "custom/suspend" = {
-          format = "󰤄";
-          on-click = "${pkgs.systemd}/bin/systemctl suspend";
-          tooltip = false;
-        };
-        "custom/exit" = {
-          format = "󰍃";
-          on-click = "${pkgs.systemd}/bin/loginctl terminate-user $USER";
-          tooltip = false;
-        };
-        "custom/reboot" = {
-          format = "󰜉";
-          on-click = "${pkgs.systemd}/bin/systemctl reboot";
-          tooltip = false;
         };
       };
     };
@@ -354,11 +356,7 @@ in
       #battery-modules,
       #tray,
       #clock,
-      #custom-exit,
-      #custom-lock,
-      #custom-suspend,
-      #custom-reboot,
-      #custom-power {
+      #custom-notification {
         background: ${xcolors.black3};
         border-radius: 8px;
         margin: 0.2rem 0.15rem;
@@ -383,11 +381,8 @@ in
       #wireplumber.icon,
       #backlight.icon,
       #battery.icon,
-      #custom-exit,
-      #custom-lock,
-      #custom-suspend,
-      #custom-reboot,
-      #custom-power {
+      #custom-darkman,
+      #custom-notification {
         background: ${xcolors.blue};
         color: ${xcolors.black3};
         border-radius: 8px;
@@ -462,11 +457,10 @@ in
       #workspaces button.active:hover,
       #network.icon:hover,
       #wireplumber.icon:hover,
-      #custom-exit:hover,
-      #custom-lock:hover,
-      #custom-suspend:hover,
-      #custom-reboot:hover,
-      #custom-power:hover {
+      #battery.icon:hover,
+      #custom-darkman:hover,
+      #custom-notification:hover,
+      #custom-notification.cc-open {
         background: lighter(${xcolors.blue});
       }
 
@@ -474,11 +468,10 @@ in
       #workspaces button.active:hover label,
       #network.icon:hover label,
       #wireplumber.icon:hover label,
-      #custom-exit:hover label,
-      #custom-lock:hover label,
-      #custom-suspend:hover label,
-      #custom-reboot:hover label,
-      #custom-power:hover label {
+      #battery.icon:hover label,
+      #custom-darkman:hover label,
+      #custom-notification:hover label,
+      #custom-notification.cc-open label {
         color: lighter(${xcolors.black3});
       }
 
@@ -496,6 +489,10 @@ in
 
       #idle_inhibitor.deactivated:hover {
         color: lighter(${xcolors.gray0});
+      }
+
+      #custom-notification {
+        font-size: 10px
       }
     '';
   };

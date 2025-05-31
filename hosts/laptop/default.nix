@@ -23,6 +23,7 @@
       ../../modules/terminal/kitty
 
       ../../modules/editors/vscodium
+      ../../modules/editors/zed
 
       ../../modules/tools/bambulab
       ../../modules/hardware/headsetcontrol

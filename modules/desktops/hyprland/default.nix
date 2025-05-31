@@ -144,8 +144,8 @@
         swaync = {
           enable = true;
           settings = {
-            timeout = 0;
-            timeout-low = 0;
+            timeout = 30;
+            timeout-low = 5;
           };
         };
         swayosd.enable = true;

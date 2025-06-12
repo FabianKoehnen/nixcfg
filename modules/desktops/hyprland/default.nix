@@ -446,6 +446,10 @@
                       force_zero_scaling = true
                     }
 
+                    debug {
+                      disable_logs = false
+                      full_cm_proto = true
+                    }
 
                     plugin {
                       # hyprexpo {

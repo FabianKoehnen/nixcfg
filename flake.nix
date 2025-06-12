@@ -53,7 +53,6 @@
     rose-pine-hyprcursor.url = "github:ndom91/rose-pine-hyprcursor";
 
     treefmt-nix.url = "github:numtide/treefmt-nix";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
 
     nixvim = {
       url = "github:nix-community/nixvim/nixos-25.05";
@@ -197,13 +196,6 @@
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nix-flatpak.nixosModules.nix-flatpak
-            {
-              nix.settings = {
-                trusted-users = [ "fabian" ];
-                substituters = [ "https://hyprland.cachix.org" ];
-                trusted-public-keys = [ "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc=" ];
-              };
-            }
 
             inputs.nixos-module-sentinalone.nixosModules.default
             {
@@ -298,21 +290,21 @@
 
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
 
-      checks = eachSystem (pkgs: {
-        pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
-          src = ./.;
-          hooks = {
-            nixpkgs-fmt.enable = true;
-          };
-        };
-        formatting = treefmtEval.${pkgs.system}.config.build.check self;
-      });
+      # checks = eachSystem (pkgs: {
+      #   pre-commit-check = inputs.pre-commit-hooks.lib.${pkgs.system}.run {
+      #     src = ./.;
+      #     hooks = {
+      #       nixpkgs-fmt.enable = true;
+      #     };
+      #   };
+      #   formatting = treefmtEval.${pkgs.system}.config.build.check self;
+      # });
 
-      devShell = eachSystem (
-        pkgs:
-        nixpkgs.legacyPackages.${pkgs.system}.mkShell {
-          inherit (self.checks.${pkgs.system}.pre-commit-check) shellHook;
-        }
-      );
+      # devShell = eachSystem (
+      #   pkgs:
+      #   nixpkgs.legacyPackages.${pkgs.system}.mkShell {
+      #     inherit (self.checks.${pkgs.system}.pre-commit-check) shellHook;
+      #   }
+      # );
     };
 }

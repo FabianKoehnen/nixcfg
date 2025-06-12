@@ -34,6 +34,7 @@
     ../../modules/virt/virt-manager
     ../../modules/tools/darkman
     ../../modules/tools/waylus
+    ../../modules/tools/appimage
 
     # ../../modules/dev/godot
   ];
@@ -131,6 +132,7 @@
     winetricks
     lutris
     #flightgear
+    unstable.dbeaver-bin
 
     comma
 

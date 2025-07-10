@@ -144,6 +144,10 @@
 
     polonium
     system-config-printer
+
+    unstable.opencode
+    slackdump
+    devtoolbox
   ];
 
   # services.desktopManager.plasma6.enable = true;
@@ -207,7 +211,7 @@
   };
 
   services.open-webui = {
-    enable = true;
+    enable = false;
     environment = {
       WEBUI_AUTH = "false";
     };

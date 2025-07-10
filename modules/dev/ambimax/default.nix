@@ -11,4 +11,6 @@
   virtualisation.docker = {
     enable = true;
   };
+
+  networking.firewall.allowedTCPPorts = [ 9003 ];
 }

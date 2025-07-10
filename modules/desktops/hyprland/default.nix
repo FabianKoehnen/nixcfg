@@ -122,6 +122,8 @@
     gnome.gnome-keyring.enable = true;
 
     gvfs.enable = true;
+
+    upower.enable = true;
   };
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
@@ -149,6 +151,7 @@
           };
         };
         swayosd.enable = true;
+        poweralertd.enable = true;
       };
 
       # xfconf.settings = {

@@ -14,7 +14,7 @@
 
     ../../tools/darkman
     ../../tools/rofi
-    ../../terminal/ghostty
+    ../../terminal/kitty
   ];
 
   environment.systemPackages = with pkgs; [
@@ -353,7 +353,7 @@
 
                     # Launch Apps
                     bindr= $mainMod, SUPER_L, exec, kill $(pgrep rofi) || rofi -show combi
-                    bind = $mainMod, Return, exec, ghostty
+                    bind = $mainMod, Return, exec, kitty
                     bind = $mainMod, e, exec, nautilus -w
                     bind = $mainMod, f, exec, firefox
 

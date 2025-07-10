@@ -64,6 +64,7 @@ in
           "group/wireplumber-modules"
           "group/backlight-modules"
           "group/battery-modules"
+          "custom/headsetcontrol"
           "tray"
           "custom/notification"
           # "group/powermenu"
@@ -101,16 +102,16 @@ in
         "custom/notification" = {
           tooltip = false;
           format = "{} {icon}";
-            "format-icons" = {
-              notification = "󱅫 ";
-              none = " ";
-              "dnd-notification" = " ";
-              "dnd-none" = "󰂛 ";
-              "inhibited-notification" = " ";
-              "inhibited-none" = " ";
-              "dnd-inhibited-notification" = " ";
-              "dnd-inhibited-none" = " ";
-            };
+          "format-icons" = {
+            notification = "󱅫 ";
+            none = " ";
+            "dnd-notification" = " ";
+            "dnd-none" = "󰂛 ";
+            "inhibited-notification" = " ";
+            "inhibited-none" = " ";
+            "dnd-inhibited-notification" = " ";
+            "dnd-inhibited-none" = " ";
+          };
           "return-type" = "json";
           "exec-if" = "which swaync-client";
           exec = "swaync-client -swb";
@@ -199,19 +200,47 @@ in
             dark = "🌙";
           };
           exec-if = "which ${pkgs.darkman}/bin/darkman";
-          exec = let
-            script = pkgs.writeShellScriptBin "darkman-json.sh" ''
-              set -euo pipefail
-              readonly MODE=$(${pkgs.darkman}/bin/darkman get)
-              printf '{"text":"%s", "alt": "%s"}' "$MODE" "$MODE"
-            '';
-          in "${script}/bin/darkman-json.sh";
+          exec =
+            let
+              script = pkgs.writeShellScriptBin "darkman-json.sh" ''
+                set -euo pipefail
+                readonly MODE=$(${pkgs.darkman}/bin/darkman get)
+                printf '{"text":"%s", "alt": "%s"}' "$MODE" "$MODE"
+              '';
+            in
+            "${script}/bin/darkman-json.sh";
           return-type = "json";
           interval = 30;
           on-click = "darkman toggle";
           tooltip-format = "Current Mode: {text}";
         };
+        "custom/headsetcontrol" = {
+          exec-if = "${pkgs.headsetcontrol}/bin/headsetcontrol --connected";
+          exec =
+            let
+              script = pkgs.writeShellScriptBin "headsetcontrol-json.sh" ''
+                set -euo pipefail
 
+                eval "$(headsetcontrol --output env 2>/dev/null)"
+
+                battery_level="''${DEVICE_0_BATTERY_LEVEL:-N/A}"
+                battery_status="''${DEVICE_0_BATTERY_STATUS:-unknown}"
+                device_name="''${DEVICE_0_NAME:-Unknown Headset}"
+
+                if [[ "$battery_level" == "N/A" ]]; then
+                  echo '{"text": "🎧 N/A", "tooltip": "Headset not detected"}'
+                else
+                  icon="🎧"
+                  [[ "$battery_status" == "charging" ]] && icon="🔌🎧"
+                  echo "{\"text\": \"$icon $battery_level%\", \"tooltip\": \"$device_name: $battery_level% ($battery_status)\"}"
+                fi
+              '';
+            in
+            "${script}/bin/headsetcontrol-json.sh";
+          on-click = "${pkgs.headsetcontrol}/bin/headsetcontrol -s 128";
+          return-type = "json";
+          interval = 30;
+        };
         "group/battery-modules" = {
           modules = [
             "battery#icon"

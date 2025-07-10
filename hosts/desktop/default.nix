@@ -22,11 +22,11 @@
 
     ../../modules/terminal/zsh
     ../../modules/terminal/kitty
-    ../../modules/terminal/ghostty
 
     ../../modules/editors/vscodium
     # ../../modules/editors/jetbrains
     ../../modules/editors/zed
+    ../../modules/editors/neovim
     ../../modules/gaming/steam
     ../../modules/tools/cad
     ../../modules/tools/bambulab
@@ -104,6 +104,8 @@
 
   services.fwupd.enable = true;
 
+  services.earlyoom.enable = true;
+
   environment.systemPackages = with pkgs; [
     keepassxc
     util-linux
@@ -124,6 +126,7 @@
     r2modman
     blender
     krita
+    tio
 
     # rustup
     # jetbrains.rust-rover
@@ -139,13 +142,15 @@
     unstable.firefoxpwa
 
     nextcloud-client
+
+    freecad
   ];
 
   services.flatpak = {
     enable = true;
-    packages = [
-      "org.freecad.FreeCAD"
-    ];
+    #   packages = [
+    #     "org.freecad.FreeCAD"
+    #   ];
   };
 
 
@@ -161,6 +166,11 @@
 
   programs.adb.enable = true;
 
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+
+  services.blueman.enable = true;
+
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -175,6 +185,7 @@
 
   services.ollama = {
     enable = true;
+    package = unstable.ollama;
     acceleration = "rocm";
     rocmOverrideGfx = "10.3.0";
     environmentVariables = {
@@ -287,7 +298,7 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
   #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
-  networking.firewall.allowedTCPPorts = [ 3131 ];
+  networking.firewall.allowedTCPPorts = [ 3131 8080 ];
   #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;

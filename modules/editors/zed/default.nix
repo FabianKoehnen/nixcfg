@@ -36,6 +36,12 @@
             paths = [ "/etc/nixos" ];
           }];
         }
+        {
+          host = "fabians-nix-backup";
+          projects = [{
+            paths = [ "/etc/nixos" ];
+          }];
+        }
       ];
       telemetry = {
         metrics = false;

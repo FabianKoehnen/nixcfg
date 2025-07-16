@@ -137,10 +137,14 @@
           specialArgs = {
             unstable = nixpkgs-unstable.legacyPackages.${system};
             user = "fabian";
-            wallpaper = {
-              light = hosts/desktop/wallpaper.png;
-              dark = hosts/desktop/wallpaper.png;
-            };
+            wallpaper =
+              let
+                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs.legacyPackages.${system}; };
+              in
+              {
+                light = "${droolBackground}/drool-l.png";
+                dark = "${droolBackground}/drool-d.png";
+              };
             hyprland-extra-config = ''
               monitor = DP-1, 1920x1080, 0x0, 1,vrr,1
             '';

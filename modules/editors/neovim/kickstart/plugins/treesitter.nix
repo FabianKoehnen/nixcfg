@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # Highlight, edit, and navigate code
     # https://nix-community.github.io/nixvim/plugins/treesitter/index.html

@@ -1,5 +1,5 @@
-{ pkgs, config, user, ... }: {
-
+{ ...
+}: {
   imports = [
     ../default.nix
   ];
@@ -8,13 +8,13 @@
     devices: ({
       name: "MX Master 3S";
       dpi: 1000;
-      
+
       smartshift: {
         on: true;
         threshold: 12;
         default_threshold: 12;
       };
-      
+
       hiresscroll: {
         hires: false;
         invert: false;
@@ -45,7 +45,7 @@
                     type: "Keypress";
                     keys: ["KEY_LEFTMETA", "KEY_UP"];
                 };
-              },              
+              },
               {
                 direction: "Down";
                 mode: "OnRelease";

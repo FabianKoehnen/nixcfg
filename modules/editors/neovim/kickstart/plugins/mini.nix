@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # Collection of various small independent plugins/modules
     # https://nix-community.github.io/nixvim/plugins/mini.html

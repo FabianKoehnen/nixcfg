@@ -1,9 +1,11 @@
-{ pkgs, user, ... }: {
+{ pkgs
+, user
+, ...
+}: {
   imports = [
     ./kickstart
     ./custom
   ];
-
 
   fonts.packages = with pkgs; [
     nerd-fonts._0xproto

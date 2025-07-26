@@ -1,4 +1,7 @@
-{ pkgs, user, ... }: {
+{ pkgs
+, user
+, ...
+}: {
   home-manager.users.${user}.programs.nixvim = {
     # Dependencies
     # { 'Bilal2453/luvit-meta', lazy = true },

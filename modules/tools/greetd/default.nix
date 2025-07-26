@@ -1,8 +1,5 @@
-{ pkgs
-, wallpaper
-, ...
+{ ...
 }: {
-
   services.greetd = {
     enable = true;
     #    settings = {

@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # Shows how to use the DAP plugin to debug your code.
     #

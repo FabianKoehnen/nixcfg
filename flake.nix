@@ -65,6 +65,8 @@
       # ref = "main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    catppuccin.url = "github:catppuccin/nix";
   };
 
   outputs =
@@ -104,7 +106,6 @@
             inherit inputs;
           };
           modules = [
-
             # inputs.microvm.nixosModules.host
 
             ./hosts/desktop/default.nix
@@ -120,7 +121,8 @@
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
-                inputs.nixvim.homeManagerModules.nixvim
+                # inputs.nixvim.homeManagerModules.nixvim
+                inputs.catppuccin.homeModules.catppuccin
               ];
             }
 
@@ -164,8 +166,8 @@
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
+                inputs.catppuccin.homeModules.catppuccin
               ];
-
             }
 
             secrets.nixosModules.desktop
@@ -174,9 +176,6 @@
             inputs.nix-flatpak.nixosModules.nix-flatpak
           ];
         };
-
-
-
 
         ##########
         ## Work ##
@@ -228,6 +227,7 @@
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
+                inputs.catppuccin.homeModules.catppuccin
               ];
             }
 
@@ -236,7 +236,6 @@
             inputs.sops-nix.nixosModules.sops
           ];
         };
-
       };
 
       darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {

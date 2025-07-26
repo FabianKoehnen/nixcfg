@@ -26,7 +26,7 @@
     ../../modules/editors/vscodium
     # ../../modules/editors/jetbrains
     ../../modules/editors/zed
-    ../../modules/editors/neovim
+    # ../../modules/editors/neovim
     ../../modules/gaming/steam
     ../../modules/tools/cad
     ../../modules/tools/bambulab
@@ -153,6 +153,12 @@
     #   ];
   };
 
+  services.open-webui = {
+    enable = true;
+    environment = {
+      WEBUI_AUTH = "false";
+    };
+  };
 
   programs.firefox = {
     enable = true;
@@ -182,7 +188,6 @@
     };
   };
 
-
   services.ollama = {
     enable = true;
     package = unstable.ollama;
@@ -192,7 +197,6 @@
       OLLAMA_GPU_OVERHEAD = "500000000";
     };
   };
-
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -225,8 +229,6 @@
     ];
   };
 
-
-
   environment.persistence."/persist/impermanence" = {
     hideMounts = true;
     directories = [
@@ -237,7 +239,6 @@
       "/etc/machine-id"
     ];
   };
-
 
   services.yubikey-agent.enable = true;
 

@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     plugins.notify = {
       enable = true;

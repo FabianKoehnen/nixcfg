@@ -186,7 +186,6 @@
         };
       };
 
-
       # services.mpd-mpris.enable = true;
       services.darkman = {
         enable = true;
@@ -236,7 +235,7 @@
         enable = true;
         package = unstable.hyprland;
 
-        plugins = with unstable.hyprlandPlugins;[
+        plugins = with unstable.hyprlandPlugins; [
           # hyprtrails
           hyprspace
           hypr-dynamic-cursors
@@ -335,14 +334,14 @@
 
                     # workspace
                     ${builtins.concatStringsSep "\n" (builtins.map (n: ''
-                      workspace = ${n},monitor:${
-                        if ((lib.strings.charToInt n) >= 5)
-                        then "DP-2"
-                        else "DP-1"
-                      }
-                      bind = $mainMod, ${n}, workspace, ${n}
-                      bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
-                    '') ["1" "2" "3" "4" "5" "6" "7" "8"])}
+            workspace = ${n},monitor:${
+              if ((lib.strings.charToInt n) >= 5)
+              then "DP-2"
+              else "DP-1"
+            }
+            bind = $mainMod, ${n}, workspace, ${n}
+            bind = $mainMod SHIFT, ${n}, movetoworkspace, ${n}
+          '') ["1" "2" "3" "4" "5" "6" "7" "8"])}
 
                     # Clipboard
                     bind = $mainMod, V, exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy

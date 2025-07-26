@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # Useful plugin to show you pending keybinds.
     # https://nix-community.github.io/nixvim/plugins/which-key/index.html

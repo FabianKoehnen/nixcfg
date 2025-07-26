@@ -1,4 +1,7 @@
-{ pkgs, user, ... }: {
+{ pkgs
+, user
+, ...
+}: {
   home-manager.users.${user}.programs.nixvim = {
     # Dependencies
     #

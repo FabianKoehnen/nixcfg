@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # `friendly-snippets` contains a variety of premade snippets
     #    See the README about individual language/framework/plugin snippets:

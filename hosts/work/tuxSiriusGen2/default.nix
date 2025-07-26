@@ -4,7 +4,6 @@
 { config
 , pkgs
 , unstable
-, user
 , ...
 }: {
   imports = [
@@ -16,7 +15,6 @@
     ../../../modules/hardware/logitech/mxmaster
     ../../../modules/hardware/headsetcontrol
 
-
     ../../../modules/tools/plymouth
 
     ../../../modules/tools/darkman
@@ -25,7 +23,6 @@
     ../../../modules/tools/cosmic-greet
     ../../../modules/desktops/hyprland
     # ../../../modules/desktops/cosmic
-
 
     ../../../modules/terminal/zsh
     ../../../modules/terminal/kitty
@@ -36,7 +33,6 @@
 
     ../../../modules/dev/ambimax
   ];
-
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -165,7 +161,6 @@
       "com.github.dynobo.normcap"
     ];
   };
-
 
   environment.persistence."/persist/impermanence" = {
     hideMounts = true;

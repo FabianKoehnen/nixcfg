@@ -1,4 +1,7 @@
-{ pkgs, lib, inputs, config, ... }: {
+{ lib
+, inputs
+, ...
+}: {
   imports = [
     inputs.nixos-hardware.nixosModules.common-cpu-amd
     inputs.nixos-hardware.nixosModules.common-cpu-amd-pstate
@@ -43,7 +46,6 @@
       #Optional helps save long term battery health
       START_CHARGE_THRESH_BAT0 = 70; # 40 and bellow it starts to charge
       STOP_CHARGE_THRESH_BAT0 = 80; # 80 and above it stops charging
-
     };
   };
 }

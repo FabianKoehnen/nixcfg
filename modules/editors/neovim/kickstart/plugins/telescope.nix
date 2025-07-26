@@ -1,5 +1,4 @@
-{ user, ... }:
-{
+{ user, ... }: {
   home-manager.users.${user}.programs.nixvim = {
     # Fuzzy Finder (files, lsp, etc)
     # https://nix-community.github.io/nixvim/plugins/telescope/index.html

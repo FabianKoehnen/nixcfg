@@ -1,5 +1,4 @@
-{ ... }:
-{
+{ ... }: {
   system.activationScripts.binbash = {
     deps = [ "binsh" ];
     text = ''

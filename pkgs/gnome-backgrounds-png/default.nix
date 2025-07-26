@@ -1,5 +1,4 @@
 { pkgs }:
-
 pkgs.stdenv.mkDerivation {
   pname = "gnome-background-png";
   version = "1.0";

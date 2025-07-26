@@ -1,34 +1,32 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
+{ config
+, pkgs
+, ...
+}: {
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-{ config, lib, pkgs, ... }:
+    ../../modules/tools/plymouth
 
-{
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+    ../../modules/tools/sddm
+    ../../modules/desktops/hyprland
 
-      ../../modules/tools/plymouth
+    ../../modules/base/git
 
-      ../../modules/tools/sddm
-      ../../modules/desktops/hyprland
+    ../../modules/gaming/steam
 
-      ../../modules/base/git
+    ../../modules/terminal/zsh
+    ../../modules/terminal/kitty
 
-      ../../modules/gaming/steam
+    ../../modules/editors/vscodium
+    ../../modules/editors/zed
 
-      ../../modules/terminal/zsh
-      ../../modules/terminal/kitty
-
-      ../../modules/editors/vscodium
-      ../../modules/editors/zed
-
-      ../../modules/tools/bambulab
-      ../../modules/hardware/headsetcontrol
-    ];
-
+    ../../modules/tools/bambulab
+    ../../modules/hardware/headsetcontrol
+  ];
 
   nixpkgs.config = {
     allowUnfree = true;
@@ -50,7 +48,6 @@
       options = "--delete-older-than 7d";
     };
   };
-
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -96,7 +93,6 @@
   # Enable the GNOME Desktop Environment.
   #  services.xserver.displayManager.gdm.enable = true;
   #  services.xserver.desktopManager.gnome.enable = true;
-
 
   services.xserver.enable = true;
   # services.displayManager.sddm.enable = true;
@@ -154,7 +150,6 @@
     #kdePackages.umbrello
     kdePackages.discover
 
-
     comma
 
     firefox
@@ -182,7 +177,7 @@
 
   programs.zsh.enable = true;
 
-    # Enable the OpenSSH daemon.
+  # Enable the OpenSSH daemon.
   services.openssh = {
     hostKeys = [
       {
@@ -218,7 +213,6 @@
   };
 
   networking.wireless.userControlled.enable = true;
-
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   # users.users.alice = {
@@ -278,6 +272,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "23.11"; # Did you read the comment?
-
 }
-

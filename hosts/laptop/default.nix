@@ -157,6 +157,7 @@
     hunspell
     hunspellDicts.uk_UA
     hunspellDicts.th_TH
+    tio
   ];
 
   # Enable touchpad support (enabled default in most desktopManager).

@@ -56,6 +56,14 @@
               }
             ];
           }
+          {
+            host = "192.168.74.11";
+            projects = [
+              {
+                paths = [ "/etc/nixos" ];
+              }
+            ];
+          }
         ];
         telemetry = {
           metrics = false;

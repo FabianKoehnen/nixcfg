@@ -127,6 +127,8 @@
     blender
     krita
     tio
+    arduino-ide
+    adafruit-nrfutil
 
     # rustup
     # jetbrains.rust-rover
@@ -154,7 +156,8 @@
   };
 
   services.open-webui = {
-    enable = true;
+    # enable = true;
+    enable = false;
     environment = {
       WEBUI_AUTH = "false";
     };
@@ -205,7 +208,7 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "adbusers" ];
+      extraGroups = [ "wheel" "docker" "adbusers" "dialout" "plugdev" ];
       shell = pkgs.zsh;
     };
   };
@@ -271,8 +274,11 @@
     package = unstable.libratbag;
   };
 
+  # programs.arduino.enable = true;
+
   services.udev = {
     enable = true;
+    packages = [ pkgs.arduino ];
     extraRules = ''
       # SteelSeries Arctis Nova 7
       KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="1038", ATTRS{idProduct}=="2202", TAG+="uaccess"

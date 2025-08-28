@@ -67,6 +67,14 @@
     };
 
     catppuccin.url = "github:catppuccin/nix";
+
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.2";
+
+      # Optional but recommended to limit the size of your system closure.
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -109,6 +117,11 @@
             # inputs.microvm.nixosModules.host
 
             ./hosts/desktop/default.nix
+
+            # Secure Boot
+            inputs.lanzaboote.nixosModules.lanzaboote
+            ./modules/base/secureboot.nix
+
 
             # home-manager
             home-manager.nixosModules.home-manager

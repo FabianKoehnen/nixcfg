@@ -94,6 +94,11 @@
     options = [ "subvol=nix-build" ];
   };
 
+  fileSystems."/4TB_NVME" = {
+    device = "/dev/disk/by-uuid/85f170ac-0440-442c-b65d-d637deb6a906";
+    fsType = "btrfs";
+  };
+
   swapDevices = [ ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

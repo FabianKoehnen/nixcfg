@@ -6,6 +6,14 @@
   environment.systemPackages = with pkgs; [
     nil
     unstable.nixd
+    vscode
+    platformio
+    avrdude
+  ];
+
+  services.udev.packages = [
+    pkgs.platformio-core
+    pkgs.openocd
   ];
 
   home-manager.users.${user} = {
@@ -31,6 +39,7 @@
             ms-vscode-remote.remote-ssh
             xdebug.php-debug
             antyos.openscad
+            platformio.platformio-vscode-ide
           ]
           ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
             {
@@ -117,6 +126,7 @@
           "window.autoDetectHighContrast" = false;
           "workbench.preferredLightColorTheme" = "Catppuccin Latte";
           "workbench.preferredDarkColorTheme" = "Catppuccin Mocha";
+          "platformio-ide.useBuiltinPIOCore" = false;
         };
       };
     };

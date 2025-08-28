@@ -90,6 +90,9 @@ in
         "dclear" = "docker kill $(docker ps -q)";
         "runcli" = "dc run cli";
 
+        "k" = "kitten";
+        "s" = "kitten ssh";
+
         ### Symfony Alias
         "d-console" = "dc exec php-fpm bin/console";
 

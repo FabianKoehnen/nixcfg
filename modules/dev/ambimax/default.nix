@@ -1,8 +1,8 @@
-{ pkgs, ... }: {
+{ pkgs, unstable, ... }: {
   environment.systemPackages = with pkgs; [
     bc
     k9s
-    ddev
+    unstable.ddev
     mkcert
     nss
     # awscli2

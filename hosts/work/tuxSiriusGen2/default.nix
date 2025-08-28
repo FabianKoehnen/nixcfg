@@ -144,6 +144,7 @@
     unstable.opencode
     slackdump
     devtoolbox
+    dbeaver-bin
   ];
 
   # services.desktopManager.plasma6.enable = true;
@@ -239,8 +240,6 @@
       }
     ];
   };
-
-  services.yubikey-agent.enable = true;
 
   systemd = {
     services = {

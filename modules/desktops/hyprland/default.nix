@@ -28,7 +28,7 @@
     hyprcursor
     inputs.rose-pine-hyprcursor.packages.${pkgs.system}.default
 
-    unstable.nwg-displays
+    nwg-displays
 
     # pyprland
 
@@ -404,8 +404,8 @@
                     # General #
                     ###########
                     input {
-                      kb_layout = us(altgr-intl),de(qwerty)
-                      kb_options = grp:switch,caps:escape_shifted_capslock
+                      kb_layout = eu
+                      kb_options = caps:escape_shifted_capslock
                       sensitivity = 0
                     }
 

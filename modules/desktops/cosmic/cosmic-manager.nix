@@ -295,12 +295,6 @@
           accent = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 1.0,\n    green: 0.0,\n    blue: 0.0,\n)");
         };
       };
-      # "com.system76.CosmicPanel" = {
-      #   version = 1;
-      #   entries = {
-      #     entries = cosmicLib.cosmic.mkRON "raw" "[\n    \"\",\n]";
-      #   };
-      # };
       "com.system76.CosmicPanel.Dock" = {
         version = 1;
         entries = {

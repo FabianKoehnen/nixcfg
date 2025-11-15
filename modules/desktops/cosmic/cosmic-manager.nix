@@ -295,12 +295,12 @@
           accent = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 1.0,\n    green: 0.0,\n    blue: 0.0,\n)");
         };
       };
-      "com.system76.CosmicPanel" = {
-        version = 1;
-        entries = {
-          entries = cosmicLib.cosmic.mkRON "raw" "[\n    \"\",\n]";
-        };
-      };
+      # "com.system76.CosmicPanel" = {
+      #   version = 1;
+      #   entries = {
+      #     entries = cosmicLib.cosmic.mkRON "raw" "[\n    \"\",\n]";
+      #   };
+      # };
       "com.system76.CosmicPanel.Dock" = {
         version = 1;
         entries = {
@@ -325,39 +325,6 @@
           output = cosmicLib.cosmic.mkRON "raw" "All";
           size_wings = cosmicLib.cosmic.mkRON "optional" null;
           spacing = 0;
-        };
-      };
-    };
-    stateFile = {
-      "com.system76.CosmicFiles" = {
-        version = 1;
-        entries = {
-          sort_names = cosmicLib.cosmic.mkRON "raw" "{\n    \"/home/fabian/Downloads/\": (Modified, false),\n    \"/home/fabian/Bilder/\": (Modified, false),\n    \"/home/fabian/Schreibtisch/\": (Name, false),\n    \"/home/fabian/Schreibtisch/Old Firefox Data/\": (Name, false),\n}";
-        };
-      };
-      "com.system76.CosmicBackground" = {
-        version = 1;
-        entries = {
-          wallpapers = cosmicLib.cosmic.mkRON "raw" "[\n    (\"HDMI-A-1\", Color(Gradient((\n        colors: [\n            (0.584, 0.769, 0.988),\n            (0.063, 0.165, 0.298),\n        ],\n        radius: 180.0,\n    )))),\n    (\"DP-2\", Path(\"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-l.png\")),\n    (\"DP-1\", Path(\"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-l.png\")),\n]";
-        };
-      };
-      "com.system76.CosmicSettings" = {
-        version = 1;
-        entries = {
-          active_page = "\"time\"";
-        };
-      };
-      "com.system76.CosmicEdit" = {
-        version = 1;
-        entries = {
-          recent_files = cosmicLib.cosmic.mkRON "raw" "[\n    \"/home/fabian/cosmic-backup.json\",\n    \"/home/fabian/.config/cosmic/dev.heppen.webapps/v1/app_theme\",\n    \"/home/fabian/.config/cosmic/dev.edfloreshz.CosmicTweaks.ColorScheme/v1/path\",\n    \"/home/fabian/.config/cosmic/dev.edfloreshz.CosmicTweaks.ColorScheme/v1/name\",\n    \"/home/fabian/.config/cosmic/com.system76.CosmicSettings.Wallpaper/v1/custom-images\",\n    \"/home/fabian/Temp/test.txt\",\n    \"/home/fabian/.config/cosmic/com.system76.CosmicComp/v1/xkb_config\",\n    \"/home/fabian/.config/cosmic/com.system76.CosmicComp/v1/workspaces\",\n    \"/home/fabian/.config/cosmic/com.system76.CosmicComp/v1/autotile_behavior\",\n    \"/home/fabian/.config/cosmic/com.system76.CosmicComp/v1/autotile\",\n]";
-          recent_projects = cosmicLib.cosmic.mkRON "raw" "[\n    \"/etc/nixos\",\n    \"/home/fabian\",\n]";
-        };
-      };
-      "com.system76.CosmicSettingsDaemon" = {
-        version = 1;
-        entries = {
-          default_sink_name = "\"\"alsa_output.usb-SteelSeries_Arctis_Nova_7-00.analog-stereo\"\"";
         };
       };
     };

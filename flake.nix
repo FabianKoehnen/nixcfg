@@ -65,6 +65,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    cosmic-manager = {
+      url = "github:HeitorAugustoLN/cosmic-manager";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        home-manager.follows = "home-manager";
+      };
+    };
+
     nixos-module-sentinalone = {
       url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
       # ref = "main";
@@ -89,6 +97,7 @@
     , nix-darwin
     , home-manager
     , home-manager-unstable
+    , cosmic-manager
     , secrets
     , systems
     , ...

@@ -1,6 +1,7 @@
 { pkgs
 , user
 , wallpaper
+, inputs
 , ...
 }: {
   imports = [
@@ -47,6 +48,17 @@
 
   home-manager = {
     users.${user} = {
+      imports = [
+        inputs.cosmic-manager.homeManagerModules.cosmic-manager
+        ./cosmic-manager.nix # generated with cosmic-manager cosmic2nix > /etc/nixos/modules/desktops/cosmic/cosmic-manager.nix
+      ];
+
+      home.activation.resetPanels = inputs.home-manager.lib.hm.dag.entryAfter [ "configureCosmic" ] ''
+        exec ${pkgs.procps}/bin/pkill cosmic-panel
+      '';
+
+      programs.cosmic-manager.enable = true;
+
       services.darkman = {
         enable = true;
         darkModeScripts = {

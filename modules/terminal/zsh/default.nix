@@ -15,7 +15,7 @@ in
   environment.systemPackages = with pkgs; [
     python3
     chroma
-    du-dust
+    dust
     eza
     btop
     tldr

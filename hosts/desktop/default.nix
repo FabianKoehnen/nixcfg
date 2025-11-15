@@ -5,18 +5,23 @@
 , pkgs
 , unstable
 , user
+, lib
 , ...
 }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
+    ../../modules/base/desktop.nix
 
     ../../modules/tools/plymouth
 
     ../../modules/tools/sddm
     #../../modules/tools/cosmic-greet
-    ../../modules/desktops/hyprland
-    # ../../modules/desktops/cosmic
+    # ../../modules/desktops/hyprland
+    ../../modules/desktops/cosmic
+
+    ../../modules/base/fonts.nix
+    ../../modules/base/printing.nix
 
     ../../modules/hardware/headsetcontrol
 
@@ -24,7 +29,7 @@
     ../../modules/terminal/kitty
 
     ../../modules/editors/vscodium
-    # ../../modules/editors/jetbrains
+    ../../modules/editors/jetbrains
     ../../modules/editors/zed
     # ../../modules/editors/neovim
     ../../modules/gaming/steam
@@ -35,14 +40,18 @@
     ../../modules/tools/darkman
     ../../modules/tools/waylus
     ../../modules/tools/appimage
+    ../../modules/tools/typst
 
     # ../../modules/dev/godot
   ];
   nixpkgs.config = {
     allowUnfree = true;
+    permittedInsecurePackages = [
+      "python3.13-ecdsa-0.19.1"
+    ];
   };
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   nix = {
@@ -53,9 +62,9 @@
       build-dir = "/nix-build";
     };
     gc = {
-      automatic = true;
+      automatic = false;
       dates = "weekly";
-      options = "--delete-older-than 7d";
+      options = "";
     };
   };
 
@@ -80,31 +89,8 @@
   #     127.0.0.1 airshow-manager.internal
   # 192.168.178.157 airshow-manager.internal
 
-  networking.networkmanager.enable = true;
-
-  # Set your time zone.
-  time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    #   font = "Lat2-Terminus16";
-    keyMap = "us";
-    #   useXkbConfig = true; # use xkbOptions in tty.
-  };
-  services.xserver.xkb.layout = "us";
-
   # Enable the X11 windowing system.
   services.xserver.enable = true;
-
-  # Trim SSDs periodicly
-  services.fstrim.enable = true;
-
-  security.polkit.enable = true;
-
-  services.fwupd.enable = true;
-
-  services.earlyoom.enable = true;
 
   environment.systemPackages = with pkgs; [
     keepassxc
@@ -135,7 +121,7 @@
 
     wineWowPackages.waylandFull
     winetricks
-    lutris
+    # lutris
     #flightgear
     unstable.dbeaver-bin
 
@@ -175,10 +161,6 @@
 
   programs.adb.enable = true;
 
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-
-  services.blueman.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -200,9 +182,6 @@
       OLLAMA_GPU_OVERHEAD = "500000000";
     };
   };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   users = {
     mutableUsers = false;

@@ -21,6 +21,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     secrets = {
       # url = "github:fabianKoehnen/nixcfg-secrets";
       url = "git+file:/etc/nixos/secrets";
@@ -80,11 +85,12 @@
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-unstable
     , nix-darwin
     , home-manager
+    , home-manager-unstable
     , secrets
     , systems
-    , nixpkgs-unstable
     , ...
     } @ inputs:
     let
@@ -93,7 +99,7 @@
     in
     {
       nixosConfigurations = {
-        "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-desktop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             user = "fabian";
@@ -124,7 +130,7 @@
 
 
             # home-manager
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             ./hosts/desktop/home.nix
             {
               home-manager.useGlobalPkgs = true;

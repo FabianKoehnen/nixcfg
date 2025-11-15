@@ -11,8 +11,10 @@
 
     ../../modules/tools/plymouth
 
-    ../../modules/tools/sddm
-    ../../modules/desktops/hyprland
+    ../../modules/tools/cosmic-greet
+    # ../../modules/desktops/hyprland
+    ../../modules/desktops/cosmic
+
 
     ../../modules/base/git
 

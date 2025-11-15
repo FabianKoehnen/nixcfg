@@ -162,7 +162,7 @@
           ];
         };
 
-        "fabians-nix-laptop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-laptop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             unstable = nixpkgs-unstable.legacyPackages.${system};
@@ -184,7 +184,7 @@
             ./hosts/laptop/default.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             ./hosts/laptop/home.nix
             {
               home-manager.useGlobalPkgs = true;

@@ -46,8 +46,6 @@
     cosmic-ext-applet-external-monitor-brightness
   ];
 
-  programs.nm-applet.indicator = false;
-
   home-manager = {
     users.${user} = {
       imports = [

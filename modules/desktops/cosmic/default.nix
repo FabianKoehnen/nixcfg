@@ -53,9 +53,9 @@
         ./cosmic-manager.nix # generated with cosmic-manager cosmic2nix > /etc/nixos/modules/desktops/cosmic/cosmic-manager.nix
       ];
 
-      # home.activation.resetPanels = inputs.home-manager.lib.hm.dag.entryAfter [ "configureCosmic" ] ''
-      #   exec ${pkgs.procps}/bin/pkill cosmic-panel
-      # '';
+      home.activation.resetPanels = inputs.home-manager.lib.hm.dag.entryAfter [ "configureCosmic" ] ''
+        sleep 1 && exec ${pkgs.procps}/bin/pkill cosmic-panel
+      '';
 
       programs.cosmic-manager.enable = true;
 

@@ -7,7 +7,9 @@
 , user
 , lib
 , ...
-}: {
+}:
+{
+
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -16,7 +18,7 @@
     ../../modules/tools/plymouth
 
     ../../modules/tools/sddm
-    #../../modules/tools/cosmic-greet
+    # ../../modules/tools/cosmic-greet
     # ../../modules/desktops/hyprland
     ../../modules/desktops/cosmic
 
@@ -57,7 +59,10 @@
   nix = {
     package = pkgs.nix;
     settings = {
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       auto-optimise-store = true;
       build-dir = "/nix-build";
     };
@@ -161,7 +166,6 @@
 
   programs.adb.enable = true;
 
-
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -187,7 +191,13 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" "adbusers" "dialout" "plugdev" ];
+      extraGroups = [
+        "wheel"
+        "docker"
+        "adbusers"
+        "dialout"
+        "plugdev"
+      ];
       shell = pkgs.zsh;
     };
   };
@@ -284,7 +294,10 @@
   # Or disable the firewall altogether.
   networking.firewall.enable = true;
   #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
-  networking.firewall.allowedTCPPorts = [ 3131 8080 ];
+  networking.firewall.allowedTCPPorts = [
+    3131
+    8080
+  ];
   #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;

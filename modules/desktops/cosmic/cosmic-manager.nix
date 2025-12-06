@@ -3,61 +3,6 @@
   wayland.desktopManager.cosmic = {
     enable = true;
     configFile = {
-      "com.system76.CosmicTheme.Dark.Builder" = {
-        version = 1;
-        entries = {
-          window_hint = cosmicLib.cosmic.mkRON "optional" null;
-          neutral_tint = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.68987346,\n    green: 0.68987346,\n    blue: 0.68987346,\n)");
-          success = cosmicLib.cosmic.mkRON "optional" null;
-          accent = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.5379747,\n    green: 0.0,\n    blue: 0.0,\n)");
-          spacing = cosmicLib.cosmic.mkRON "raw" "(\n    space_none: 0,\n    space_xxxs: 4,\n    space_xxs: 4,\n    space_xs: 8,\n    space_s: 8,\n    space_m: 16,\n    space_l: 24,\n    space_xl: 32,\n    space_xxl: 48,\n    space_xxxl: 64,\n)";
-          palette = cosmicLib.cosmic.mkRON "raw" "Dark((\n    name: \"cosmic-dark\",\n    bright_red: (\n        red: 1.0,\n        green: 0.627451,\n        blue: 0.5647059,\n        alpha: 1.0,\n    ),\n    bright_green: (\n        red: 0.36862746,\n        green: 0.85882354,\n        blue: 0.54901963,\n        alpha: 1.0,\n    ),\n    bright_orange: (\n        red: 1.0,\n        green: 0.6392157,\n        blue: 0.49019608,\n        alpha: 1.0,\n    ),\n    gray_1: (\n        red: 0.105882354,\n        green: 0.105882354,\n        blue: 0.105882354,\n        alpha: 1.0,\n    ),\n    gray_2: (\n        red: 0.14901961,\n        green: 0.14901961,\n        blue: 0.14901961,\n        alpha: 1.0,\n    ),\n    neutral_0: (\n        red: 0.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    neutral_1: (\n        red: 0.105882354,\n        green: 0.105882354,\n        blue: 0.105882354,\n        alpha: 1.0,\n    ),\n    neutral_2: (\n        red: 0.1882353,\n        green: 0.1882353,\n        blue: 0.1882353,\n        alpha: 1.0,\n    ),\n    neutral_3: (\n        red: 0.2784314,\n        green: 0.2784314,\n        blue: 0.2784314,\n        alpha: 1.0,\n    ),\n    neutral_4: (\n        red: 0.36862746,\n        green: 0.36862746,\n        blue: 0.36862746,\n        alpha: 1.0,\n    ),\n    neutral_5: (\n        red: 0.46666667,\n        green: 0.46666667,\n        blue: 0.46666667,\n        alpha: 1.0,\n    ),\n    neutral_6: (\n        red: 0.5686275,\n        green: 0.5686275,\n        blue: 0.5686275,\n        alpha: 1.0,\n    ),\n    neutral_7: (\n        red: 0.67058825,\n        green: 0.67058825,\n        blue: 0.67058825,\n        alpha: 1.0,\n    ),\n    neutral_8: (\n        red: 0.7764706,\n        green: 0.7764706,\n        blue: 0.7764706,\n        alpha: 1.0,\n    ),\n    neutral_9: (\n        red: 0.8862745,\n        green: 0.8862745,\n        blue: 0.8862745,\n        alpha: 1.0,\n    ),\n    neutral_10: (\n        red: 1.0,\n        green: 1.0,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    accent_blue: (\n        red: 0.3882353,\n        green: 0.8156863,\n        blue: 0.8745098,\n        alpha: 1.0,\n    ),\n    accent_indigo: (\n        red: 0.6313726,\n        green: 0.7529412,\n        blue: 0.92156863,\n        alpha: 1.0,\n    ),\n    accent_purple: (\n        red: 0.90588236,\n        green: 0.6117647,\n        blue: 0.99607843,\n        alpha: 1.0,\n    ),\n    accent_pink: (\n        red: 1.0,\n        green: 0.6117647,\n        blue: 0.69411767,\n        alpha: 1.0,\n    ),\n    accent_red: (\n        red: 0.99215686,\n        green: 0.6313726,\n        blue: 0.627451,\n        alpha: 1.0,\n    ),\n    accent_orange: (\n        red: 1.0,\n        green: 0.6784314,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_yellow: (\n        red: 0.96862745,\n        green: 0.8784314,\n        blue: 0.38431373,\n        alpha: 1.0,\n    ),\n    accent_green: (\n        red: 0.57254905,\n        green: 0.8117647,\n        blue: 0.6117647,\n        alpha: 1.0,\n    ),\n    accent_warm_grey: (\n        red: 0.7921569,\n        green: 0.7294118,\n        blue: 0.7058824,\n        alpha: 1.0,\n    ),\n    ext_warm_grey: (\n        red: 0.60784316,\n        green: 0.5568628,\n        blue: 0.5411765,\n        alpha: 1.0,\n    ),\n    ext_orange: (\n        red: 1.0,\n        green: 0.6784314,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    ext_yellow: (\n        red: 0.99607843,\n        green: 0.85882354,\n        blue: 0.2509804,\n        alpha: 1.0,\n    ),\n    ext_blue: (\n        red: 0.28235295,\n        green: 0.7254902,\n        blue: 0.78039217,\n        alpha: 1.0,\n    ),\n    ext_purple: (\n        red: 0.8117647,\n        green: 0.49019608,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    ext_pink: (\n        red: 0.9764706,\n        green: 0.22745098,\n        blue: 0.5137255,\n        alpha: 1.0,\n    ),\n    ext_indigo: (\n        red: 0.24313726,\n        green: 0.53333336,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n))";
-          bg_color = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.10759491,\n    green: 0.0,\n    blue: 0.0,\n    alpha: 1.0,\n)");
-          primary_container_bg = cosmicLib.cosmic.mkRON "optional" null;
-          destructive = cosmicLib.cosmic.mkRON "optional" null;
-          active_hint = 2;
-          warning = cosmicLib.cosmic.mkRON "optional" null;
-          text_tint = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.90759414,\n    green: 0.9075942,\n    blue: 0.90759414,\n)");
-          is_frosted = false;
-          corner_radii = cosmicLib.cosmic.mkRON "raw" "(\n    radius_0: (0.0, 0.0, 0.0, 0.0),\n    radius_xs: (4.0, 4.0, 4.0, 4.0),\n    radius_s: (8.0, 8.0, 8.0, 8.0),\n    radius_m: (16.0, 16.0, 16.0, 16.0),\n    radius_l: (32.0, 32.0, 32.0, 32.0),\n    radius_xl: (160.0, 160.0, 160.0, 160.0),\n)";
-          gaps = cosmicLib.cosmic.mkRON "raw" "(0, 3)";
-          secondary_container_bg = cosmicLib.cosmic.mkRON "optional" null;
-        };
-      };
-      "com.system76.CosmicAppList" = {
-        version = 1;
-        entries = {
-          favorites = cosmicLib.cosmic.mkRON "raw" "[\n    \"firefox\",\n    \"com.system76.CosmicFiles\",\n    \"com.system76.CosmicEdit\",\n    \"com.system76.CosmicStore\",\n    \"kitty\",\n    \"com.system76.CosmicSettings\",\n]";
-          filter_top_levels = cosmicLib.cosmic.mkRON "optional" null;
-          enable_drag_source = true;
-        };
-      };
-      "com.system76.CosmicPanel.Panel" = {
-        version = 1;
-        entries = {
-          border_radius = 0;
-          anchor = cosmicLib.cosmic.mkRON "raw" "Top";
-          keyboard_interactivity = cosmicLib.cosmic.mkRON "raw" "OnDemand";
-          spacing = 0;
-          opacity = 1.0;
-          plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "[\n    \"com.system76.CosmicAppletTime\",\n]");
-          size_center = cosmicLib.cosmic.mkRON "optional" null;
-          layer = cosmicLib.cosmic.mkRON "raw" "Top";
-          padding = 0;
-          output = cosmicLib.cosmic.mkRON "raw" "All";
-          margin = 0;
-          anchor_gap = false;
-          autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
-          size = cosmicLib.cosmic.mkRON "raw" "Custom(24)";
-          background = cosmicLib.cosmic.mkRON "raw" "Dark";
-          autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 1000,\n    transition_time: 200,\n    handle_size: 4,\n    unhide_delay: 200,\n)");
-          name = "\"\"Panel\"\"";
-          expand_to_edges = true;
-          exclusive_zone = false;
-          size_wings = cosmicLib.cosmic.mkRON "optional" null;
-          plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "([\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicAppletWorkspaces\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletAudio\",\n    \"com.system76.CosmicAppletBluetooth\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletPower\",\n])");
-        };
-      };
       "com.system76.CosmicComp" = {
         version = 1;
         entries = {
@@ -74,36 +19,34 @@
           focus_follows_cursor = true;
         };
       };
-      "com.system76.CosmicPanel." = {
+      "com.system76.CosmicTk" = {
         version = 1;
         entries = {
-          size_center = cosmicLib.cosmic.mkRON "optional" null;
-          border_radius = 0;
-          plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "([\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicAppletWorkspaces\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletAudio\",\n    \"com.system76.CosmicAppletBluetooth\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletPower\",\n])");
-          plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "[\n    \"com.system76.CosmicAppletTime\",\n]");
-          spacing = 0;
-          opacity = 1.0;
-          anchor_gap = false;
-          size_wings = cosmicLib.cosmic.mkRON "optional" null;
-          expand_to_edges = true;
-          name = "\"\"";
-          background = cosmicLib.cosmic.mkRON "raw" "Dark";
-          padding = 0;
-          autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 1000,\n    transition_time: 200,\n    handle_size: 4,\n    unhide_delay: 200,\n)");
-          autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
-          exclusive_zone = false;
-          anchor = cosmicLib.cosmic.mkRON "raw" "Top";
-          layer = cosmicLib.cosmic.mkRON "raw" "Top";
-          size = cosmicLib.cosmic.mkRON "raw" "Custom(24)";
-          keyboard_interactivity = cosmicLib.cosmic.mkRON "raw" "OnDemand";
-          output = cosmicLib.cosmic.mkRON "raw" "All";
-          margin = 0;
+          apply_theme_global = true;
+          interface_density = cosmicLib.cosmic.mkRON "raw" "Compact";
+          show_minimize = false;
+          show_maximize = false;
+          header_size = cosmicLib.cosmic.mkRON "raw" "Compact";
+          icon_theme = cosmicLib.cosmic.mkRON "raw" ''"Cosmic"'';
         };
       };
-      "dev.heppen.webapps" = {
+
+      "com.system76.CosmicAppList" = {
         version = 1;
         entries = {
-          app_theme = "\"\"COSMIC Light\"\"";
+          favorites = cosmicLib.cosmic.mkRON "raw" "[\n    \"firefox\",\n    \"com.system76.CosmicFiles\",\n    \"com.system76.CosmicEdit\",\n    \"com.system76.CosmicStore\",\n    \"kitty\",\n    \"com.system76.CosmicSettings\",\n]";
+          filter_top_levels = cosmicLib.cosmic.mkRON "optional" null;
+          enable_drag_source = true;
+        };
+      };
+
+      "com.system76.CosmicBackground" = {
+        version = 1;
+        entries = {
+          # output.DP-2 = cosmicLib.cosmic.mkRON "raw" "(\n    output: \"DP-2\",\n    source: Color(Gradient((\n        colors: [\n            (0.584, 0.769, 0.988),\n            (0.063, 0.165, 0.298),\n        ],\n        radius: 180.0,\n    ))),\n    filter_by_theme: false,\n    rotation_frequency: 900,\n    filter_method: Lanczos,\n    scaling_mode: Zoom,\n    sampling_method: Alphanumeric,\n)";
+          backgrounds = cosmicLib.cosmic.mkRON "raw" "[]";
+          all = cosmicLib.cosmic.mkRON "raw" "(\n  output: \"all\",\n  source: Path(\"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-l.png\"),\n  filter_by_theme: false,\n  rotation_frequency: 300,\n  filter_method: Lanczos,\n  scaling_mode: Zoom,\n  sampling_method: Alphanumeric,\n)\n";
+          same-on-all = true;
         };
       };
       "com.system76.CosmicSettings.Wallpaper" = {
@@ -113,6 +56,7 @@
           custom-images = cosmicLib.cosmic.mkRON "raw" "[\n    \"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-l.png\",\n    \"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-d.png\",\n]";
         };
       };
+
       "dev.edfloreshz.CosmicTweaks.ColorScheme" = {
         version = 1;
         entries = {
@@ -120,26 +64,11 @@
           path = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "\"/home/fabian/.local/share/themes/cosmic/Red Dark.ron\"");
         };
       };
-      "com.system76.CosmicAppletAudio" = {
+      "com.system76.CosmicTheme.Mode" = {
         version = 1;
         entries = {
-          show_media_controls_in_top_panel = true;
-        };
-      };
-      "com.system76.CosmicAppletTime" = {
-        version = 1;
-        entries = {
-          first_day_of_week = 0;
-          military_time = true;
-        };
-      };
-      "com.system76.CosmicFiles" = {
-        version = 1;
-        entries = {
-          tab = cosmicLib.cosmic.mkRON "raw" "(\n    folders_first: true,\n    icon_sizes: (\n        list: 100,\n        grid: 100,\n    ),\n    show_hidden: true,\n    single_click: false,\n    view: List,\n)";
-          favorites = cosmicLib.cosmic.mkRON "raw" "[\n    Home,\n    Documents,\n    Downloads,\n    Music,\n    Pictures,\n    Videos,\n    Path(\"/home/fabian/NCSync\"),\n]";
-          desktop = cosmicLib.cosmic.mkRON "raw" "(\n    grid_spacing: 100,\n    icon_size: 100,\n    show_content: false,\n    show_mounted_drives: false,\n    show_trash: false,\n)";
-          show_details = false;
+          is_dark = cosmicLib.cosmic.mkRON "raw" "false\n";
+          auto_switch = false;
         };
       };
       "com.system76.CosmicTheme.Dark" = {
@@ -176,12 +105,7 @@
           is_frosted = false;
         };
       };
-      "com.system76.CosmicPanelButton" = {
-        version = 1;
-        entries = {
-          configs = cosmicLib.cosmic.mkRON "raw" "{\n    \"Dock\": (\n        force_presentation: Some(Icon),\n    ),\n    \"Panel\": (\n        force_presentation: None,\n    ),\n}";
-        };
-      };
+
       "com.system76.CosmicTheme.Light" = {
         version = 1;
         entries = {
@@ -202,7 +126,7 @@
           accent_button = cosmicLib.cosmic.mkRON "raw" "(\n    base: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    hover: (\n        red: 0.8777146,\n        green: 0.07771457,\n        blue: 0.07771457,\n        alpha: 1.0,\n    ),\n    pressed: (\n        red: 0.871603,\n        green: 0.37160292,\n        blue: 0.37160292,\n        alpha: 1.0,\n    ),\n    selected: (\n        red: 0.8777146,\n        green: 0.07771457,\n        blue: 0.07771457,\n        alpha: 1.0,\n    ),\n    selected_text: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    focus: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    divider: (\n        red: 0.8698165,\n        green: 0.8698164,\n        blue: 0.8698164,\n        alpha: 1.0,\n    ),\n    on: (\n        red: 0.99999994,\n        green: 0.99999994,\n        blue: 0.99999994,\n        alpha: 1.0,\n    ),\n    disabled: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    on_disabled: (\n        red: 0.99999994,\n        green: 0.99999994,\n        blue: 0.99999994,\n        alpha: 0.5,\n    ),\n    border: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    disabled_border: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 0.5,\n    ),\n)";
           accent = cosmicLib.cosmic.mkRON "raw" "(\n    base: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    hover: (\n        red: 0.8777146,\n        green: 0.07771457,\n        blue: 0.07771457,\n        alpha: 1.0,\n    ),\n    pressed: (\n        red: 0.871603,\n        green: 0.37160292,\n        blue: 0.37160292,\n        alpha: 1.0,\n    ),\n    selected: (\n        red: 0.8777146,\n        green: 0.07771457,\n        blue: 0.07771457,\n        alpha: 1.0,\n    ),\n    selected_text: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    focus: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    divider: (\n        red: 0.99999994,\n        green: 0.99999994,\n        blue: 0.99999994,\n        alpha: 1.0,\n    ),\n    on: (\n        red: 0.99999994,\n        green: 0.99999994,\n        blue: 0.99999994,\n        alpha: 1.0,\n    ),\n    disabled: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    on_disabled: (\n        red: 1.0,\n        green: 0.49999997,\n        blue: 0.49999997,\n        alpha: 1.0,\n    ),\n    border: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    disabled_border: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 0.5,\n    ),\n)";
           palette = cosmicLib.cosmic.mkRON "raw" "(\n    name: \"cosmic-light\",\n    bright_red: (\n        red: 0.5372549,\n        green: 0.01568627,\n        blue: 0.09411765,\n        alpha: 1.0,\n    ),\n    bright_green: (\n        red: 0.0,\n        green: 0.34117648,\n        blue: 0.17254901,\n        alpha: 1.0,\n    ),\n    bright_orange: (\n        red: 0.4745098,\n        green: 0.17254902,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    gray_1: (\n        red: 0.84313726,\n        green: 0.84313726,\n        blue: 0.84313726,\n        alpha: 1.0,\n    ),\n    gray_2: (\n        red: 0.89411765,\n        green: 0.89411765,\n        blue: 0.89411765,\n        alpha: 1.0,\n    ),\n    neutral_0: (\n        red: 1.0,\n        green: 1.0,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    neutral_1: (\n        red: 0.87058824,\n        green: 0.87058824,\n        blue: 0.87058824,\n        alpha: 1.0,\n    ),\n    neutral_2: (\n        red: 0.74509805,\n        green: 0.74509805,\n        blue: 0.74509805,\n        alpha: 1.0,\n    ),\n    neutral_3: (\n        red: 0.61960787,\n        green: 0.61960787,\n        blue: 0.61960787,\n        alpha: 1.0,\n    ),\n    neutral_4: (\n        red: 0.50196075,\n        green: 0.50196075,\n        blue: 0.50196075,\n        alpha: 1.0,\n    ),\n    neutral_5: (\n        red: 0.3882353,\n        green: 0.3882353,\n        blue: 0.3882353,\n        alpha: 1.0,\n    ),\n    neutral_6: (\n        red: 0.28235295,\n        green: 0.28235295,\n        blue: 0.28235295,\n        alpha: 1.0,\n    ),\n    neutral_7: (\n        red: 0.18039216,\n        green: 0.18039216,\n        blue: 0.18039216,\n        alpha: 1.0,\n    ),\n    neutral_8: (\n        red: 0.08627451,\n        green: 0.08627451,\n        blue: 0.08627451,\n        alpha: 1.0,\n    ),\n    neutral_9: (\n        red: 0.01176471,\n        green: 0.01176471,\n        blue: 0.01176471,\n        alpha: 1.0,\n    ),\n    neutral_10: (\n        red: 0.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_blue: (\n        red: 0.0,\n        green: 0.32156864,\n        blue: 0.3529412,\n        alpha: 1.0,\n    ),\n    accent_indigo: (\n        red: 0.18039216,\n        green: 0.28627452,\n        blue: 0.42745098,\n        alpha: 1.0,\n    ),\n    accent_purple: (\n        red: 0.40784314,\n        green: 0.12941176,\n        blue: 0.4862745,\n        alpha: 1.0,\n    ),\n    accent_pink: (\n        red: 0.5254902,\n        green: 0.01568627,\n        blue: 0.22745098,\n        alpha: 1.0,\n    ),\n    accent_red: (\n        red: 0.47058824,\n        green: 0.1607843,\n        blue: 0.18039216,\n        alpha: 1.0,\n    ),\n    accent_orange: (\n        red: 0.38431373,\n        green: 0.25098038,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_yellow: (\n        red: 0.3254902,\n        green: 0.28235295,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_green: (\n        red: 0.09411765,\n        green: 0.33333334,\n        blue: 0.1607843,\n        alpha: 1.0,\n    ),\n    accent_warm_grey: (\n        red: 0.33333334,\n        green: 0.27843136,\n        blue: 0.25882354,\n        alpha: 1.0,\n    ),\n    ext_warm_grey: (\n        red: 0.60784316,\n        green: 0.5568628,\n        blue: 0.5411765,\n        alpha: 1.0,\n    ),\n    ext_orange: (\n        red: 0.9843137,\n        green: 0.72156864,\n        blue: 0.42352942,\n        alpha: 1.0,\n    ),\n    ext_yellow: (\n        red: 0.96862745,\n        green: 0.8784314,\n        blue: 0.38431373,\n        alpha: 1.0,\n    ),\n    ext_blue: (\n        red: 0.41568628,\n        green: 0.7921569,\n        blue: 0.84705883,\n        alpha: 1.0,\n    ),\n    ext_purple: (\n        red: 0.8352941,\n        green: 0.54901963,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    ext_pink: (\n        red: 1.0,\n        green: 0.6117647,\n        blue: 0.8666667,\n        alpha: 1.0,\n    ),\n    ext_indigo: (\n        red: 0.58431375,\n        green: 0.76862746,\n        blue: 0.9882353,\n        alpha: 1.0,\n    ),\n)";
-          name = "\"\"cosmic-light\"\"";
+          name = cosmicLib.cosmic.mkRON "raw" ''"cosmic-light"'';
           text_tint = cosmicLib.cosmic.mkRON "optional" null;
           text_button = cosmicLib.cosmic.mkRON "raw" "(\n    base: (\n        red: 0.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 0.0,\n    ),\n    hover: (\n        red: 0.38857284,\n        green: 0.38857284,\n        blue: 0.38857284,\n        alpha: 0.2,\n    ),\n    pressed: (\n        red: 0.743206,\n        green: 0.74320585,\n        blue: 0.74320585,\n        alpha: 0.5,\n    ),\n    selected: (\n        red: 0.38857284,\n        green: 0.38857284,\n        blue: 0.38857284,\n        alpha: 0.2,\n    ),\n    selected_text: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    focus: (\n        red: 1.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    divider: (\n        red: 0.6104768,\n        green: 0.0000016244128,\n        blue: 0.0,\n        alpha: 0.2,\n    ),\n    on: (\n        red: 0.6104768,\n        green: 0.0000016244128,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    disabled: (\n        red: 0.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 0.0,\n    ),\n    on_disabled: (\n        red: 0.6104768,\n        green: 0.0000016244128,\n        blue: 0.0,\n        alpha: 0.65,\n    ),\n    border: (\n        red: 0.08610422,\n        green: 0.08610421,\n        blue: 0.08610421,\n        alpha: 1.0,\n    ),\n    disabled_border: (\n        red: 0.08610422,\n        green: 0.08610421,\n        blue: 0.08610421,\n        alpha: 0.5,\n    ),\n)";
           primary = cosmicLib.cosmic.mkRON "raw" "(\n    base: (\n        red: 0.90759414,\n        green: 0.9075942,\n        blue: 0.9075941,\n        alpha: 1.0,\n    ),\n    component: (\n        base: (\n            red: 0.842651,\n            green: 0.842651,\n            blue: 0.84265095,\n            alpha: 1.0,\n        ),\n        hover: (\n            red: 0.8583859,\n            green: 0.8583859,\n            blue: 0.8583858,\n            alpha: 1.0,\n        ),\n        pressed: (\n            red: 0.87412083,\n            green: 0.87412083,\n            blue: 0.8741208,\n            alpha: 1.0,\n        ),\n        selected: (\n            red: 0.8583859,\n            green: 0.8583859,\n            blue: 0.8583858,\n            alpha: 1.0,\n        ),\n        selected_text: (\n            red: 1.0,\n            green: 0.0,\n            blue: 0.0,\n            alpha: 1.0,\n        ),\n        focus: (\n            red: 1.0,\n            green: 0.0,\n            blue: 0.0,\n            alpha: 1.0,\n        ),\n        divider: (\n            red: 0.07025621,\n            green: 0.07025618,\n            blue: 0.07025603,\n            alpha: 0.2,\n        ),\n        on: (\n            red: 0.07025621,\n            green: 0.07025618,\n            blue: 0.07025603,\n            alpha: 1.0,\n        ),\n        disabled: (\n            red: 0.842651,\n            green: 0.842651,\n            blue: 0.84265095,\n            alpha: 0.5,\n        ),\n        on_disabled: (\n            red: 0.07025621,\n            green: 0.07025618,\n            blue: 0.07025603,\n            alpha: 0.65,\n        ),\n        border: (\n            red: 0.08610422,\n            green: 0.08610421,\n            blue: 0.08610421,\n            alpha: 1.0,\n        ),\n        disabled_border: (\n            red: 0.08610422,\n            green: 0.08610421,\n            blue: 0.08610421,\n            alpha: 0.5,\n        ),\n    ),\n    divider: (\n        red: 0.7491082,\n        green: 0.7491082,\n        blue: 0.74910814,\n        alpha: 1.0,\n    ),\n    on: (\n        red: 0.11516424,\n        green: 0.11516424,\n        blue: 0.11516408,\n        alpha: 1.0,\n    ),\n    small_widget: (\n        red: 0.85556674,\n        green: 0.85556674,\n        blue: 0.85556674,\n        alpha: 0.25,\n    ),\n)";
@@ -216,6 +140,114 @@
           accent_text = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.6104768,\n    green: 0.0000016244128,\n    blue: 0.0,\n    alpha: 1.0,\n)");
         };
       };
+
+      "com.system76.CosmicSettings.Shortcuts" = {
+        version = 1;
+        entries = {
+          custom = cosmicLib.cosmic.mkRON "raw" "{\n    (\n        modifiers: [],\n        key: \"Print\",\n    ): Disable,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"e\",\n        description: Some(\"files\"),\n    ): Spawn(\"cosmic-files\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Return\",\n        description: Some(\"kitty\"),\n    ): Spawn(\"kitty\"),\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Right\",\n    ): MoveToNextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Down\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"f\",\n        description: Some(\"firefox\"),\n    ): Spawn(\"firefox\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Up\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Left\",\n    ): PreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Left\",\n    ): MoveToPreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Right\",\n    ): NextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"l\",\n    ): System(LockScreen),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"w\",\n    ): Close,\n}";
+          system_actions = cosmicLib.cosmic.mkRON "raw" "{\n    Terminal: \"kitty\",\n}";
+        };
+      };
+
+      "com.system76.CosmicPanel" = {
+        version = 1;
+        entries = {
+          entries = cosmicLib.cosmic.mkRON "raw" ''
+            [
+                "Panel",
+                "Dock",
+            ]'';
+
+        };
+      };
+
+      "com.system76.CosmicPanel.Panel" = {
+        version = 1;
+        entries = {
+          border_radius = 0;
+          anchor = cosmicLib.cosmic.mkRON "raw" "Top";
+          keyboard_interactivity = cosmicLib.cosmic.mkRON "raw" "OnDemand";
+          spacing = 0;
+          opacity = 1.0;
+          plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" ''
+            [
+              "com.system76.CosmicAppletTime",
+            ]'');
+          size_center = cosmicLib.cosmic.mkRON "optional" null;
+          layer = cosmicLib.cosmic.mkRON "raw" "Top";
+          padding = 0;
+          output = cosmicLib.cosmic.mkRON "raw" "All";
+          margin = 0;
+          anchor_gap = false;
+          autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
+          size = cosmicLib.cosmic.mkRON "raw" "Custom(24)";
+          background = cosmicLib.cosmic.mkRON "raw" "ThemeDefault";
+          autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 1000,\n    transition_time: 200,\n    handle_size: 4,\n    unhide_delay: 200,\n)");
+          name = cosmicLib.cosmic.mkRON "raw" ''"Panel"'';
+          expand_to_edges = true;
+          exclusive_zone = false;
+          size_wings = cosmicLib.cosmic.mkRON "optional" null;
+          plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "([\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicAppletWorkspaces\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletAudio\",\n    \"com.system76.CosmicAppletBluetooth\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletPower\",\n])");
+        };
+      };
+
+      "com.system76.CosmicPanel.Dock" = {
+        version = 1;
+        entries = {
+          anchor = cosmicLib.cosmic.mkRON "raw" "Bottom";
+          anchor_gap = false;
+          autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 500,\n    transition_time: 200,\n    handle_size: 2,\n    unhide_delay: 200,\n)");
+          autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
+          background = cosmicLib.cosmic.mkRON "raw" "ThemeDefault";
+          border_radius = 12;
+          exclusive_zone = false;
+          expand_to_edges = false;
+          keyboard_interactivity = cosmicLib.cosmic.mkRON "raw" "OnDemand";
+          layer = cosmicLib.cosmic.mkRON "raw" "Top";
+          margin = 0;
+          name = cosmicLib.cosmic.mkRON "raw" ''"Dock"'';
+          opacity = 1.0;
+          output = cosmicLib.cosmic.mkRON "raw" "All";
+          padding = 0;
+          padding_overlap = 0.5;
+          plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "[\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicPanelAppButton\",\n    \"com.system76.CosmicAppList\",\n    \"com.system76.CosmicAppletMinimize\",\n]");
+          plugins_wings = cosmicLib.cosmic.mkRON "optional" null;
+          size = cosmicLib.cosmic.mkRON "raw" "S";
+          size_center = cosmicLib.cosmic.mkRON "optional" null;
+          size_wings = cosmicLib.cosmic.mkRON "optional" null;
+          spacing = 0;
+        };
+      };
+
+
+      "com.system76.CosmicAppletAudio" = {
+        version = 1;
+        entries = {
+          show_media_controls_in_top_panel = false;
+        };
+      };
+      "com.system76.CosmicAppletTime" = {
+        version = 1;
+        entries = {
+          first_day_of_week = 0;
+          military_time = true;
+        };
+      };
+      "com.system76.CosmicFiles" = {
+        version = 1;
+        entries = {
+          tab = cosmicLib.cosmic.mkRON "raw" "(\n    folders_first: true,\n    icon_sizes: (\n        list: 100,\n        grid: 100,\n    ),\n    show_hidden: true,\n    single_click: false,\n    view: List,\n)";
+          favorites = cosmicLib.cosmic.mkRON "raw" "[\n    Home,\n    Documents,\n    Downloads,\n    Music,\n    Pictures,\n    Videos,\n    Path(\"/home/fabian/NCSync\"),\n]";
+          desktop = cosmicLib.cosmic.mkRON "raw" "(\n    grid_spacing: 100,\n    icon_size: 100,\n    show_content: false,\n    show_mounted_drives: false,\n    show_trash: false,\n)";
+          show_details = false;
+        };
+      };
+      "com.system76.CosmicPanelButton" = {
+        version = 1;
+        entries = {
+          configs = cosmicLib.cosmic.mkRON "raw" "{\n    \"Dock\": (\n        force_presentation: Some(Icon),\n    ),\n    \"Panel\": (\n        force_presentation: None,\n    ),\n}";
+        };
+      };
       "com.system76.CosmicNotifications" = {
         version = 1;
         entries = {
@@ -226,99 +258,6 @@
           max_timeout_normal = cosmicLib.cosmic.mkRON "optional" 5000;
           max_timeout_low = cosmicLib.cosmic.mkRON "optional" 3000;
           max_per_app = 2;
-        };
-      };
-      "com.system76.CosmicSettings.Shortcuts" = {
-        version = 1;
-        entries = {
-          custom = cosmicLib.cosmic.mkRON "raw" "{\n    (\n        modifiers: [],\n        key: \"Print\",\n    ): Disable,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"e\",\n        description: Some(\"files\"),\n    ): Spawn(\"cosmic-files\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Return\",\n        description: Some(\"kitty\"),\n    ): Spawn(\"kitty\"),\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Right\",\n    ): MoveToNextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Down\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"f\",\n        description: Some(\"firefox\"),\n    ): Spawn(\"firefox\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Up\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Left\",\n    ): PreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Left\",\n    ): MoveToPreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Right\",\n    ): NextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"l\",\n    ): System(LockScreen),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"w\",\n    ): Close,\n}";
-          system_actions = cosmicLib.cosmic.mkRON "raw" "{\n    Terminal: \"kitty\",\n}";
-        };
-      };
-      "com.system76.CosmicTheme.Mode" = {
-        version = 1;
-        entries = {
-          is_dark = cosmicLib.cosmic.mkRON "raw" "false\n";
-          auto_switch = false;
-        };
-      };
-      "com.system76.CosmicPortal" = {
-        version = 1;
-        entries = {
-          screenshot = cosmicLib.cosmic.mkRON "raw" "(\n    save_location: Clipboard,\n    choice: Output(Some(\"DP-2\")),\n)";
-        };
-      };
-      "com.system76.CosmicTk" = {
-        version = 1;
-        entries = {
-          interface_density = cosmicLib.cosmic.mkRON "raw" "Compact";
-          show_minimize = false;
-          apply_theme_global = true;
-          show_maximize = false;
-          header_size = cosmicLib.cosmic.mkRON "raw" "Compact";
-          icon_theme = "\"\"Cosmic\"\"";
-        };
-      };
-      "com.system76.CosmicBackground" = {
-        version = 1;
-        entries = {
-          output.DP-2 = cosmicLib.cosmic.mkRON "raw" "(\n    output: \"DP-2\",\n    source: Color(Gradient((\n        colors: [\n            (0.584, 0.769, 0.988),\n            (0.063, 0.165, 0.298),\n        ],\n        radius: 180.0,\n    ))),\n    filter_by_theme: false,\n    rotation_frequency: 900,\n    filter_method: Lanczos,\n    scaling_mode: Zoom,\n    sampling_method: Alphanumeric,\n)";
-          backgrounds = cosmicLib.cosmic.mkRON "raw" "[]";
-          all = cosmicLib.cosmic.mkRON "raw" "(\n  output: \"all\",\n  source: Path(\"/nix/store/91dlkl1qn42b6yadadjkl3yr0dbsfdc8-gnome-background-png-1.0/drool-l.png\"),\n  filter_by_theme: false,\n  rotation_frequency: 300,\n  filter_method: Lanczos,\n  scaling_mode: Zoom,\n  sampling_method: Alphanumeric,\n)\n";
-          same-on-all = true;
-        };
-      };
-      "com.system76.CosmicSettings" = {
-        version = 1;
-        entries = {
-          active-page = "\"\"appearance\"\"";
-        };
-      };
-      "com.system76.CosmicTheme.Light.Builder" = {
-        version = 1;
-        entries = {
-          palette = cosmicLib.cosmic.mkRON "raw" "Light((\n    name: \"cosmic-light\",\n    bright_red: (\n        red: 0.5372549,\n        green: 0.01568627,\n        blue: 0.09411765,\n        alpha: 1.0,\n    ),\n    bright_green: (\n        red: 0.0,\n        green: 0.34117648,\n        blue: 0.17254901,\n        alpha: 1.0,\n    ),\n    bright_orange: (\n        red: 0.4745098,\n        green: 0.17254902,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    gray_1: (\n        red: 0.84313726,\n        green: 0.84313726,\n        blue: 0.84313726,\n        alpha: 1.0,\n    ),\n    gray_2: (\n        red: 0.89411765,\n        green: 0.89411765,\n        blue: 0.89411765,\n        alpha: 1.0,\n    ),\n    neutral_0: (\n        red: 1.0,\n        green: 1.0,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    neutral_1: (\n        red: 0.87058824,\n        green: 0.87058824,\n        blue: 0.87058824,\n        alpha: 1.0,\n    ),\n    neutral_2: (\n        red: 0.74509805,\n        green: 0.74509805,\n        blue: 0.74509805,\n        alpha: 1.0,\n    ),\n    neutral_3: (\n        red: 0.61960787,\n        green: 0.61960787,\n        blue: 0.61960787,\n        alpha: 1.0,\n    ),\n    neutral_4: (\n        red: 0.50196075,\n        green: 0.50196075,\n        blue: 0.50196075,\n        alpha: 1.0,\n    ),\n    neutral_5: (\n        red: 0.3882353,\n        green: 0.3882353,\n        blue: 0.3882353,\n        alpha: 1.0,\n    ),\n    neutral_6: (\n        red: 0.28235295,\n        green: 0.28235295,\n        blue: 0.28235295,\n        alpha: 1.0,\n    ),\n    neutral_7: (\n        red: 0.18039216,\n        green: 0.18039216,\n        blue: 0.18039216,\n        alpha: 1.0,\n    ),\n    neutral_8: (\n        red: 0.08627451,\n        green: 0.08627451,\n        blue: 0.08627451,\n        alpha: 1.0,\n    ),\n    neutral_9: (\n        red: 0.01176471,\n        green: 0.01176471,\n        blue: 0.01176471,\n        alpha: 1.0,\n    ),\n    neutral_10: (\n        red: 0.0,\n        green: 0.0,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_blue: (\n        red: 0.0,\n        green: 0.32156864,\n        blue: 0.3529412,\n        alpha: 1.0,\n    ),\n    accent_indigo: (\n        red: 0.18039216,\n        green: 0.28627452,\n        blue: 0.42745098,\n        alpha: 1.0,\n    ),\n    accent_purple: (\n        red: 0.40784314,\n        green: 0.12941176,\n        blue: 0.4862745,\n        alpha: 1.0,\n    ),\n    accent_pink: (\n        red: 0.5254902,\n        green: 0.01568627,\n        blue: 0.22745098,\n        alpha: 1.0,\n    ),\n    accent_red: (\n        red: 0.47058824,\n        green: 0.1607843,\n        blue: 0.18039216,\n        alpha: 1.0,\n    ),\n    accent_orange: (\n        red: 0.38431373,\n        green: 0.25098038,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_yellow: (\n        red: 0.3254902,\n        green: 0.28235295,\n        blue: 0.0,\n        alpha: 1.0,\n    ),\n    accent_green: (\n        red: 0.09411765,\n        green: 0.33333334,\n        blue: 0.1607843,\n        alpha: 1.0,\n    ),\n    accent_warm_grey: (\n        red: 0.33333334,\n        green: 0.27843136,\n        blue: 0.25882354,\n        alpha: 1.0,\n    ),\n    ext_warm_grey: (\n        red: 0.60784316,\n        green: 0.5568628,\n        blue: 0.5411765,\n        alpha: 1.0,\n    ),\n    ext_orange: (\n        red: 0.9843137,\n        green: 0.72156864,\n        blue: 0.42352942,\n        alpha: 1.0,\n    ),\n    ext_yellow: (\n        red: 0.96862745,\n        green: 0.8784314,\n        blue: 0.38431373,\n        alpha: 1.0,\n    ),\n    ext_blue: (\n        red: 0.41568628,\n        green: 0.7921569,\n        blue: 0.84705883,\n        alpha: 1.0,\n    ),\n    ext_purple: (\n        red: 0.8352941,\n        green: 0.54901963,\n        blue: 1.0,\n        alpha: 1.0,\n    ),\n    ext_pink: (\n        red: 1.0,\n        green: 0.6117647,\n        blue: 0.8666667,\n        alpha: 1.0,\n    ),\n    ext_indigo: (\n        red: 0.58431375,\n        green: 0.76862746,\n        blue: 0.9882353,\n        alpha: 1.0,\n    ),\n))";
-          destructive = cosmicLib.cosmic.mkRON "optional" null;
-          bg_color = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.9605419,\n    green: 0.9605419,\n    blue: 0.9605419,\n    alpha: 1.0,\n)");
-          text_tint = cosmicLib.cosmic.mkRON "optional" null;
-          window_hint = cosmicLib.cosmic.mkRON "optional" null;
-          gaps = cosmicLib.cosmic.mkRON "raw" "(0, 3)";
-          is_frosted = false;
-          success = cosmicLib.cosmic.mkRON "optional" null;
-          neutral_tint = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 0.7814231,\n    green: 0.7814231,\n    blue: 0.7814231,\n)");
-          warning = cosmicLib.cosmic.mkRON "optional" null;
-          active_hint = 2;
-          corner_radii = cosmicLib.cosmic.mkRON "raw" "(\n    radius_0: (0.0, 0.0, 0.0, 0.0),\n    radius_xs: (4.0, 4.0, 4.0, 4.0),\n    radius_s: (8.0, 8.0, 8.0, 8.0),\n    radius_m: (16.0, 16.0, 16.0, 16.0),\n    radius_l: (32.0, 32.0, 32.0, 32.0),\n    radius_xl: (160.0, 160.0, 160.0, 160.0),\n)";
-          primary_container_bg = cosmicLib.cosmic.mkRON "optional" null;
-          spacing = cosmicLib.cosmic.mkRON "raw" "(\n    space_none: 0,\n    space_xxxs: 4,\n    space_xxs: 4,\n    space_xs: 8,\n    space_s: 8,\n    space_m: 16,\n    space_l: 24,\n    space_xl: 32,\n    space_xxl: 48,\n    space_xxxl: 64,\n)";
-          secondary_container_bg = cosmicLib.cosmic.mkRON "optional" null;
-          accent = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    red: 1.0,\n    green: 0.0,\n    blue: 0.0,\n)");
-        };
-      };
-      "com.system76.CosmicPanel.Dock" = {
-        version = 1;
-        entries = {
-          layer = cosmicLib.cosmic.mkRON "raw" "Top";
-          size_center = cosmicLib.cosmic.mkRON "optional" null;
-          padding = 0;
-          anchor_gap = false;
-          exclusive_zone = false;
-          margin = 0;
-          plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "([], [])");
-          size = cosmicLib.cosmic.mkRON "raw" "L";
-          keyboard_interactivity = cosmicLib.cosmic.mkRON "raw" "OnDemand";
-          plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "[\n    \"com.system76.CosmicPanelLauncherButton\",\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicPanelAppButton\",\n    \"com.system76.CosmicAppList\",\n    \"com.system76.CosmicAppletMinimize\",\n]");
-          expand_to_edges = false;
-          border_radius = 160;
-          autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
-          autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 1000,\n    transition_time: 200,\n    handle_size: 4,\n    unhide_delay: 200,\n)");
-          background = cosmicLib.cosmic.mkRON "raw" "ThemeDefault";
-          opacity = 1.0;
-          name = "\"\"Dock\"\"";
-          anchor = cosmicLib.cosmic.mkRON "raw" "Bottom";
-          output = cosmicLib.cosmic.mkRON "raw" "All";
-          size_wings = cosmicLib.cosmic.mkRON "optional" null;
-          spacing = 0;
         };
       };
     };

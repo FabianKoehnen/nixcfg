@@ -2,7 +2,7 @@
   description = "A very basic flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
@@ -17,7 +17,7 @@
     };
 
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.05";
+      url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -60,7 +60,7 @@
     treefmt-nix.url = "github:numtide/treefmt-nix";
 
     nixvim = {
-      url = "github:nix-community/nixvim/nixos-25.05";
+      url = "github:nix-community/nixvim/nixos-25.11";
       # If using a stable channel you can use `url = "github:nix-community/nixvim/nixos-<version>"`
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -81,9 +81,8 @@
 
     catppuccin.url = "github:catppuccin/nix";
 
-
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.2";
+      url = "github:nix-community/lanzaboote/v0.4.3";
 
       # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
@@ -101,18 +100,18 @@
     , secrets
     , systems
     , ...
-    } @ inputs:
+    }@inputs:
     let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
       treefmtEval = eachSystem (pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
     in
     {
       nixosConfigurations = {
-        "fabians-nix-desktop" = nixpkgs-unstable.lib.nixosSystem rec {
+        "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             user = "fabian";
-            unstable = nixpkgs-unstable.legacyPackages.${system};
+            unstable = nixpkgs.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper =
               let
@@ -137,9 +136,8 @@
             inputs.lanzaboote.nixosModules.lanzaboote
             ./modules/base/secureboot.nix
 
-
             # home-manager
-            home-manager-unstable.nixosModules.home-manager
+            home-manager.nixosModules.home-manager
             ./hosts/desktop/home.nix
             {
               home-manager.useGlobalPkgs = true;
@@ -303,7 +301,11 @@
                 speedFactor = 1;
                 sshKey = "/etc/nix/builder_ed25519";
                 sshUser = "builder";
-                supportedFeatures = [ "kvm" "benchmark" "big-parallel" ];
+                supportedFeatures = [
+                  "kvm"
+                  "benchmark"
+                  "big-parallel"
+                ];
                 system = "x86_64-linux";
               }
             ];

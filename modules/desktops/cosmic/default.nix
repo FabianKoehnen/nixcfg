@@ -50,7 +50,7 @@
     users.${user} = {
       imports = [
         inputs.cosmic-manager.homeManagerModules.cosmic-manager
-        ./cosmic-manager.nix # generated with cosmic-manager cosmic2nix > /etc/nixos/modules/desktops/cosmic/cosmic-manager.nix
+        ./cosmic-manager.nix # "cosmic-manager cosmic2nix" generates a unclean, sometimes buggy config of the current settings
       ];
 
       home.activation.resetPanels = inputs.home-manager.lib.hm.dag.entryAfter [ "configureCosmic" ] ''

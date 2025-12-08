@@ -13,22 +13,12 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-    ../../modules/base/desktop.nix
-
-    ../../modules/tools/plymouth
+    ../../defaults/graphical/desktop
 
     ../../modules/tools/sddm
     # ../../modules/tools/cosmic-greet
     # ../../modules/desktops/hyprland
     ../../modules/desktops/cosmic
-
-    ../../modules/base/fonts.nix
-    ../../modules/base/printing.nix
-
-    ../../modules/hardware/headsetcontrol
-
-    ../../modules/terminal/zsh
-    ../../modules/terminal/kitty
 
     ../../modules/editors/vscodium
     ../../modules/editors/jetbrains
@@ -39,7 +29,6 @@
     ../../modules/tools/bambulab
 
     ../../modules/virt/virt-manager
-    ../../modules/tools/darkman
     ../../modules/tools/waylus
     ../../modules/tools/appimage
     ../../modules/tools/typst
@@ -47,7 +36,6 @@
     # ../../modules/dev/godot
   ];
   nixpkgs.config = {
-    allowUnfree = true;
     permittedInsecurePackages = [
       "python3.13-ecdsa-0.19.1"
     ];
@@ -55,23 +43,6 @@
 
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
-      auto-optimise-store = true;
-      build-dir = "/nix-build";
-    };
-    gc = {
-      automatic = false;
-      dates = "weekly";
-      options = "";
-    };
-  };
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -94,74 +65,32 @@
   #     127.0.0.1 airshow-manager.internal
   # 192.168.178.157 airshow-manager.internal
 
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
   environment.systemPackages = with pkgs; [
     keepassxc
-    util-linux
-    wget
-    killall
-    gparted
-    parted
-    unzip
-    zip
-    git
-    nvtopPackages.amd
-    lact
-    docker-compose
-    sops
-    symfony-cli
+
     unstable.youtube-music
     prismlauncher
     r2modman
     blender
     krita
-    tio
+    gparted
     arduino-ide
     adafruit-nrfutil
 
-    # rustup
-    # jetbrains.rust-rover
-
     wineWowPackages.waylandFull
     winetricks
-    # lutris
-    #flightgear
     unstable.dbeaver-bin
-
-    comma
-
-    unstable.firefoxpwa
 
     nextcloud-client
 
     freecad
   ];
 
-  services.flatpak = {
-    enable = true;
-    #   packages = [
-    #     "org.freecad.FreeCAD"
-    #   ];
-  };
-
-  services.open-webui = {
-    # enable = true;
-    enable = false;
-    environment = {
-      WEBUI_AUTH = "false";
-    };
-  };
+  services.lact.enable = true;
 
   programs.firefox = {
     enable = true;
     package = pkgs.firefox;
-    nativeMessagingHosts.packages = [ unstable.firefoxpwa ];
-  };
-
-  virtualisation.docker = {
-    enable = true;
   };
 
   programs.adb.enable = true;
@@ -187,6 +116,14 @@
     };
   };
 
+  services.open-webui = {
+    # enable = true;
+    enable = false;
+    environment = {
+      WEBUI_AUTH = "false";
+    };
+  };
+
   users = {
     mutableUsers = false;
     users.fabian = {
@@ -200,10 +137,6 @@
       ];
       shell = pkgs.zsh;
     };
-  };
-
-  programs.git = {
-    enable = true;
   };
 
   # Enable the OpenSSH daemon.
@@ -232,29 +165,10 @@
     ];
   };
 
-  services.yubikey-agent.enable = true;
-
   systemd = {
     services = {
       NetworkManager-wait-online.enable = false;
       systemd-udev-settle.enable = false;
-    };
-    user = {
-      # services = {
-      #   polkit-kde-authentication-agent-1 = {
-      #     description = "polkit-kde-authentication-agent-1";
-      #     wantedBy = ["graphical-session.target"];
-      #     wants = ["graphical-session.target"];
-      #     after = ["graphical-session.target"];
-      #     serviceConfig = {
-      #       Type = "simple";
-      #       ExecStart = "${pkgs.polkit-kde-agent}/libexec/polkit-kde-authentication-agent-1";
-      #       Restart = "on-failure";
-      #       RestartSec = 1;
-      #       TimeoutStopSec = 10;
-      #     };
-      #   };
-      # };
     };
   };
 
@@ -262,8 +176,6 @@
     enable = true;
     package = unstable.libratbag;
   };
-
-  # programs.arduino.enable = true;
 
   services.udev = {
     enable = true;
@@ -276,24 +188,7 @@
     '';
   };
 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
   networking.firewall.enable = true;
-  #  networking.firewall.allowedTCPPorts = [8080 8081 3979];
   networking.firewall.allowedTCPPorts = [
     3131
     8080
@@ -302,8 +197,6 @@
 
   services.tailscale.enable = true;
   networking.firewall.trustedInterfaces = [ "tailscale0" ];
-
-  #services.nginx.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

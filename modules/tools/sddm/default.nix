@@ -1,7 +1,11 @@
 { pkgs
 , wallpaper
+, lib
 , ...
 }: {
+
+  services.xserver.enable = lib.mkDefault true;
+
   environment.systemPackages = with pkgs; [
     (sddm-chili-theme.override {
       themeConfig = {
@@ -15,8 +19,7 @@
     autoNumlock = true;
     wayland = {
       enable = false;
-      # compositor = "weston";
     };
-    # theme = "chili";
+    theme = "chili";
   };
 }

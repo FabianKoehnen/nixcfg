@@ -10,15 +10,14 @@
         stateVersion = "23.11";
         packages = with pkgs; [
           unstable.piper
-
-          # teamspeak3
           signal-desktop
           discord
         ];
       };
 
-      programs = {
-        eza.enable = true;
+      programs.eza = {
+        enable = true;
+        enableZshIntegration = true;
       };
     };
   };

@@ -1,11 +1,12 @@
 { user
+, lib
 , ...
 }: {
   home-manager.users.${user} = {
     programs.git = {
-      enable = true;
-      userName = "fabianKoehnen";
-      userEmail = "42027473+FabianKoehnen@users.noreply.github.com";
+      enable = lib.mkDefault true;
+      userName = lib.mkDefault "fabianKoehnen";
+      userEmail = lib.mkDefault "42027473+FabianKoehnen@users.noreply.github.com";
     };
   };
 }

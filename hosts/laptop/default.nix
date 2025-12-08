@@ -8,20 +8,13 @@
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
-
-    ../../modules/tools/plymouth
+    ../../defaults/graphical/laptop
 
     ../../modules/tools/cosmic-greet
     # ../../modules/desktops/hyprland
     ../../modules/desktops/cosmic
 
-
-    ../../modules/base/git
-
     ../../modules/gaming/steam
-
-    ../../modules/terminal/zsh
-    ../../modules/terminal/kitty
 
     ../../modules/editors/vscodium
     ../../modules/editors/zed
@@ -30,26 +23,14 @@
     ../../modules/hardware/headsetcontrol
   ];
 
-  nixpkgs.config = {
-    allowUnfree = true;
-  };
-
   boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  nix = {
-    package = pkgs.nix;
-    settings = {
-      experimental-features = [ "nix-command" "flakes" ];
-      auto-optimise-store = true;
-      build-dir = "/nix-build";
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
+  # nix = {
+  #   settings = {
+  #     build-dir = "/nix-build";
+  #   };
+  # };
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -63,26 +44,6 @@
   };
 
   networking.hostName = "fabians-nix-laptop";
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
-
-  virtualisation.docker.enable = true;
-
-  time.timeZone = "Europe/Berlin";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
-  console = {
-    #   font = "Lat2-Terminus16";
-    keyMap = "us";
-    #   useXkbConfig = true; # use xkbOptions in tty.
-  };
-  services.xserver.xkb.layout = "us";
-
-  services.avahi = {
-    enable = true;
-    nssmdns4 = true;
-    openFirewall = true;
-  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -96,7 +57,6 @@
   #  services.xserver.displayManager.gdm.enable = true;
   #  services.xserver.desktopManager.gnome.enable = true;
 
-  services.xserver.enable = true;
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
 
@@ -117,26 +77,8 @@
     pkgs.brlaser
     pkgs.brgenml1lpr
   ];
-  # Trim SSDs periodicly
-  services.fstrim.enable = true;
-
-  services.flatpak.enable = true;
-
-  security.polkit.enable = true;
 
   environment.systemPackages = with pkgs; [
-    util-linux
-    wget
-    killall
-    gparted
-    parted
-    unzip
-    zip
-    git
-    nvtopPackages.amd
-    docker-compose
-    sops
-    symfony-cli
     vivaldi
 
     krita
@@ -150,20 +92,13 @@
     #gnomeExtensions.pop-shell
 
     #kdePackages.umbrello
-    kdePackages.discover
-
-    comma
 
     firefox
     libreoffice-qt
     hunspell
     hunspellDicts.uk_UA
     hunspellDicts.th_TH
-    tio
   ];
-
-  # Enable touchpad support (enabled default in most desktopManager).
-  services.libinput.enable = true;
 
   users = {
     mutableUsers = false;
@@ -173,12 +108,6 @@
       shell = pkgs.zsh;
     };
   };
-
-  programs.git = {
-    enable = true;
-  };
-
-  programs.zsh.enable = true;
 
   # Enable the OpenSSH daemon.
   services.openssh = {
@@ -205,42 +134,6 @@
       "/etc/machine-id"
     ];
   };
-
-  services.yubikey-agent.enable = true;
-
-  systemd = {
-    services = {
-      NetworkManager-wait-online.enable = false;
-      systemd-udev-settle.enable = false;
-    };
-  };
-
-  networking.wireless.userControlled.enable = true;
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  # users.users.alice = {
-  #   isNormalUser = true;
-  #   extraGroups = [ "wheel" ]; # Enable ‘sudo’ for the user.
-  #   packages = with pkgs; [
-  #     firefox
-  #     tree
-  #   ];
-  # };
-
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
-  # environment.systemPackages = with pkgs; [
-  #   vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  # ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # List services that you want to enable:
 

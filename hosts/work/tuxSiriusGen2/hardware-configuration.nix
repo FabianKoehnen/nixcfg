@@ -65,6 +65,9 @@
   fileSystems."/" = {
     device = "none";
     fsType = "tmpfs";
+    options = [
+      "mode=0755"
+    ];
   };
 
   swapDevices = [

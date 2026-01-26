@@ -208,7 +208,7 @@
         ##########
         ## Work ##
         ##########
-        "tuxSiriusGen2-fk" = nixpkgs.lib.nixosSystem rec {
+        "tuxSiriusGen2-fk" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             user = "fabian";
@@ -245,7 +245,7 @@
             ./hosts/work/tuxSiriusGen2/default.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             ./hosts/work/tuxSiriusGen2/home.nix
             {
               home-manager.useGlobalPkgs = true;

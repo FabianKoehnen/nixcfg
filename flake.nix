@@ -73,12 +73,6 @@
       };
     };
 
-    nixos-module-sentinalone = {
-      url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
-      # ref = "main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     catppuccin.url = "github:catppuccin/nix";
 
     lanzaboote = {
@@ -207,6 +201,23 @@
         ##########
         ## Work ##
         ##########
+        "fabian-koehnen-laptop" = nixpkgs. lib. nixosSystem rec {
+          system = "x86_64-linux";
+          specialArgs = {
+            user = "fabian";
+            unstable = nixpkgs-unstable.legacyPackages.${system};
+            wallpaper =
+              let
+                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs.legacyPackages.${system}; };
+              in
+              {
+                light = "${droolBackground}/drool-l.png";
+                dark = "${droolBackground}/drool-d.png";
+            
+          }; 
+        };
+
+
         "tuxSiriusGen2-fk" = nixpkgs.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
@@ -227,20 +238,10 @@
             inputs.impermanence.nixosModules.impermanence
             inputs.nix-flatpak.nixosModules.nix-flatpak
 
-            inputs.nixos-module-sentinalone.nixosModules.default
+
             {
               environment.systemPackages = [
-                inputs.nixos-module-sentinalone.packages.${system}.default
-              ];
-              services.sentinelone = {
-                enable = true;
-                package = inputs.nixos-module-sentinalone.packages.${system}.default;
-                sentinelOneManagementTokenPath = "/persist/sentinelOneSiteToken";
-                email = "fabian.koehnen@open.de";
-                serialNumber = "EMNM16HP958G344T0337";
-              };
-            }
-
+                
             ./hosts/work/tuxSiriusGen2/default.nix
 
             # home-manager

@@ -207,49 +207,40 @@
         ##########
         ## Work ##
         ##########
-        "tuxSiriusGen2-fk" = nixpkgs.lib.nixosSystem rec {
+        "blumenpeter-fabian-koehnen" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
-            user = "fabian";
             unstable = nixpkgs-unstable.legacyPackages.${system};
-            hyprpkgs = inputs.hypr_contrib.packages.${system};
-            wallpaper = {
-              light = hosts/work/tuxSiriusGen2/wallpaper/light.png;
-              dark = hosts/work/tuxSiriusGen2/wallpaper/dark.png;
-            };
-            hyprland-extra-config = ''
-              bindl=,switch:on:Lid Switch,exec,hyprctl keyword monitor "eDP-2, disable"
-              bindl=,switch:off:Lid Switch,exec,hyprctl keyword monitor "eDP-2, 2560x1440@165.0,1920x1440,1.0"
-            '';
+            user = "fabian";
+            wallpaper = let
+                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs-unstable.legacyPackages.${system}; };
+              in
+              {
+                light = "${droolBackground}/drool-l.png";
+                dark = "${droolBackground}/drool-d.png";
+              };
             inherit inputs;
           };
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nix-flatpak.nixosModules.nix-flatpak
 
-            inputs.nixos-module-sentinalone.nixosModules.default
-            {
-              environment.systemPackages = [
-                inputs.nixos-module-sentinalone.packages.${system}.default
-              ];
-              services.sentinelone = {
-                enable = true;
-                package = inputs.nixos-module-sentinalone.packages.${system}.default;
-                sentinelOneManagementTokenPath = "/persist/sentinelOneSiteToken";
-                email = "fabian.koehnen@open.de";
-                serialNumber = "EMNM16HP958G344T0337";
-              };
-            }
-
-            ./hosts/work/tuxSiriusGen2/default.nix
+            ./hosts/work/blumenPeter/default.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
-            ./hosts/work/tuxSiriusGen2/home.nix
+            home-manager-unstable.nixosModules.home-manager
+            ./hosts/work/blumenPeter/home.nix
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
+                            wallpaper = let
+                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs-unstable.legacyPackages.${system}; };
+              in
+              {
+                light = "${droolBackground}/drool-l.png";
+                dark = "${droolBackground}/drool-d.png";
+              };
                 inherit inputs;
               };
               home-manager.sharedModules = [
@@ -259,68 +250,11 @@
             }
 
             # others
-            secrets.nixosModules.tuxSiriusGen2
+#             secrets.nixosModules.blumenPeter
             inputs.sops-nix.nixosModules.sops
           ];
         };
       };
-
-      darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
-        specialArgs = {
-          unstable = nixpkgs-unstable.legacyPackages.x86_64-darwin;
-          user = "fabian";
-          inherit inputs;
-        };
-        modules = [
-          home-manager.darwinModules.home-manager
-          ./hosts/macbook/default.nix
-          ./hosts/macbook/home.nix
-          {
-            nix.linux-builder = {
-              enable = true;
-              #                ephemeral = true;
-              #                trusted-users = [ "builder" "fabian" ];
-              #                package = inputs.nixpkgs-unstable.legacyPackages.x86_64-darwin.darwin.linux-builder;
-              #                config = {
-              #                  nix = {
-              #                    settings = {
-              #                      trusted-users = [ "builder" "fabian" ];
-              #                    };
-              ##                    gc.automatic = true;
-              #                  };
-
-              #                  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
-              #                };
-            };
-            nix.buildMachines = [
-              {
-                hostName = "linux-builder";
-                mandatoryFeatures = [ ];
-                maxJobs = 1;
-                protocol = "ssh";
-                publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
-                speedFactor = 1;
-                sshKey = "/etc/nix/builder_ed25519";
-                sshUser = "builder";
-                supportedFeatures = [
-                  "kvm"
-                  "benchmark"
-                  "big-parallel"
-                ];
-                system = "x86_64-linux";
-              }
-            ];
-            system = {
-              stateVersion = 4;
-              configurationRevision = self.rev or self.dirtyRev or null;
-            };
-            nixpkgs.hostPlatform = "x86_64-darwin";
-            services.nix-daemon.enable = true;
-          }
-        ];
-      };
-
-      darwinPackages = self.darwinConfigurations."MacBook-Pro-FK".pkgs;
 
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
 

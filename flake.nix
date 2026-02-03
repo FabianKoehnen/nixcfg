@@ -73,12 +73,6 @@
       };
     };
 
-    nixos-module-sentinalone = {
-      url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
-      # ref = "main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     catppuccin.url = "github:catppuccin/nix";
 
     lanzaboote = {

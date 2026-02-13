@@ -19,6 +19,7 @@ in
     eza
     btop
     tldr
+    comma
   ];
 
   programs.zsh.enable = true;

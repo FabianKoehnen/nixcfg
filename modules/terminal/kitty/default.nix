@@ -8,7 +8,8 @@
       shellIntegration.enableZshIntegration = true;
       keybindings = {
         "ctrl+v" = "paste_from_clipboard";
-        "ctrl+c" = "copy_to_clipboard";
+        "ctrl+c" = "copy_or_interrupt";
+        "ctrl+a" = "new_window_with_cwd";
       };
       themeFile = "CLRS";
       settings = {

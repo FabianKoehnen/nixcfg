@@ -14,8 +14,11 @@
 
   environment.systemPackages = with pkgs; [
     # pyprland
+    devtoolbox
 
     libreoffice-fresh
+    gnome-usage
+    gnome-calculator
     pkgs.gnome-disk-utility
     baobab
     # polkit-kde-agent
@@ -44,6 +47,7 @@
     cosmic-ext-ctl
     cosmic-ext-applet-caffeine
     cosmic-ext-applet-external-monitor-brightness
+    tasks
   ];
 
   home-manager = {
@@ -56,8 +60,6 @@
       home.activation.resetPanels = inputs.home-manager.lib.hm.dag.entryAfter [ "configureCosmic" ] ''
         sleep 1 && exec ${pkgs.procps}/bin/pkill cosmic-panel
       '';
-
-      programs.cosmic-manager.enable = true;
 
       services.darkman = {
         enable = true;

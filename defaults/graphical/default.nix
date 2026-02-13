@@ -21,6 +21,8 @@
     algorithm = lib.mkDefault "zstd";
   };
 
+  programs.thunderbird.enable = true;
+
   services = {
     fwupd.enable = lib.mkDefault true;
     earlyoom.enable = lib.mkDefault true;

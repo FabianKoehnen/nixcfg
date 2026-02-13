@@ -18,7 +18,6 @@
     parted
     unzip
     zip
-    nvtopPackages.amd
     docker-compose
     sops
     symfony-cli

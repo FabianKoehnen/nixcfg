@@ -2,12 +2,17 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, ... }:
+{ config, lib, pkgs, unstable, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+
+      ../../../modules/base/git
+      ../../../modules/base/bin-bash-fix.nix
+      ../../../modules/base/nix-ld.nix
+
 
       ../../../defaults/graphical/laptop
 
@@ -42,7 +47,21 @@
 
   environment.systemPackages = with pkgs; [
     keepassxc
+    seahorse
+    nvtopPackages.nvidia
+    
+    # Dev
+    shopware-cli
+    mkcert
+    unstable.ddev
+    dbeaver-bin
+
+    ungoogled-chromium
+    vivaldi
+
   ];
+
+  virtualisation.docker.enable = true;
 
   hardware = {
     bluetooth.enable = true;
@@ -54,8 +73,6 @@
     package = pkgs.firefox;
   };
 
-  programs.adb.enable = true;
-
   programs.direnv = {
     enable = true;
     package = pkgs.direnv;
@@ -65,6 +82,15 @@
       enable = true;
       package = pkgs.nix-direnv;
     };
+  };
+
+  services.fwupd.enable = true;
+
+  environment.etc.hosts.mode = "0644";
+
+  services.ollama = {
+    enable = true;
+    package = pkgs.ollama-cuda;
   };
 
   users = {
@@ -108,6 +134,9 @@
       "/etc/machine-id"
     ];
   };
+
+  networking.firewall.allowedTCPPorts = [ 9003 443 ];
+
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";

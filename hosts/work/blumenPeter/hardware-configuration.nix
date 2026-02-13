@@ -37,6 +37,7 @@
     { device = "/dev/disk/by-uuid/5bf75352-a227-4f9d-90f8-741088d75b21";
       fsType = "btrfs";
       options = [ "subvol=var" ];
+      neededForBoot = true;
     };
 
   fileSystems."/persist" =
@@ -63,4 +64,28 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  hardware.graphics.enable = true;
+
+  services.xserver.videoDrivers = [
+    "amdgpu"
+    "nvidia"
+  ];
+
+  hardware.nvidia = let
+    nvidiaPackage = config.hardware.nvidia.package;
+  in {
+    open = lib.mkOverride 990 (nvidiaPackage ? open && nvidiaPackage ? firmware);
+    modesetting.enable = true;
+    powerManagement = {
+      enable = true;
+      # finegrained = true;
+    };
+    prime = {
+      sync.enable = false;
+      
+      amdgpuBusId = "PCI:102@0:0:0";
+      nvidiaBusId = "PCI:101@0:0:0";
+    };
+  };
 }

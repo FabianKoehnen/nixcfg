@@ -72,6 +72,7 @@
     "nvidia"
   ];
 
+  hardware.nvidia-container-toolkit.enable = true;
   hardware.nvidia = let
     nvidiaPackage = config.hardware.nvidia.package;
   in {

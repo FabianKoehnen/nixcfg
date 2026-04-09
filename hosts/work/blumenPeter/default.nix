@@ -26,6 +26,7 @@
       ../../../modules/editors/zed
 
       ../../../modules/tools/appimage
+      # ../../../modules/tools/llama-cpp
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -45,6 +46,8 @@
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
+  fonts.packages = with pkgs; [ fira-sans ];
+
   environment.systemPackages = with pkgs; [
     keepassxc
     seahorse
@@ -58,10 +61,24 @@
 
     ungoogled-chromium
     vivaldi
-
+    obsidian
   ];
 
-  virtualisation.docker.enable = true;
+  virtualisation.docker = {
+    enable = true;
+    daemon.settings.features.cdi = true;
+    extraPackages = [
+      pkgs.docker-buildx
+    ];
+  };
+  networking.firewall = {
+    extraCommands = "
+      iptables -I nixos-fw 1 -i br+ -j ACCEPT
+    ";
+    extraStopCommands = "
+      iptables -D nixos-fw -i br+ -j ACCEPT
+    ";
+  };
 
   hardware = {
     bluetooth.enable = true;
@@ -91,6 +108,12 @@
   services.ollama = {
     enable = true;
     package = pkgs.ollama-cuda;
+    openFirewall = true;
+    host = "0.0.0.0";
+    environmentVariables = {
+      OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_KV_CACHE_TYPE = "q8_0";
+    };
   };
 
   users = {

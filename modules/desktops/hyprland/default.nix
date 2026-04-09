@@ -45,7 +45,7 @@
     easyeffects
     pamixer
     pavucontrol
-    helvum
+    crosspipe
     playerctl
 
     gamemode

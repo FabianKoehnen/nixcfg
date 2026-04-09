@@ -31,7 +31,7 @@
     easyeffects
     pamixer
     pavucontrol
-    helvum
+    crosspipe
     playerctl
 
     # Xfce Tools

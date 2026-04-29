@@ -6,6 +6,7 @@
     ./localisation.nix
     ./nix.nix
     ./terminal.nix
+    ./flatpak.nix
 
     ../../modules/tools/plymouth
     ../../modules/base/fonts.nix
@@ -20,6 +21,8 @@
     enable = lib.mkDefault true;
     algorithm = lib.mkDefault "zstd";
   };
+
+  systemd.coredump.enable = false;
 
   services = {
     fwupd.enable = lib.mkDefault true;
@@ -50,7 +53,7 @@
 
   networking = {
     networkmanager.enable = lib.mkDefault true;
-    wireless.userControlled.enable = true;
+    wireless.userControlled = true;
   };
 
   hardware = {

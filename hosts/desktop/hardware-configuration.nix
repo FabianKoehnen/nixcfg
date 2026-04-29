@@ -55,6 +55,7 @@
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
     fsType = "btrfs";
     options = [ "subvol=var/lib" ];
+    neededForBoot = true;
   };
 
   fileSystems."/home" = {

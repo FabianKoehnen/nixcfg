@@ -54,7 +54,7 @@
     nodejs
     yarn
 
-    unstable.youtube-music
+    unstable.pear-desktop
   ];
 
   # Apps in here need to be uninstalled manually

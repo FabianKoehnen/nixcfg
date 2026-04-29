@@ -12,7 +12,7 @@
 
           # teamspeak_client
           signal-desktop
-          discord
+          # discord
         ];
       };
 

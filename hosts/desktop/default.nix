@@ -16,7 +16,7 @@
     ../../defaults/graphical/desktop
 
     ../../modules/tools/sddm
-    # ../../modules/tools/cosmic-greet
+    #../../modules/tools/cosmic-greet
     # ../../modules/desktops/hyprland
     ../../modules/desktops/cosmic
 
@@ -28,14 +28,15 @@
     ../../modules/tools/cad
     ../../modules/tools/bambulab
 
-    ../../modules/virt/virt-manager
+    # ../../modules/virt/virt-manager
     ../../modules/tools/waylus
     ../../modules/tools/appimage
-    ../../modules/tools/typst
+    ../../modules/tools/opencode
 
     # ../../modules/dev/godot
   ];
   nixpkgs.config = {
+    allowUnfree = true;
     permittedInsecurePackages = [
       "python3.13-ecdsa-0.19.1"
     ];
@@ -68,7 +69,7 @@
   environment.systemPackages = with pkgs; [
     keepassxc
 
-    unstable.youtube-music
+    unstable.pear-desktop
     prismlauncher
     r2modman
     blender
@@ -77,13 +78,16 @@
     arduino-ide
     adafruit-nrfutil
 
-    wineWowPackages.waylandFull
     winetricks
     unstable.dbeaver-bin
 
     nextcloud-client
 
     freecad
+    pinta
+
+    kdePackages.okular
+    android-tools
   ];
 
   services.lact.enable = true;
@@ -92,8 +96,6 @@
     enable = true;
     package = pkgs.firefox;
   };
-
-  programs.adb.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -108,9 +110,10 @@
 
   services.ollama = {
     enable = true;
-    package = unstable.ollama;
-    acceleration = "rocm";
+    package = unstable.ollama-rocm;
+    # models = "/4TB_NVME/ollama/models";
     rocmOverrideGfx = "10.3.0";
+    user = "ollama";
     environmentVariables = {
       OLLAMA_GPU_OVERHEAD = "500000000";
     };
@@ -193,6 +196,7 @@
     3131
     8080
   ];
+  networking.wireless.userControlled = true;
   #  networking.firewall.allowedUDPPorts = [3979];
 
   services.tailscale.enable = true;

@@ -9,6 +9,11 @@
     vscode
     platformio
     avrdude
+    gnumake
+    cmake
+    gcc
+    sdl2-compat
+    SDL2.dev
   ];
 
   services.udev.packages = [

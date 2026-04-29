@@ -73,12 +73,6 @@
       };
     };
 
-    nixos-module-sentinalone = {
-      url = "git+ssh://git@github.com/ambimax/nixos-module-sentinalone?ref=main";
-      # ref = "main";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     catppuccin.url = "github:catppuccin/nix";
 
     lanzaboote = {
@@ -104,14 +98,15 @@
     let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
       treefmtEval = eachSystem (pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      user = "fabian";
     in
     {
       nixosConfigurations = {
-        "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-desktop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
-            user = "fabian";
-            unstable = nixpkgs.legacyPackages.${system};
+            inherit user;
+            unstable = nixpkgs-unstable.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper =
               let
@@ -137,20 +132,24 @@
             ./modules/base/secureboot.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
-            ./hosts/desktop/home.nix
+            home-manager-unstable.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                wallpaper = specialArgs.wallpaper;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                extraSpecialArgs = {
+                  inherit inputs;
+                  unstable = specialArgs.unstable;
+                  wallpaper = specialArgs.wallpaper;
+                };
+                sharedModules = [
+                  inputs.sops-nix.homeManagerModules.sops
+                  inputs.catppuccin.homeModules.catppuccin
+                ];
+                users.${user}.imports = [
+                  ./hosts/desktop/home.nix
+                ];
               };
-              home-manager.sharedModules = [
-                inputs.sops-nix.homeManagerModules.sops
-                # inputs.nixvim.homeManagerModules.nixvim
-                inputs.catppuccin.homeModules.catppuccin
-              ];
             }
 
             # others

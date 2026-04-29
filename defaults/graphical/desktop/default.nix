@@ -1,4 +1,5 @@
 { lib
+, user
 , ...
 }: {
   imports = [

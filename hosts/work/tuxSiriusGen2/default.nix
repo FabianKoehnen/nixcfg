@@ -126,7 +126,7 @@
     docker-compose
     sops
     symfony-cli
-    unstable.youtube-music
+    unstable.pear-desktop
     slack
     kubectl
 

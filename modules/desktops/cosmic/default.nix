@@ -10,7 +10,19 @@
     ../../terminal/kitty
   ];
 
-  services.desktopManager.cosmic.enable = true;
+  services.desktopManager.cosmic = {
+    enable = true;
+  };
+
+  programs.firefox.preferences = {
+    # disable libadwaita theming for Firefox
+    "widget.gtk.libadwaita-colors.enabled" = false;
+  };
+
+  # services.system76-scheduler.enable = true;
+  services.gvfs.enable = true;
+
+  programs.kdeconnect.enable = true;
 
   environment.systemPackages = with pkgs; [
     # pyprland
@@ -28,15 +40,15 @@
     easyeffects
     pamixer
     pavucontrol
-    helvum
+    crosspipe
     playerctl
 
     # Xfce Tools
-    xfce.ristretto
-    xfce.thunar
-    xfce.xfce4-taskmanager
-    xfce.mousepad
-    xfce.exo
+    ristretto
+    thunar
+    xfce4-taskmanager
+    mousepad
+    exo
 
     #cosmic apps
     quick-webapps
@@ -57,7 +69,7 @@
         sleep 1 && exec ${pkgs.procps}/bin/pkill cosmic-panel
       '';
 
-      programs.cosmic-manager.enable = true;
+      # programs.cosmic-manager.enable = true;
 
       services.darkman = {
         enable = true;

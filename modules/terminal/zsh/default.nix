@@ -1,6 +1,7 @@
 { lib
 , pkgs
 , user
+, config
 , ...
 }:
 let
@@ -21,7 +22,9 @@ in
     tldr
   ];
 
-  programs.zsh.enable = true;
+  programs.zsh = {
+    enable = true;
+  };
 
   home-manager.users.${user} = {
     programs.zoxide.enable = true;
@@ -33,6 +36,7 @@ in
       autosuggestion.enable = true;
       historySubstringSearch.enable = true;
       syntaxHighlighting.enable = true;
+      dotDir = "${config.home-manager.users.${user}.xdg.configHome}/zsh";
 
       antidote = {
         enable = false;

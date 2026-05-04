@@ -81,6 +81,8 @@
       # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs =
@@ -218,6 +220,7 @@
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nix-flatpak.nixosModules.nix-flatpak
+            inputs.hermes-agent.nixosModules.default
 
             ./hosts/work/blumenPeter/default.nix
 

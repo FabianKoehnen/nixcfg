@@ -1,0 +1,10 @@
+model:
+  default: ollama/qwen3.5:9b
+  base_url: http://localhost:11434/v1
+  provider: custom
+
+memory:
+  memory_enabled: true
+  user_profile_enabled: true
+toolsets:
+  - all

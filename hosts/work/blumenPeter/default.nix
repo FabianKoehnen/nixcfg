@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, lib, pkgs, unstable, ... }:
+{ config, user, lib, pkgs, unstable, ... }:
 
 {
   imports =
@@ -26,7 +26,6 @@
       ../../../modules/editors/zed
 
       ../../../modules/tools/appimage
-      # ../../../modules/tools/llama-cpp
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -115,6 +114,50 @@
       OLLAMA_KV_CACHE_TYPE = "q8_0";
     };
   };
+  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "cuda_cudart"
+  ];
+  services.hermes-agent = {
+    enable = true;
+    container = {
+      enable = true;
+      hostUsers = [
+        user
+      ];
+      extraVolumes = [
+        "/home/fabian/www/shopware:/data/shopware"
+      ];
+    };
+    settings = {
+      model = {
+        default = "qwen3.5:9b";
+        provider = "custom";
+        base_url = "http://localhost:11434/v1";
+      };
+      toolsets = [ "all" ];
+      compression = {
+        enabled = true;
+        threshold = 0.85;
+        summary_model = "qwen3.5:9b";
+      };
+      memory = { memory_enabled = true; user_profile_enabled = true; };
+      display = { compact = false; personality = "technical"; };
+      mcpServers = {
+        phpstorm = {
+          url = "http://127.0.0.1:64342/sse";
+        };
+      };
+#       {
+#   "type": "streamable-http",
+#   "url": "http://127.0.0.1:64342/stream",
+#   "headers": {}
+# }
+    };
+    environmentFiles = [ "/var/lib/hermes/env" ];
+    addToSystemPackages = true;
+  };
+
+
 
   users = {
     mutableUsers = false;
@@ -127,6 +170,7 @@
         "adbusers"
         "dialout"
         "plugdev"
+        "hermes"
       ];
       shell = pkgs.zsh;
     };

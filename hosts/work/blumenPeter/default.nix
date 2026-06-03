@@ -2,31 +2,40 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, user, lib, pkgs, unstable, ... }:
+{
+  config,
+  user,
+  lib,
+  pkgs,
+  unstable,
+  ...
+}:
 
 {
-  imports =
-    [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
 
-      ../../../modules/base/git
-      ../../../modules/base/bin-bash-fix.nix
-      ../../../modules/base/nix-ld.nix
+    ../../../defaults/graphical/desktop
 
+    ../../../modules/base/git
+    ../../../modules/base/bin-bash-fix.nix
+    ../../../modules/base/nix-ld.nix
 
-      ../../../defaults/graphical/laptop
+    ../../../defaults/graphical/laptop
 
-      # ../../../modules/tools/sddm
-      ../../../modules/tools/cosmic-greet
-      # ../../modules/desktops/hyprland
-      ../../../modules/desktops/cosmic
+    # ../../../modules/tools/sddm
+    ../../../modules/tools/cosmic-greet
+    # ../../modules/desktops/hyprland
+    ../../../modules/desktops/cosmic
 
-      ../../../modules/editors/vscodium
-      ../../../modules/editors/jetbrains
-      ../../../modules/editors/zed
+    ../../../modules/editors/vscodium
+    ../../../modules/editors/jetbrains
+    ../../../modules/editors/zed
 
-      ../../../modules/tools/appimage
-    ];
+    ../../../modules/tools/appimage
+    # ../../../modules/tools/searx
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -51,16 +60,21 @@
     keepassxc
     seahorse
     nvtopPackages.nvidia
-    
+
     # Dev
     shopware-cli
     mkcert
-    unstable.ddev
     dbeaver-bin
 
     ungoogled-chromium
     vivaldi
     obsidian
+    php
+    phpactor
+
+    cloudflared
+    unstable.ddev
+    python314Packages.ddgs
   ];
 
   virtualisation.docker = {
@@ -100,6 +114,10 @@
     };
   };
 
+  services.flatpak = {
+    enable = lib.mkDefault true;
+  };
+
   services.fwupd.enable = true;
 
   environment.etc.hosts.mode = "0644";
@@ -114,9 +132,11 @@
       OLLAMA_KV_CACHE_TYPE = "q8_0";
     };
   };
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
-    "cuda_cudart"
-  ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg:
+    builtins.elem (lib.getName pkg) [
+      "cuda_cudart"
+    ];
   services.hermes-agent = {
     enable = true;
     container = {
@@ -130,7 +150,7 @@
     };
     settings = {
       model = {
-        default = "qwen3.5:9b";
+        default = "gemma4:e4b";
         provider = "custom";
         base_url = "http://localhost:11434/v1";
       };
@@ -138,26 +158,33 @@
       compression = {
         enabled = true;
         threshold = 0.85;
-        summary_model = "qwen3.5:9b";
+        summary_model = "gemma4:e4b";
       };
-      memory = { memory_enabled = true; user_profile_enabled = true; };
-      display = { compact = false; personality = "technical"; };
+      memory = {
+        memory_enabled = true;
+        user_profile_enabled = true;
+      };
+      display = {
+        compact = false;
+        personality = "technical";
+      };
       mcpServers = {
         phpstorm = {
           url = "http://127.0.0.1:64342/sse";
         };
       };
-#       {
-#   "type": "streamable-http",
-#   "url": "http://127.0.0.1:64342/stream",
-#   "headers": {}
-# }
+      web = {
+        search_backend = "searxng";
+      };
+      #       {
+      #   "type": "streamable-http",
+      #   "url": "http://127.0.0.1:64342/stream",
+      #   "headers": {}
+      # }
     };
     environmentFiles = [ "/var/lib/hermes/env" ];
     addToSystemPackages = true;
   };
-
-
 
   users = {
     mutableUsers = false;
@@ -171,12 +198,13 @@
         "dialout"
         "plugdev"
         "hermes"
+        "nogroup"
       ];
       shell = pkgs.zsh;
     };
   };
 
-    # Enable the OpenSSH daemon.
+  # Enable the OpenSSH daemon.
   services.openssh = {
     hostKeys = [
       {
@@ -202,8 +230,10 @@
     ];
   };
 
-  networking.firewall.allowedTCPPorts = [ 9003 443 ];
-
+  networking.firewall.allowedTCPPorts = [
+    9003
+    443
+  ];
 
   # Set your time zone.
   # time.timeZone = "Europe/Amsterdam";
@@ -222,9 +252,6 @@
 
   # Enable the X11 windowing system.
   # services.xserver.enable = true;
-
-
-  
 
   # Configure keymap in X11
   # services.xserver.xkb.layout = "us";
@@ -306,4 +333,3 @@
   system.stateVersion = "26.05"; # Did you read the comment?
 
 }
-

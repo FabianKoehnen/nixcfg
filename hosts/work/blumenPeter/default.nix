@@ -77,9 +77,19 @@
     python314Packages.ddgs
   ];
 
+  boot.kernel.sysctl = {
+    "fs.inotify.max_user_watches" = 1048576;
+  };
+
   virtualisation.docker = {
     enable = true;
     daemon.settings.features.cdi = true;
+    daemon.settings = {
+      dns = [
+        "127.0.0.1"
+        "192.168.178.1"
+      ]; # Replace with your router's IP from /etc/resolv.conf
+    };
     extraPackages = [
       pkgs.docker-buildx
     ];
@@ -102,6 +112,8 @@
     enable = true;
     package = pkgs.firefox;
   };
+
+  programs.corectrl.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -129,6 +141,8 @@
     host = "0.0.0.0";
     environmentVariables = {
       OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_MAX_LOADED_MODELS = "2";
+      OLLAMA_NUM_PARALLEL = "2";
       OLLAMA_KV_CACHE_TYPE = "q8_0";
     };
   };

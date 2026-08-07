@@ -5,12 +5,20 @@
 , lib
 , modulesPath
 , ...
-}: {
+}:
+{
   imports = [
     (modulesPath + "/installer/scan/not-detected.nix")
   ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ahci" "nvme" "usb_storage" "usbhid" "sd_mod" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ahci"
+    "nvme"
+    "usb_storage"
+    "usbhid"
+    "sd_mod"
+  ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
@@ -43,13 +51,8 @@
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
     fsType = "btrfs";
     options = [ "subvol=var/log" ];
+    neededForBoot = true;
   };
-
-  #  fileSystems."/var/lib/tailscale" = {
-  #    device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
-  #    fsType = "btrfs";
-  #    options = [ "subvol=var/lib/tailscale" ];
-  #  };
 
   fileSystems."/var/lib" = {
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
@@ -74,6 +77,7 @@
     device = "/dev/disk/by-uuid/13f36515-109e-441b-8522-4a1ebfed4459";
     fsType = "btrfs";
     options = [ "subvol=persist" ];
+    neededForBoot = true;
   };
 
   #  fileSystems."/tmp" = {

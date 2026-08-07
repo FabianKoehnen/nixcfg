@@ -1,20 +1,22 @@
 { pkgs
 , lib
 , ...
-}: {
+}:
+{
   imports = [
     ./localisation.nix
     ./nix.nix
     ./terminal.nix
     ./flatpak.nix
 
-    ../../modules/tools/plymouth
+    # ../../modules/tools/plymouth
     ../../modules/base/fonts.nix
     ../../modules/base/printing.nix
 
     ../../modules/hardware/headsetcontrol
   ];
   boot.kernelPackages = pkgs.linuxPackages_zen;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # ZRAM swap with zstd
   zramSwap = {
@@ -69,4 +71,6 @@
       systemd-udev-settle.enable = false;
     };
   };
+
+  users.groups.plugdev = { };
 }

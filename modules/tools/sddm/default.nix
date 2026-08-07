@@ -2,7 +2,8 @@
 , wallpaper
 , lib
 , ...
-}: {
+}:
+{
 
   services.xserver.enable = lib.mkDefault true;
 
@@ -17,9 +18,6 @@
   services.displayManager.sddm = {
     enable = true;
     autoNumlock = true;
-    wayland = {
-      enable = false;
-    };
     theme = "chili";
   };
 }

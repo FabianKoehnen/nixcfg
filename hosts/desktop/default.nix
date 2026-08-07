@@ -16,7 +16,7 @@
     ../../defaults/graphical/desktop
 
     ../../modules/tools/sddm
-    #../../modules/tools/cosmic-greet
+    # ../../modules/tools/cosmic-greet
     # ../../modules/desktops/hyprland
     ../../modules/desktops/cosmic
 
@@ -42,6 +42,16 @@
     ];
   };
 
+  boot.kernelParams = [
+    "fs.inotify.max_user_watches=1048576"
+    # "rd.systemd.unit=rescue.target"
+    # "rd.systemd.debug_shell"
+  ];
+
+  # boot.blacklistedKernelModules = [
+  #   "sp5100_tco"
+  # ];
+
   # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
@@ -56,6 +66,8 @@
       efi.canTouchEfiVariables = true;
     };
   };
+
+  boot.initrd.systemd.emergencyAccess = true;
 
   networking.hostName = "fabians-nix-desktop";
   #  networking.extraHosts = ''
@@ -75,11 +87,12 @@
     blender
     krita
     gparted
-    arduino-ide
-    adafruit-nrfutil
+    # arduino-ide
+    # adafruit-nrfutil
 
     winetricks
     unstable.dbeaver-bin
+    ddev
 
     nextcloud-client
 
@@ -88,9 +101,14 @@
 
     kdePackages.okular
     android-tools
+    lutris
   ];
 
-  services.lact.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+
+  environment.etc.hosts.mode = "0644";
+
+  # services.lact.enable = true;
 
   programs.firefox = {
     enable = true;
@@ -111,12 +129,28 @@
   services.ollama = {
     enable = true;
     package = unstable.ollama-rocm;
+    openFirewall = true;
+    host = "0.0.0.0";
     # models = "/4TB_NVME/ollama/models";
     rocmOverrideGfx = "10.3.0";
     user = "ollama";
     environmentVariables = {
-      OLLAMA_GPU_OVERHEAD = "500000000";
+      OLLAMA_CONTEXT_LENGTH = "30000";
+      OLLAMA_GPU_OVERHEAD = "1073741824";
+      OLLAMA_MAX_LOADED_MODELS = "1";
+      OLLAMA_NUM_PARALLEL = "2";
+      OLLAMA_FLASH_ATTENTION = "1";
+      # OLLAMA_KV_CACHE_TYPE="Q4_K_M";
     };
+  };
+
+  networking.firewall = {
+    extraCommands = "
+      iptables -I nixos-fw 1 -i br+ -j ACCEPT
+    ";
+    extraStopCommands = "
+      iptables -D nixos-fw -i br+ -j ACCEPT
+    ";
   };
 
   services.open-webui = {
@@ -163,10 +197,9 @@
       "/etc/NetworkManager/system-connections"
       "/var/lib/bluetooth"
     ];
-    files = [
-      "/etc/machine-id"
-    ];
   };
+
+  environment.etc.machine-id.source = "/persist/etc/machine-id";
 
   systemd = {
     services = {
@@ -199,8 +232,8 @@
   networking.wireless.userControlled = true;
   #  networking.firewall.allowedUDPPorts = [3979];
 
-  services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  # services.tailscale.enable = false;
+  # networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

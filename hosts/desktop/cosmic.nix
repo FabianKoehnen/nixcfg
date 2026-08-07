@@ -5,7 +5,7 @@
       version = 1;
       entries = {
         "screen_off_time" = cosmicLib.cosmic.mkRON "optional" null;
-        "suspend_on_ac_time" = cosmicLib.cosmic.mkRON "optional" 7200000;
+        "suspend_on_ac_time" = cosmicLib.cosmic.mkRON "optional" null;
       };
     };
   };

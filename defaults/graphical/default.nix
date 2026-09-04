@@ -24,7 +24,15 @@
     algorithm = lib.mkDefault "zstd";
   };
 
-  systemd.coredump.enable = false;
+  systemd.coredump.enable = true;
+  systemd.coredump.settings.Coredump = {
+    Storage = "external";
+    Compress = "yes";
+    ProcessSizeMax = "256M";
+    ExternalSizeMax = "256M";
+    MaxUse = "1G";
+    KeepFree = "2G";
+  };
 
   services = {
     fwupd.enable = lib.mkDefault true;

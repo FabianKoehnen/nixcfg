@@ -1,18 +1,18 @@
-{ user, ... }: {
+{ user, pkgs, ... }: {
+  environment.systemPackages = with pkgs; [
+    playwright-mcp
+  ];
   home-manager.users.${user}.programs.opencode = {
     enable = true;
     settings = {
-      enabled_providers = [
-        "ollama"
-      ];
       provider = {
         ollama = {
           npm = "@ai-sdk/openai-compatible";
           name = "Ollama (local)";
           options.baseURL = "http://localhost:11434/v1";
           models = {
-            "devstral-small-2:latest" = {
-              name = "devstral-small";
+            "hf.co/InternScience/Agents-A1-4B-Q4_K_M-GGUF:Q4_K_M" = {
+              name = "Agents A1 4B Q4_K_M";
             };
           };
         };
@@ -24,6 +24,7 @@
     enable = true;
     loadModels = [
       "devstral-small-2:latest"
+      "hf.co/InternScience/Agents-A1-4B-Q4_K_M-GGUF:Q4_K_M"
     ];
   };
 }

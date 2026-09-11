@@ -14,6 +14,7 @@
     wget
     killall
     eza
+    jq
     tio
     parted
     unzip

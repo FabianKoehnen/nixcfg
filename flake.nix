@@ -137,6 +137,9 @@
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
+                # An unmanaged file (e.g. opencode.json written by opencode
+                # itself) must back up, not abort the whole activation.
+                backupFileExtension = "backup";
                 extraSpecialArgs = {
                   inherit inputs;
                   unstable = specialArgs.unstable;

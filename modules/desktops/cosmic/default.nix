@@ -27,7 +27,7 @@
   environment.systemPackages = with pkgs; [
     # pyprland
 
-    libreoffice-fresh
+    libreoffice
     pkgs.gnome-disk-utility
     baobab
     # polkit-kde-agent
@@ -48,7 +48,6 @@
     thunar
     xfce4-taskmanager
     mousepad
-    exo
 
     #cosmic apps
     quick-webapps

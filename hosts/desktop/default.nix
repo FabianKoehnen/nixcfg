@@ -1,15 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config
-, pkgs
+{ pkgs
 , unstable
-, user
-, lib
 , ...
-}:
-{
-
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -52,7 +47,6 @@
   #   "sp5100_tco"
   # ];
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Use the systemd-boot EFI boot loader.
@@ -126,6 +120,8 @@
     };
   };
 
+  services.desktopManager.plasma6.enable = true;
+
   services.ollama = {
     enable = true;
     package = unstable.ollama-rocm;
@@ -161,6 +157,23 @@
     };
   };
 
+  # Local SearXNG endpoint for OpenCode web searches. JSON must be explicitly
+  # enabled; otherwise requests with format=json return HTTP 403.
+  services.searx = {
+    enable = true;
+    settings = {
+      server = {
+        bind_address = "127.0.0.1";
+        port = 8888;
+        # Local-only instance: deterministic key avoids placing a secret in
+        # the world-readable Nix store. It is not exposed beyond loopback.
+        secret_key = builtins.hashString "sha256" "fabians-nix-desktop-searxng-local";
+        limiter = false;
+      };
+      search.formats = [ "html" "json" ];
+    };
+  };
+
   users = {
     mutableUsers = false;
     users.fabian = {
@@ -171,6 +184,7 @@
         "adbusers"
         "dialout"
         "plugdev"
+        "networkmanager"
       ];
       shell = pkgs.zsh;
     };

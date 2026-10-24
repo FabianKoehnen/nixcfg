@@ -18,6 +18,7 @@
   services.displayManager.sddm = {
     enable = true;
     autoNumlock = true;
-    theme = "chili";
+    wayland.enable = true;
+    # theme = "chili";
   };
 }

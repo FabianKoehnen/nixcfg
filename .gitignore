@@ -1,3 +1,4 @@
 .idea
 .pre-commit-config.yaml
 .direnv
+.playwright-mcp

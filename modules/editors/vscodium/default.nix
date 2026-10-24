@@ -23,15 +23,16 @@
 
   home-manager.users.${user} = {
     catppuccin = {
+      autoEnable = true;
       flavor = "latte";
-      vscode = {
+      vscodium = {
         profiles.default = {
           enable = true;
           accent = "red";
         };
       };
     };
-    programs.vscode = {
+    programs.vscodium = {
       enable = true;
       package = pkgs.vscodium;
       profiles.default = {
@@ -69,7 +70,7 @@
 
         keybindings =
           let
-            darwinSystem = pkgs.system == "x86_64-darwin";
+            darwinSystem = pkgs.stdenv.hostPlatform.system == "x86_64-darwin";
 
             linux-mod1 = "ctrl";
             darwin-mod1 = "cmd";

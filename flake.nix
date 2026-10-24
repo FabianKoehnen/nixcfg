@@ -192,6 +192,7 @@
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
+                wallpaper = specialArgs.wallpaper;
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops

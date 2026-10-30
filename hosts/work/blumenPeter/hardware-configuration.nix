@@ -62,7 +62,11 @@
     [ { device = "/dev/disk/by-uuid/a64e0951-3084-47d2-996e-56f496714295"; }
     ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  nixpkgs = {
+    config.cudaSupport = true;
+    hostPlatform = lib.mkDefault "x86_64-linux";
+  };
+
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 
   hardware.graphics.enable = true;
@@ -71,6 +75,15 @@
     "amdgpu"
     "nvidia"
   ];
+
+  nix.settings = {
+    substituters = [
+      "https://cache.nixos-cuda.org"
+    ];
+    trusted-public-keys = [
+      "cache.nixos-cuda.org:74DUi4Ye579gUqzH4ziL9IyiJBlDpMRn9MBN8oNan9M="
+    ];
+  };
 
   hardware.nvidia-container-toolkit.enable = true;
   hardware.nvidia = let
@@ -84,7 +97,7 @@
     };
     prime = {
       sync.enable = false;
-      
+
       amdgpuBusId = "PCI:102@0:0:0";
       nvidiaBusId = "PCI:101@0:0:0";
     };

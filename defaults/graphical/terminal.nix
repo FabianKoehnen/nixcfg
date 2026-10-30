@@ -1,6 +1,7 @@
-{ lib
-, pkgs
-, ...
+{
+  lib,
+  pkgs,
+  ...
 }:
 {
   imports = [
@@ -18,8 +19,12 @@
     parted
     unzip
     zip
+    jq
+    yq
+    ripgrep
     docker-compose
     sops
     symfony-cli
+    imagemagick
   ];
 }

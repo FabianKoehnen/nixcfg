@@ -1,11 +1,16 @@
 { user
 , unstable
 , lib
+, pkgs
 , ...
 }: {
   services.ollama = {
     enable = true;
   };
+
+  environment.systemPackages = with pkgs; [
+    bubblewrap
+  ];
 
   home-manager.users.${user} = {
     catppuccin.zed = {

@@ -12,6 +12,7 @@
     settings = {
       server = {
         bind_address = "127.0.0.1";
+        port = 1234;
       };
       search = {
         autocomplete_min = 2;

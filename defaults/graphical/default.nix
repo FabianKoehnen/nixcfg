@@ -1,5 +1,6 @@
 { pkgs
 , lib
+, stable
 , ...
 }: {
   imports = [
@@ -13,7 +14,7 @@
 
     ../../modules/hardware/headsetcontrol
   ];
-  boot.kernelPackages = pkgs.linuxPackages_zen;
+  boot.kernelPackages = pkgs.linuxPackages_6_18;
 
   # ZRAM swap with zstd
   zramSwap = {
@@ -21,7 +22,10 @@
     algorithm = lib.mkDefault "zstd";
   };
 
-  programs.thunderbird.enable = true;
+  programs.thunderbird = {
+    enable = true;
+    package = stable.thunderbird;
+  };
 
   services = {
     fwupd.enable = lib.mkDefault true;
@@ -52,7 +56,7 @@
 
   networking = {
     networkmanager.enable = lib.mkDefault true;
-    wireless.userControlled.enable = true;
+    wireless.userControlled = true;
   };
 
   hardware = {

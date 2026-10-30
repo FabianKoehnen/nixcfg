@@ -4,7 +4,7 @@
 , ...
 }:
 let
-  darwinSystem = pkgs.system == "x86_64-darwin";
+  darwinSystem = pkgs.stdenv.hostPlatform.system == "x86_64-darwin";
 in
 {
   imports = [

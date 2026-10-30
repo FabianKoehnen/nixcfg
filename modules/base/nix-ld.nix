@@ -5,20 +5,20 @@
   programs.nix-ld.libraries = with pkgs; [
     # Taken from pkgs/build-support/appimage/default.nix
     desktop-file-utils
-    xorg.libXcomposite
-    xorg.libXtst
-    xorg.libXrandr
-    xorg.libXext
-    xorg.libX11
-    xorg.libXfixes
+    libxcomposite
+    libxtst
+    libxrandr
+    libxext
+    libx11
+    libxfixes
     libGL
 
     gst_all_1.gstreamer
     gst_all_1.gst-plugins-ugly
     gst_all_1.gst-plugins-base
     libdrm
-    xorg.xkeyboardconfig
-    xorg.libpciaccess
+    xkeyboard-config
+    libpciaccess
 
     glib
     gtk2
@@ -26,15 +26,15 @@
     zlib
     gdk-pixbuf
 
-    xorg.libXinerama
-    xorg.libXdamage
-    xorg.libXcursor
-    xorg.libXrender
-    xorg.libXScrnSaver
-    xorg.libXxf86vm
-    xorg.libXi
-    xorg.libSM
-    xorg.libICE
+    libxinerama
+    libxdamage
+    libxcursor
+    libxrender
+    libxscrnsaver
+    libxxf86vm
+    libxi
+    libsm
+    libice
     freetype
     curlWithGnuTls
     nspr
@@ -54,21 +54,21 @@
     at-spi2-atk
     libudev0-shim
 
-    xorg.libXt
-    xorg.libXmu
-    xorg.libxcb
-    xorg.xcbutil
-    xorg.xcbutilwm
-    xorg.xcbutilimage
-    xorg.xcbutilkeysyms
-    xorg.xcbutilrenderutil
+    libxt
+    libxmu
+    libxcb
+    libxcb-util
+    libxcb-wm
+    libxcb-image
+    libxcb-keysyms
+    libxcb-render-util
     libGLU
     libuuid
     libogg
     libvorbis
     SDL
     SDL2_image
-    glew110
+    glew_1_10
     openssl
     libidn
     tbb
@@ -80,7 +80,6 @@
     flac
     freeglut
     libjpeg
-    libpng12
     libpulseaudio
     libsamplerate
     libmikmod
@@ -94,13 +93,12 @@
     SDL_mixer
     SDL2_ttf
     SDL2_mixer
-    libappindicator-gtk2
     libcaca
     libcanberra
     libgcrypt
     libvpx
     librsvg
-    xorg.libXft
+    libxft
     libvdpau
     alsa-lib
 
@@ -117,7 +115,7 @@
     # libraries not on the upstream include list, but nevertheless expected
     # by at least one appimage
     libtool.lib # for Synfigstudio
-    xorg.libxshmfence # for apple-music-electron
+    libxshmfence # for apple-music-electron
     at-spi2-core
     pciutils # for FreeCAD
     pipewire # immersed-vr wayland support

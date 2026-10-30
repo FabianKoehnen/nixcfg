@@ -1,6 +1,4 @@
-{ pkgs
-, ...
-}: {
+{pkgs, ...}: {
   # https://nixos.wiki/wiki/Jetbrains_Tools
   environment.systemPackages = with pkgs; [
     pkgs.jetbrains-toolbox

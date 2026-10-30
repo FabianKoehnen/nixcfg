@@ -3,7 +3,7 @@
 , ...
 }: {
   hardware.logitech.wireless.enable = true;
-  hardware.logitech.wireless.enableGraphical = true;
+  programs.solaar.enable = true;
 
   # Install logiops package
   environment.systemPackages = [ pkgs.logiops ];

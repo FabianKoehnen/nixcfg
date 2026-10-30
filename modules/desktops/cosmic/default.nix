@@ -1,9 +1,11 @@
-{ pkgs
-, user
-, wallpaper
-, inputs
-, ...
-}: {
+{
+  pkgs,
+  user,
+  wallpaper,
+  inputs,
+  ...
+}:
+{
   imports = [
     #    ../../tools/cosmic-greet
     ../../tools/darkman
@@ -16,7 +18,7 @@
     # pyprland
     devtoolbox
 
-    libreoffice-fresh
+    libreoffice-stable
     gnome-usage
     gnome-calculator
     pkgs.gnome-disk-utility
@@ -35,14 +37,14 @@
     playerctl
 
     # Xfce Tools
-    xfce.ristretto
-    xfce.thunar
-    xfce.xfce4-taskmanager
-    xfce.mousepad
-    xfce.exo
+    ristretto
+    thunar
+    mousepad
+    xfce4-exo
 
     #cosmic apps
     quick-webapps
+    cosmic-monitor
     cosmic-ext-tweaks
     cosmic-ext-ctl
     cosmic-ext-applet-caffeine
@@ -99,5 +101,3 @@
     };
   };
 }
-
-

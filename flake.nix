@@ -82,20 +82,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    hermes-agent.url = "github:NousResearch/hermes-agent";
   };
 
   outputs =
-    { self
-    , nixpkgs
-    , nixpkgs-unstable
-    , nix-darwin
-    , home-manager
-    , home-manager-unstable
-    , cosmic-manager
-    , secrets
-    , systems
-    , ...
+    {
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      nix-darwin,
+      home-manager,
+      home-manager-unstable,
+      cosmic-manager,
+      secrets,
+      systems,
+      ...
     }@inputs:
     let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
@@ -207,9 +207,13 @@
           system = "x86_64-linux";
           specialArgs = {
             unstable = nixpkgs-unstable.legacyPackages.${system};
+            stable = nixpkgs.legacyPackages.${system};
             user = "fabian";
-            wallpaper = let
-                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs-unstable.legacyPackages.${system}; };
+            wallpaper =
+              let
+                droolBackground = import ./pkgs/gnome-backgrounds-png {
+                  pkgs = nixpkgs-unstable.legacyPackages.${system};
+                };
               in
               {
                 light = "${droolBackground}/drool-l.png";
@@ -220,7 +224,6 @@
           modules = [
             inputs.impermanence.nixosModules.impermanence
             inputs.nix-flatpak.nixosModules.nix-flatpak
-            inputs.hermes-agent.nixosModules.default
 
             ./hosts/work/blumenPeter/default.nix
 
@@ -231,13 +234,16 @@
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
-                            wallpaper = let
-                droolBackground = import ./pkgs/gnome-backgrounds-png { pkgs = nixpkgs-unstable.legacyPackages.${system}; };
-              in
-              {
-                light = "${droolBackground}/drool-l.png";
-                dark = "${droolBackground}/drool-d.png";
-              };
+                wallpaper =
+                  let
+                    droolBackground = import ./pkgs/gnome-backgrounds-png {
+                      pkgs = nixpkgs-unstable.legacyPackages.${system};
+                    };
+                  in
+                  {
+                    light = "${droolBackground}/drool-l.png";
+                    dark = "${droolBackground}/drool-d.png";
+                  };
                 inherit inputs;
               };
               home-manager.sharedModules = [
@@ -247,7 +253,7 @@
             }
 
             # others
-#             secrets.nixosModules.blumenPeter
+            #             secrets.nixosModules.blumenPeter
             inputs.sops-nix.nixosModules.sops
           ];
         };

@@ -4,6 +4,7 @@
 
 {
   config,
+  inputs,
   user,
   lib,
   pkgs,
@@ -23,6 +24,7 @@
     ../../../modules/base/nix-ld.nix
 
     ../../../defaults/graphical/laptop
+    ../../../modules/hardware/logitech/mxmaster
 
     # ../../../modules/tools/sddm
     ../../../modules/tools/cosmic-greet
@@ -34,11 +36,26 @@
     ../../../modules/editors/zed
 
     ../../../modules/tools/appimage
-    # ../../../modules/tools/searx
+    ../../../modules/tools/searx
   ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
+    kernelPackages = lib.mkForce (pkgs.linuxPackages_6_18.extend (_final: prev: {
+      tuxedo-drivers = prev.tuxedo-drivers.overrideAttrs (old: {
+        postPatch = (old.postPatch or "") + ''
+          # Recursive make inherits flags through the environment. Expanding
+          # MAKEFLAGS in a shell command breaks kernel signing expressions.
+          substituteInPlace Makefile \
+            --replace-fail 'make -C $(KDIR) M=$(PWD) $(MAKEFLAGS)' '$(MAKE) -C $(KDIR) M=$(PWD)'
+        '';
+        postInstall = (old.postInstall or "") + ''
+          # NixOS generates depmod indexes after combining all kernel modules.
+          # Package-local indexes conflict with the kernel's own indexes.
+          rm -f "$out/lib/modules/${prev.kernel.modDirVersion}/"modules.{alias,alias.bin,builtin.alias.bin,builtin.bin,dep,dep.bin,devname,softdep,symbols,symbols.bin}
+        '';
+      });
+    }));
     loader = {
       timeout = 1;
       systemd-boot = {
@@ -54,6 +71,13 @@
   # Configure network connections interactively with nmcli or nmtui.
   networking.networkmanager.enable = true;
 
+  networking.networkmanager.dns = "dnsmasq";
+
+  environment.etc."NetworkManager/dnsmasq.d/local-domain-overrides.conf".text = ''
+    address=/ddev.site/127.0.0.1
+    # address=/example.test/192.168.1.20
+  '';
+
   fonts.packages = with pkgs; [ fira-sans ];
 
   environment.systemPackages = with pkgs; [
@@ -65,22 +89,34 @@
     shopware-cli
     mkcert
     dbeaver-bin
+    android-studio
 
     ungoogled-chromium
+    google-chrome
     vivaldi
     obsidian
+    # playwright-mcp
+    (callPackage ../../../pkgs/playwright-cli { })
     php
     phpactor
+    steam-run
+    unstable.opencode
+    unstable.opencode-desktop
+    unstable.codex
+
+    # android-tools
 
     cloudflared
     unstable.ddev
     python314Packages.ddgs
   ];
+  nixpkgs.config.android_sdk.accept_license = true;
 
   boot.kernel.sysctl = {
     "fs.inotify.max_user_watches" = 1048576;
   };
 
+  virtualisation.waydroid.enable = true;
   virtualisation.docker = {
     enable = true;
     daemon.settings.features.cdi = true;
@@ -151,54 +187,6 @@
     builtins.elem (lib.getName pkg) [
       "cuda_cudart"
     ];
-  services.hermes-agent = {
-    enable = true;
-    container = {
-      enable = true;
-      hostUsers = [
-        user
-      ];
-      extraVolumes = [
-        "/home/fabian/www/shopware:/data/shopware"
-      ];
-    };
-    settings = {
-      model = {
-        default = "gemma4:e4b";
-        provider = "custom";
-        base_url = "http://localhost:11434/v1";
-      };
-      toolsets = [ "all" ];
-      compression = {
-        enabled = true;
-        threshold = 0.85;
-        summary_model = "gemma4:e4b";
-      };
-      memory = {
-        memory_enabled = true;
-        user_profile_enabled = true;
-      };
-      display = {
-        compact = false;
-        personality = "technical";
-      };
-      mcpServers = {
-        phpstorm = {
-          url = "http://127.0.0.1:64342/sse";
-        };
-      };
-      web = {
-        search_backend = "searxng";
-      };
-      #       {
-      #   "type": "streamable-http",
-      #   "url": "http://127.0.0.1:64342/stream",
-      #   "headers": {}
-      # }
-    };
-    environmentFiles = [ "/var/lib/hermes/env" ];
-    addToSystemPackages = true;
-  };
 
   users = {
     mutableUsers = false;
@@ -211,8 +199,8 @@
         "adbusers"
         "dialout"
         "plugdev"
-        "hermes"
         "nogroup"
+        "kvm"
       ];
       shell = pkgs.zsh;
     };
@@ -233,6 +221,9 @@
     ];
   };
 
+  # machine-id is persisted directly, not a transient tmpfs mount to commit.
+  systemd.services.systemd-machine-id-commit.enable = false;
+
   environment.persistence."/persist/impermanence" = {
     hideMounts = true;
     directories = [
@@ -245,6 +236,7 @@
   };
 
   networking.firewall.allowedTCPPorts = [
+    9998
     9003
     443
   ];

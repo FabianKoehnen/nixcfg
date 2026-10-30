@@ -1,9 +1,11 @@
-{ pkgs
-, unstable
-, user
-, lib
-, ...
-}: {
+{
+  pkgs,
+  unstable,
+  user,
+  lib,
+  ...
+}:
+{
   home-manager.users.${user} = {
     config = {
       xdg.enable = true;
@@ -14,7 +16,6 @@
           signal-desktop
           discord
         ];
-
 
         # https://github.com/ddev/ddev/issues/8183
         file = {
@@ -28,20 +29,25 @@
       };
 
       programs = {
+        yazi.shellWrapperName = "yy";
         eza = {
           enable = true;
           enableZshIntegration = true;
         };
         zsh = {
+          dotDir = "/home/${user}";
           initContent = lib.mkBefore (
-            lib.strings.concatStringsSep "\n" (
-              [
-                "export PATH=\"\$HOME/.npm-global/bin:\$PATH\""
-                "stty intr ^X" # interrupt commands with ctrl + x instead of c
-              ]
-            )
+            lib.strings.concatStringsSep "\n" ([
+              "export PATH=\"\$HOME/.npm-global/bin:\$PATH\""
+              "stty intr ^X" # interrupt commands with ctrl + x instead of c
+            ])
           );
         };
+      };
+
+      catppuccin = {
+        enable = false;
+        autoEnable = false;
       };
     };
   };

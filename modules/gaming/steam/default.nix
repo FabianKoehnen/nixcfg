@@ -41,6 +41,8 @@
     steam = pkgs.steam.override {
       extraPkgs = pkgs:
         with pkgs; [
+          gtk2
+          at-spi2-core
           libXcursor
           libXi
           libXinerama

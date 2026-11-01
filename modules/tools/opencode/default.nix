@@ -52,11 +52,6 @@ in
     programs.opencode = {
       enable = true;
       settings = {
-        # Superpowers skills and workflow bootstrap for OpenCode v2.
-        plugins = [
-          "superpowers@git+https://github.com/obra/superpowers.git#v7.0.1"
-        ];
-
         # Hide the paid opencode-go plan models; keep the *-free ones.
         disabled_providers = [ "opencode-go" ];
 
@@ -85,6 +80,11 @@ in
             "file *" = "allow";
             "stat *" = "allow";
             "du *" = "allow";
+            "test *" = "allow";
+            "realpath *" = "allow";
+            "basename *" = "allow";
+            "dirname *" = "allow";
+            "sha256sum *" = "allow";
 
             # --- Read-only: filesystem search ---
             "find * -delete *" = "deny";
@@ -144,6 +144,9 @@ in
             # --- Read-only: system & Nix info ---
             "pwd" = "allow";
             "whoami" = "allow";
+            "uname *" = "allow";
+            "id *" = "allow";
+            "groups *" = "allow";
             "date" = "allow";
             "ps *" = "allow";
             "nix --version" = "allow";

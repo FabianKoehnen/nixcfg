@@ -1,43 +1,43 @@
-{
-  lib,
-  stdenv,
-  fetchFromGitHub,
-  fetchzip,
-  firefox-bin,
-  buildNpmPackage,
-  nodejs,
-  makeWrapper,
-  makeDesktopItem,
-  copyDesktopItems,
-  autoPatchelfHook,
-  patchelf,
-  linkFarm,
-  makeFontsConf,
-  alsa-lib,
-  at-spi2-atk,
-  atk,
-  cairo,
-  cups,
-  dbus,
-  expat,
-  glib,
-  libgbm,
-  libgcc,
-  libxkbcommon,
-  nspr,
-  nss,
-  pango,
-  systemd,
-  libx11,
-  libxcomposite,
-  libxdamage,
-  libxext,
-  libxfixes,
-  libxrandr,
-  libxcb,
-  libGL,
-  vulkan-loader,
-  pciutils,
+{ lib
+, stdenv
+, fetchFromGitHub
+, fetchzip
+, firefox-bin
+, buildNpmPackage
+, nodejs
+, makeWrapper
+, makeDesktopItem
+, copyDesktopItems
+, autoPatchelfHook
+, patchelf
+, linkFarm
+, makeFontsConf
+, alsa-lib
+, at-spi2-atk
+, atk
+, cairo
+, cups
+, dbus
+, expat
+, glib
+, libgbm
+, libgcc
+, libxkbcommon
+, nspr
+, nss
+, pango
+, systemd
+, libx11
+, libxcomposite
+, libxdamage
+, libxext
+, libxfixes
+, libxrandr
+, libxcb
+, libGL
+, vulkan-loader
+, pciutils
+,
 }:
 let
   revision = "1247";
@@ -45,12 +45,12 @@ let
   base = "https://cdn.playwright.dev/builds/cft/${browserVersion}/linux64";
   fonts = makeFontsConf { fontDirectories = [ ]; };
   browser =
-    {
-      name,
-      archive,
-      hash,
-      directory,
-      executable,
+    { name
+    , archive
+    , hash
+    , directory
+    , executable
+    ,
     }:
     stdenv.mkDerivation {
       pname = "playwright-${name}";
@@ -157,7 +157,7 @@ let
         archive = "chrome-headless-shell-linux64";
         directory = "chrome-headless-shell-linux64";
         executable = "chrome-headless-shell";
-        hash = "sha256-P9veFZJxNZLxMjrqRZrxoQzVkqYY9j6tct3WqFOa9RY=";
+        hash = "sha256-VHdg39LL+hAvczf9dyUXUXzj4cc7DIbJQ6LtN3/c78A=";
       };
     }
   ];

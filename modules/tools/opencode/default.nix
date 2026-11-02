@@ -1,11 +1,11 @@
-{
-  user,
-  pkgs,
-  unstable,
-  lib,
-  config,
-  ...
-}: let
+{ user
+, pkgs
+, unstable
+, lib
+, config
+, ...
+}:
+let
   # Individual targets avoid taking ownership of OpenCode's mutable directory.
   files = [
     "AGENTS.md"
@@ -34,12 +34,13 @@
   # referring to them directly avoids reading a built driver during evaluation.
   chromiumPath = "${pkgs.playwright-driver.components.chromium}/chrome-linux64/chrome";
   firefoxPath = "${pkgs.playwright-driver.components.firefox}/firefox/firefox";
-  playwrightCli = pkgs.callPackage ../../../pkgs/playwright-cli {};
-  mkPlaywrightMcp = {
-    name,
-    browser,
-    executable,
-  }:
+  playwrightCli = pkgs.callPackage ../../../pkgs/playwright-cli { };
+  mkPlaywrightMcp =
+    { name
+    , browser
+    , executable
+    ,
+    }:
     pkgs.writeShellScriptBin name ''
       export PLAYWRIGHT_BROWSERS_PATH="''${PLAYWRIGHT_BROWSERS_PATH:-$HOME/.cache/ms-playwright}"
       export PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS=true
@@ -56,7 +57,8 @@
     browser = "firefox";
     executable = firefoxPath;
   };
-in {
+in
+{
   options.services.opencode.ollama.enable = lib.mkEnableOption "the OpenCode Ollama service and provider";
 
   config = {
@@ -68,12 +70,12 @@ in {
     ];
 
     home-manager.users.${user} = {
-      home.packages = [playwrightCli];
+      home.packages = [ playwrightCli ];
 
       programs.opencode = {
         enable = true;
         package = unstable.opencode;
-        extraPackages = [playwrightCli];
+        extraPackages = [ playwrightCli ];
         agents = {
           worker-small = ./agents/worker-small.md;
           worker-medium = ./agents/worker-medium.md;
@@ -92,7 +94,7 @@ in {
         };
         settings = {
           # Kept outside plugins/ auto-discovery so this single entry loads all parts once.
-          plugins = ["/home/${user}/.local/share/opencode/usage-budget"];
+          plugins = [ "/home/${user}/.local/share/opencode/usage-budget" ];
           agents = {
             build.color = "#3b82f6";
             plan.color = "#22c55e";
@@ -109,7 +111,7 @@ in {
           };
           experimental.todo = true;
           # Hide LM Studio and the paid opencode-go plan models; keep the *-free ones.
-          disabled_providers = ["lmstudio" "opencode-go"];
+          disabled_providers = [ "lmstudio" "opencode-go" ];
 
           permission = {
             "gitlab-mcp_*" = "ask";
@@ -228,62 +230,6 @@ in {
             };
           };
 
-          mcp = {
-            home-assistant = {
-              type = "remote";
-              url = "https://fabian-nas:8123/api/mcp";
-              enabled = false;
-              oauth.clientId = "http://127.0.0.1:19876/";
-            };
-            playwright = {
-              type = "local";
-              command = ["${playwright-mcp-system}/bin/playwright-mcp" "--headless"];
-              enabled = true;
-              environment = {
-                PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-              };
-            };
-            playwright-headed = {
-              type = "local";
-              # Own profile dir so it can run alongside the headless server
-              # (they would otherwise fight over the default profile lock).
-              command = [
-                "${playwright-mcp-system}/bin/playwright-mcp"
-                "--user-data-dir"
-                "/home/${user}/.cache/ms-playwright-headed-profile"
-              ];
-              enabled = false;
-              environment = {
-                PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-              };
-            };
-            playwright-firefox = {
-              type = "local";
-              command = [
-                "${playwright-mcp-firefox}/bin/playwright-mcp-firefox"
-                "--headless"
-                "--user-data-dir"
-                "/home/${user}/.cache/ms-playwright-firefox-headless-profile"
-              ];
-              enabled = false;
-              environment = {
-                PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-              };
-            };
-            playwright-firefox-headed = {
-              type = "local";
-              command = [
-                "${playwright-mcp-firefox}/bin/playwright-mcp-firefox"
-                "--user-data-dir"
-                "/home/${user}/.cache/ms-playwright-firefox-headed-profile"
-              ];
-              enabled = false;
-              environment = {
-                PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS = "true";
-              };
-            };
-          };
-
           provider = lib.mkIf config.services.opencode.ollama.enable {
             ollama = {
               npm = "@ai-sdk/openai-compatible";
@@ -302,7 +248,8 @@ in {
       home.file.".local/share/opencode/usage-budget".source = ./plugins/usage-budget;
 
       xdg.configFile =
-        (builtins.listToAttrs (map (file: {
+        (builtins.listToAttrs (map
+          (file: {
             name = "opencode/${file}";
             value.source = ./. + "/${file}";
           })

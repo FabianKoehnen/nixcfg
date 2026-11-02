@@ -32,6 +32,8 @@
   ];
   nixpkgs.config = {
     allowUnfree = true;
+    # Lutris includes GTK2 in its FHS environment.
+    problems.handlers."gtk+".broken = "ignore";
     permittedInsecurePackages = [
       "python3.13-ecdsa-0.19.1"
     ];
@@ -119,8 +121,6 @@
       package = pkgs.nix-direnv;
     };
   };
-
-  services.desktopManager.plasma6.enable = true;
 
   services.ollama = {
     enable = true;

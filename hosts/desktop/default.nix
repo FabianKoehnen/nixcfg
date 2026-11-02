@@ -1,15 +1,10 @@
 # Edit this configuration file to define what should be installed on
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running `nixos-help`).
-{ config
-, pkgs
+{ pkgs
 , unstable
-, user
-, lib
 , ...
-}:
-{
-
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -28,20 +23,30 @@
     ../../modules/tools/cad
     ../../modules/tools/bambulab
 
-    ../../modules/virt/virt-manager
+    # ../../modules/virt/virt-manager
     ../../modules/tools/waylus
     ../../modules/tools/appimage
-    ../../modules/tools/typst
+    ../../modules/tools/opencode
 
     # ../../modules/dev/godot
   ];
   nixpkgs.config = {
+    allowUnfree = true;
     permittedInsecurePackages = [
       "python3.13-ecdsa-0.19.1"
     ];
   };
 
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelParams = [
+    "fs.inotify.max_user_watches=1048576"
+    # "rd.systemd.unit=rescue.target"
+    # "rd.systemd.debug_shell"
+  ];
+
+  # boot.blacklistedKernelModules = [
+  #   "sp5100_tco"
+  # ];
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # Use the systemd-boot EFI boot loader.
@@ -56,6 +61,8 @@
     };
   };
 
+  boot.initrd.systemd.emergencyAccess = true;
+
   networking.hostName = "fabians-nix-desktop";
   #  networking.extraHosts = ''
   #    192.168.178.157 esphome.internal
@@ -68,32 +75,39 @@
   environment.systemPackages = with pkgs; [
     keepassxc
 
-    unstable.youtube-music
+    unstable.pear-desktop
     prismlauncher
     r2modman
     blender
     krita
     gparted
-    arduino-ide
-    adafruit-nrfutil
+    # arduino-ide
+    # adafruit-nrfutil
 
-    wineWowPackages.waylandFull
     winetricks
     unstable.dbeaver-bin
+    ddev
 
     nextcloud-client
 
     freecad
+    pinta
+
+    kdePackages.okular
+    android-tools
+    lutris
   ];
 
-  services.lact.enable = true;
+  # services.displayManager.sddm.wayland.enable = true;
+
+  environment.etc.hosts.mode = "0644";
+
+  # services.lact.enable = true;
 
   programs.firefox = {
     enable = true;
     package = pkgs.firefox;
   };
-
-  programs.adb.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -106,14 +120,33 @@
     };
   };
 
+  services.desktopManager.plasma6.enable = true;
+
   services.ollama = {
     enable = true;
-    package = unstable.ollama;
-    acceleration = "rocm";
+    package = unstable.ollama-rocm;
+    openFirewall = true;
+    host = "0.0.0.0";
+    # models = "/4TB_NVME/ollama/models";
     rocmOverrideGfx = "10.3.0";
+    user = "ollama";
     environmentVariables = {
-      OLLAMA_GPU_OVERHEAD = "500000000";
+      OLLAMA_CONTEXT_LENGTH = "30000";
+      OLLAMA_GPU_OVERHEAD = "1073741824";
+      OLLAMA_MAX_LOADED_MODELS = "1";
+      OLLAMA_NUM_PARALLEL = "2";
+      OLLAMA_FLASH_ATTENTION = "1";
+      # OLLAMA_KV_CACHE_TYPE="Q4_K_M";
     };
+  };
+
+  networking.firewall = {
+    extraCommands = "
+      iptables -I nixos-fw 1 -i br+ -j ACCEPT
+    ";
+    extraStopCommands = "
+      iptables -D nixos-fw -i br+ -j ACCEPT
+    ";
   };
 
   services.open-webui = {
@@ -121,6 +154,23 @@
     enable = false;
     environment = {
       WEBUI_AUTH = "false";
+    };
+  };
+
+  # Local SearXNG endpoint for OpenCode web searches. JSON must be explicitly
+  # enabled; otherwise requests with format=json return HTTP 403.
+  services.searx = {
+    enable = true;
+    settings = {
+      server = {
+        bind_address = "127.0.0.1";
+        port = 8888;
+        # Local-only instance: deterministic key avoids placing a secret in
+        # the world-readable Nix store. It is not exposed beyond loopback.
+        secret_key = builtins.hashString "sha256" "fabians-nix-desktop-searxng-local";
+        limiter = false;
+      };
+      search.formats = [ "html" "json" ];
     };
   };
 
@@ -134,6 +184,7 @@
         "adbusers"
         "dialout"
         "plugdev"
+        "networkmanager"
       ];
       shell = pkgs.zsh;
     };
@@ -160,10 +211,9 @@
       "/etc/NetworkManager/system-connections"
       "/var/lib/bluetooth"
     ];
-    files = [
-      "/etc/machine-id"
-    ];
   };
+
+  environment.etc.machine-id.source = "/persist/etc/machine-id";
 
   systemd = {
     services = {
@@ -193,10 +243,11 @@
     3131
     8080
   ];
+  networking.wireless.userControlled = true;
   #  networking.firewall.allowedUDPPorts = [3979];
 
-  services.tailscale.enable = true;
-  networking.firewall.trustedInterfaces = [ "tailscale0" ];
+  # services.tailscale.enable = false;
+  # networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

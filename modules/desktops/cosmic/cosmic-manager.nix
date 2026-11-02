@@ -101,7 +101,6 @@
       "com.system76.CosmicSettings.Shortcuts" = {
         version = 1;
         entries = {
-          # custom = cosmicLib.cosmic.mkRON "raw" "{\n    (\n        modifiers: [],\n        key: \"Print\",\n    ): Disable,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"e\",\n        description: Some(\"files\"),\n    ): Spawn(\"cosmic-files\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Return\",\n        description: Some(\"kitty\"),\n    ): Spawn(\"kitty\"),\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Right\",\n    ): MoveToNextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Down\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"f\",\n        description: Some(\"firefox\"),\n    ): Spawn(\"firefox\"),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Up\",\n    ): System(WorkspaceOverview),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Left\",\n    ): PreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n            Shift,\n        ],\n        key: \"Left\",\n    ): MoveToPreviousWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"Right\",\n    ): NextWorkspace,\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"l\",\n    ): System(LockScreen),\n    (\n        modifiers: [\n            Super,\n        ],\n        key: \"w\",\n    ): Close,\n}";
           custom = cosmicLib.cosmic.mkRON "raw" ''{
               (
                   modifiers: [],
@@ -179,7 +178,6 @@
                   key: "w",
               ): Close,
           }'';
-          # system_actions = cosmicLib.cosmic.mkRON "raw" "{\n    Terminal: \"kitty\",\n}";
           system_actions = cosmicLib.cosmic.mkRON "raw" ''{
             Terminal: "kitty",
           }'';
@@ -219,7 +217,6 @@
           autohover_delay_ms = cosmicLib.cosmic.mkRON "optional" 500;
           size = cosmicLib.cosmic.mkRON "raw" "Custom(24)";
           background = cosmicLib.cosmic.mkRON "raw" "ThemeDefault";
-          # autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 1000,\n    transition_time: 200,\n    handle_size: 4,\n    unhide_delay: 200,\n)");
           autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" ''(
               wait_time: 1000,
               transition_time: 200,
@@ -230,7 +227,6 @@
           expand_to_edges = true;
           exclusive_zone = false;
           size_wings = cosmicLib.cosmic.mkRON "optional" null;
-          # plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "([\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicAppletWorkspaces\",\n], [\n    \"com.system76.CosmicAppletStatusArea\",\n    \"com.system76.CosmicAppletTiling\",\n    \"com.system76.CosmicAppletAudio\",\n    \"com.system76.CosmicAppletBluetooth\",\n    \"com.system76.CosmicAppletNetwork\",\n    \"com.system76.CosmicAppletBattery\",\n    \"com.system76.CosmicAppletNotifications\",\n    \"com.system76.CosmicAppletPower\",\n])");
           plugins_wings = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" ''([
               "com.system76.CosmicPanelWorkspacesButton",
               "com.system76.CosmicAppletWorkspaces",
@@ -252,7 +248,6 @@
         entries = {
           anchor = cosmicLib.cosmic.mkRON "raw" "Bottom";
           anchor_gap = false;
-          # autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "(\n    wait_time: 500,\n    transition_time: 200,\n    handle_size: 2,\n    unhide_delay: 200,\n)");
           autohide = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" ''(
               wait_time: 500,
               transition_time: 200,
@@ -272,7 +267,6 @@
           output = cosmicLib.cosmic.mkRON "raw" "All";
           padding = 0;
           padding_overlap = 0.5;
-          # plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" "[\n    \"com.system76.CosmicPanelWorkspacesButton\",\n    \"com.system76.CosmicPanelAppButton\",\n    \"com.system76.CosmicAppList\",\n    \"com.system76.CosmicAppletMinimize\",\n]");
           plugins_center = cosmicLib.cosmic.mkRON "optional" (cosmicLib.cosmic.mkRON "raw" ''[
               "com.system76.CosmicPanelAppButton",
               "com.system76.CosmicAppList",
@@ -303,7 +297,6 @@
       "com.system76.CosmicFiles" = {
         version = 1;
         entries = {
-          # tab = cosmicLib.cosmic.mkRON "raw" "(\n    folders_first: true,\n    icon_sizes: (\n        list: 100,\n        grid: 100,\n    ),\n    show_hidden: true,\n    single_click: false,\n    view: List,\n)";
           tab = cosmicLib.cosmic.mkRON "raw" ''(
               folders_first: true,
               icon_sizes: (
@@ -314,7 +307,6 @@
               single_click: false,
               view: List,
           )'';
-          # desktop = cosmicLib.cosmic.mkRON "raw" "(\n    grid_spacing: 100,\n    icon_size: 100,\n    show_content: false,\n    show_mounted_drives: false,\n    show_trash: false,\n)";
           desktop = cosmicLib.cosmic.mkRON "raw" ''(
               grid_spacing: 100,
               icon_size: 100,
@@ -328,7 +320,6 @@
       "com.system76.CosmicPanelButton" = {
         version = 1;
         entries = {
-          # configs = cosmicLib.cosmic.mkRON "raw" "{\n    \"Dock\": (\n        force_presentation: Some(Icon),\n    ),\n    \"Panel\": (\n        force_presentation: None,\n    ),\n}";
           configs = cosmicLib.cosmic.mkRON "raw" ''{
               "Dock": (
                   force_presentation: Some(Icon),

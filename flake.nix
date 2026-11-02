@@ -76,7 +76,7 @@
     catppuccin.url = "github:catppuccin/nix";
 
     lanzaboote = {
-      url = "github:nix-community/lanzaboote/v0.4.3";
+      url = "github:nix-community/lanzaboote/v1.1.0";
 
       # Optional but recommended to limit the size of your system closure.
       inputs.nixpkgs.follows = "nixpkgs";
@@ -85,29 +85,30 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      nixpkgs-unstable,
-      nix-darwin,
-      home-manager,
-      home-manager-unstable,
-      cosmic-manager,
-      secrets,
-      systems,
-      ...
+    { self
+    , nixpkgs
+    , nixpkgs-unstable
+    , nix-darwin
+    , home-manager
+    , home-manager-unstable
+    , cosmic-manager
+    , secrets
+    , systems
+    , ...
     }@inputs:
     let
       eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
       treefmtEval = eachSystem (pkgs: inputs.treefmt-nix.lib.evalModule pkgs ./treefmt.nix);
+      user = "fabian";
     in
     {
       nixosConfigurations = {
-        "fabians-nix-desktop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-desktop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
-            user = "fabian";
-            unstable = nixpkgs.legacyPackages.${system};
+            inherit user;
+            unstable = nixpkgs-unstable.legacyPackages.${system};
+            stable = nixpkgs.legacyPackages.${system};
             hyprpkgs = inputs.hypr_contrib.packages.${system};
             wallpaper =
               let
@@ -133,20 +134,27 @@
             ./modules/base/secureboot.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
-            ./hosts/desktop/home.nix
+            home-manager-unstable.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                wallpaper = specialArgs.wallpaper;
+              home-manager = {
+                useGlobalPkgs = true;
+                useUserPackages = true;
+                # An unmanaged file (e.g. opencode.json written by opencode
+                # itself) must back up, not abort the whole activation.
+                backupFileExtension = "backup";
+                extraSpecialArgs = {
+                  inherit inputs;
+                  unstable = specialArgs.unstable;
+                  wallpaper = specialArgs.wallpaper;
+                };
+                sharedModules = [
+                  inputs.sops-nix.homeManagerModules.sops
+                  inputs.catppuccin.homeModules.catppuccin
+                ];
+                users.${user}.imports = [
+                  ./hosts/desktop/home.nix
+                ];
               };
-              home-manager.sharedModules = [
-                inputs.sops-nix.homeManagerModules.sops
-                # inputs.nixvim.homeManagerModules.nixvim
-                inputs.catppuccin.homeModules.catppuccin
-              ];
             }
 
             # others
@@ -157,10 +165,11 @@
           ];
         };
 
-        "fabians-nix-laptop" = nixpkgs.lib.nixosSystem rec {
+        "fabians-nix-laptop" = nixpkgs-unstable.lib.nixosSystem rec {
           system = "x86_64-linux";
           specialArgs = {
             unstable = nixpkgs-unstable.legacyPackages.${system};
+            stable = nixpkgs.legacyPackages.${system};
             user = "fabian";
             wallpaper =
               let
@@ -179,13 +188,14 @@
             ./hosts/laptop/default.nix
 
             # home-manager
-            home-manager.nixosModules.home-manager
+            home-manager-unstable.nixosModules.home-manager
             ./hosts/laptop/home.nix
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
+                wallpaper = specialArgs.wallpaper;
               };
               home-manager.sharedModules = [
                 inputs.sops-nix.homeManagerModules.sops
@@ -233,6 +243,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
               home-manager.extraSpecialArgs = {
                 wallpaper =
                   let
@@ -257,7 +268,65 @@
             inputs.sops-nix.nixosModules.sops
           ];
         };
+
       };
+
+      darwinConfigurations."MacBook-Pro-FK" = nix-darwin.lib.darwinSystem {
+        specialArgs = {
+          unstable = nixpkgs-unstable.legacyPackages.x86_64-darwin;
+          user = "fabian";
+          inherit inputs;
+        };
+        modules = [
+          home-manager.darwinModules.home-manager
+          ./hosts/macbook/default.nix
+          ./hosts/macbook/home.nix
+          {
+            nix.linux-builder = {
+              enable = true;
+              #                ephemeral = true;
+              #                trusted-users = [ "builder" "fabian" ];
+              #                package = inputs.nixpkgs-unstable.legacyPackages.x86_64-darwin.darwin.linux-builder;
+              #                config = {
+              #                  nix = {
+              #                    settings = {
+              #                      trusted-users = [ "builder" "fabian" ];
+              #                    };
+              ##                    gc.automatic = true;
+              #                  };
+
+              #                  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+              #                };
+            };
+            nix.buildMachines = [
+              {
+                hostName = "linux-builder";
+                mandatoryFeatures = [ ];
+                maxJobs = 1;
+                protocol = "ssh";
+                publicHostKey = "c3NoLWVkMjU1MTkgQUFBQUMzTnphQzFsWkRJMU5URTVBQUFBSUpCV2N4Yi9CbGFxdDFhdU90RStGOFFVV3JVb3RpQzVxQkorVXVFV2RWQ2Igcm9vdEBuaXhvcwo=";
+                speedFactor = 1;
+                sshKey = "/etc/nix/builder_ed25519";
+                sshUser = "builder";
+                supportedFeatures = [
+                  "kvm"
+                  "benchmark"
+                  "big-parallel"
+                ];
+                system = "x86_64-linux";
+              }
+            ];
+            system = {
+              stateVersion = 4;
+              configurationRevision = self.rev or self.dirtyRev or null;
+            };
+            nixpkgs.hostPlatform = "x86_64-darwin";
+            services.nix-daemon.enable = true;
+          }
+        ];
+      };
+
+      darwinPackages = self.darwinConfigurations."MacBook-Pro-FK".pkgs;
 
       formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
 

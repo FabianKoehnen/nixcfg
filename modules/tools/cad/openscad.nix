@@ -1,10 +1,9 @@
-{
-  pkgs,
-  user,
-  ...
+{ pkgs
+, user
+, ...
 }: {
   environment.systemPackages = with pkgs; [
-    openscad
+    # openscad
   ];
 
   home-manager.users.${user}.home = {

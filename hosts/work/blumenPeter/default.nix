@@ -37,7 +37,57 @@
 
     ../../../modules/tools/appimage
     ../../../modules/tools/searx
+    ../../../modules/tools/opencode
   ];
+
+  home-manager.users.${user}.programs.opencode.settings = {
+    provider."openai-api" = {
+      npm = "@ai-sdk/openai";
+      name = "OpenAI (API Key)";
+      options = {
+        baseURL = "https://api.openai.com/v1";
+        # OpenCode resolves this at runtime; the key itself stays out of the Nix store.
+        apiKey = "{file:~/.secrets/openai-key}";
+      };
+      models = {
+        "gpt-6.1-sol".name = "gpt-6.1-sol";
+        "gpt-6.1-terra".name = "gpt-6.1-terra";
+        "gpt-6-luna".name = "gpt-6-luna";
+      };
+    };
+
+    mcp = {
+      atlassian = {
+        type = "remote";
+        url = "https://mcp.atlassian.com/v2/mcp";
+        enabled = false;
+      };
+      gitlab-mcp = {
+        type = "remote";
+        url = "https://gitlab.com/api/v4/mcp";
+        enabled = false;
+      };
+      penpot = {
+        type = "remote";
+        url = "http://localhost:9001/mcp/stream?userToken={file:~/.secrets/penpot-mcp-user-token}";
+        enabled = false;
+      };
+      phpstorm = {
+        type = "local";
+        enabled = false;
+        command = [
+          "/home/fabian/.local/share/JetBrains/Toolbox/apps/phpstorm-2/bin/phpstorm"
+          "stdioMcpServer"
+        ];
+        environment = {
+          IJ_MCP_SERVER_PROJECT_PATH = "/home/fabian/www/shopware";
+          IJ_MCP_SERVER_PORT = "64442";
+        };
+      };
+    };
+  };
+
+  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
 
   # Use the systemd-boot EFI boot loader.
   boot = {

@@ -2,6 +2,11 @@
 , unstable
 , ...
 }: {
+
+  boot.extraModprobeConfig = ''
+    options cfg80211 ieee80211_regdom=DE
+  '';
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
@@ -36,10 +41,12 @@
     steam = pkgs.steam.override {
       extraPkgs = pkgs:
         with pkgs; [
-          xorg.libXcursor
-          xorg.libXi
-          xorg.libXinerama
-          xorg.libXScrnSaver
+          gtk2
+          at-spi2-core
+          libXcursor
+          libXi
+          libXinerama
+          libXScrnSaver
           libpng
           libpulseaudio
           libvorbis

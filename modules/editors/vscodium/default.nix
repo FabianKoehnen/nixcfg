@@ -1,4 +1,5 @@
 { pkgs
+, lib
 , user
 , unstable
 , ...
@@ -9,6 +10,11 @@
     vscode
     platformio
     avrdude
+    gnumake
+    cmake
+    gcc
+    sdl2-compat
+    SDL2.dev
   ];
 
   services.udev.packages = [
@@ -18,6 +24,7 @@
 
   home-manager.users.${user} = {
     catppuccin = {
+      autoEnable = lib.mkDefault true;
       flavor = "latte";
       vscode = {
         profiles.default = {

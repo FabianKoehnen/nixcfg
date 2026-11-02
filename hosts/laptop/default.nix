@@ -1,10 +1,13 @@
 # Edit this configuration file to define what should be installed on
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
-{ config
-, pkgs
-, ...
-}: {
+{
+  config,
+  pkgs,
+  unstable,
+  ...
+}:
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -17,13 +20,14 @@
     ../../modules/gaming/steam
 
     ../../modules/editors/vscodium
+    ../../modules/editors/jetbrains
     ../../modules/editors/zed
 
     ../../modules/tools/bambulab
     ../../modules/hardware/headsetcontrol
   ];
 
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackages_latest;
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   # nix = {
@@ -45,38 +49,7 @@
 
   networking.hostName = "fabians-nix-laptop";
 
-  hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-
   services.ollama.enable = true;
-
-  # Enable the X11 windowing system.
-  #  services.xserver.enable = true;
-
-  # Enable the GNOME Desktop Environment.
-  #  services.xserver.displayManager.gdm.enable = true;
-  #  services.xserver.desktopManager.gnome.enable = true;
-
-  # services.displayManager.sddm.enable = true;
-  # services.desktopManager.plasma6.enable = true;
-
-  #  dbus.packages = [ pkgs.gnome3.dconf ];
-  #  udev.packages = [ pkgs.gnome3.gnome-settings-daemon ];
-
-  programs.dconf = {
-    enable = true;
-  };
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
-
-  services.printing.drivers = with pkgs; [
-    pkgs.gutenprint
-    pkgs.hplipWithPlugin
-    # pkgs.samsung-unified-linux-driver
-    pkgs.brlaser
-    pkgs.brgenml1lpr
-  ];
 
   environment.systemPackages = with pkgs; [
     vivaldi
@@ -84,7 +57,12 @@
     krita
     blender
     nextcloud-client
+    prismlauncher
 
+    unstable.opencode
+    unstable.playwright-mcp
+
+    rpi-imager
     #calligra
 
     #gnome.gnome-tweaks
@@ -104,7 +82,11 @@
     mutableUsers = false;
     users.fabian = {
       isNormalUser = true;
-      extraGroups = [ "wheel" "docker" ];
+      extraGroups = [
+        "wheel"
+        "docker"
+        "dialout"
+      ];
       shell = pkgs.zsh;
     };
   };
@@ -122,6 +104,17 @@
         bits = 4096;
       }
     ];
+  };
+
+  programs.direnv = {
+    enable = true;
+    package = pkgs.direnv;
+    silent = false;
+    loadInNixShell = true;
+    nix-direnv = {
+      enable = true;
+      package = pkgs.nix-direnv;
+    };
   };
 
   environment.persistence."/persist/impermanence" = {

@@ -32,7 +32,7 @@
 
     # pyprland
 
-    libreoffice-fresh
+    libreoffice
     pkgs.gnome-disk-utility
     baobab
     pkgs.kdePackages.polkit-kde-agent-1

@@ -141,8 +141,8 @@ def check_secrets(value):
         assert not re.search(r'\b(?:sk-[A-Za-z0-9_-]{16,}|Bearer\s+[A-Za-z0-9._-]{16,}|ghp_[A-Za-z0-9]{20,})', value)
 check_secrets(config)
 
-assert set(config["agents"]) == {"worker-small", "worker-medium", "worker-complex", "delegation-advisor", "build", "plan", "brave"}
-for name in ("worker-small", "worker-medium", "worker-complex", "delegation-advisor"):
+assert set(config["agents"]) == {"worker-small", "worker-medium", "worker-complex", "delegation-advisor", "maintainability", "build", "plan", "brave"}
+for name in ("worker-small", "worker-medium", "worker-complex", "delegation-advisor", "maintainability"):
     assert set(config["agents"][name]) == {"model"}
     assert config["agents"][name]["model"].startswith("openai/")
     frontmatter = (root / "agents" / f"{name}.md").read_text().split("---", 2)[1]
@@ -153,13 +153,14 @@ assert config["agents"]["brave"]["mode"] == "primary"
 assert config["agents"]["brave"]["description"]
 assert config["agents"]["brave"]["permissions"] == [{"action": "*", "resource": "*", "effect": "allow"}]
 assert config["agents"]["delegation-advisor"]["model"] == config["agents"]["worker-medium"]["model"]
+assert config["agents"]["maintainability"]["model"] == config["agents"]["worker-medium"]["model"]
 # Inspect V2 frontmatter, ordered rules, and body without YAML dependencies.
 def agent_file(name):
     _, front, body = (root / "agents" / f"{name}.md").read_text().split("---", 2)
     result = {"system": body.strip()}
     rules = []
     for line in front.splitlines():
-        match = re.fullmatch(r'(description|mode): (.*)', line)
+        match = re.fullmatch(r'(description|mode|hidden): (.*)', line)
         if match:
             result[match[1]] = match[2]
         match = re.fullmatch(r'  (?:(- )(action)|  (resource|effect)): (.*)', line)
@@ -171,6 +172,10 @@ def agent_file(name):
         result["permissions"] = rules
     return result
 advisor = agent_file("delegation-advisor")
+maintainability = agent_file("maintainability")
+assert maintainability["mode"] == "subagent" and "hidden" not in maintainability
+assert maintainability["description"] and maintainability["system"]
+assert maintainability["permissions"] == [{"action": "subagent", "resource": "*", "effect": "deny"}]
 assert advisor["mode"] == "subagent" and advisor["description"] and advisor["system"]
 assert advisor["permissions"] == [{"action": "*", "resource": "*", "effect": "deny"}, {"action": "skill", "resource": "delegating-by-complexity", "effect": "allow"}]
 for name in ("worker-small", "worker-medium", "worker-complex"):

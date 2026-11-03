@@ -81,6 +81,7 @@ in
           worker-medium = ./agents/worker-medium.md;
           worker-complex = ./agents/worker-complex.md;
           delegation-advisor = ./agents/delegation-advisor.md;
+          maintainability = ./agents/maintainability.md;
         };
         cli = {
           theme.name = "opencode";
@@ -108,6 +109,7 @@ in
             worker-medium.model = "openai/gpt-6.1-terra#low";
             worker-complex.model = "openai/gpt-6.1-sol#low";
             delegation-advisor.model = "openai/gpt-6.1-terra#low";
+            maintainability.model = "openai/gpt-6.1-terra#low";
           };
           experimental.todo = true;
           # Hide LM Studio and the paid opencode-go plan models; keep the *-free ones.

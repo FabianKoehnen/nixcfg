@@ -110,6 +110,7 @@ in
             delegation-advisor.model = "openai/gpt-6.1-terra#low";
           };
           experimental.todo = true;
+          experimental.image_generate.model = "openai/gpt-image-2";
           # Hide LM Studio and the paid opencode-go plan models; keep the *-free ones.
           disabled_providers = [ "lmstudio" "opencode-go" ];
 

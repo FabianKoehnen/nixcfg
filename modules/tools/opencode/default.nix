@@ -217,7 +217,8 @@ in
 
               # --- Read-only: git inspection ---
               "git status" = "allow";
-              "git status *" = "allow";
+               "git status *" = "allow";
+               "git rev-parse HEAD" = "allow";
               "git diff" = "allow";
               "git diff *" = "allow";
               "git log" = "allow";
@@ -230,8 +231,9 @@ in
               "git stash list" = "allow";
               "git add -- *" = "allow";
 
-              # --- others ---
-              "playwright-cli *" = "allow";
+               # --- others ---
+               "ddev describe" = "allow";
+               "playwright-cli *" = "allow";
             };
           };
 

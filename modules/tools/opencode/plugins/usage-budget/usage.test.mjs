@@ -9,9 +9,24 @@ const credential = { type: 'oauth', access: 'synthetic-token', metadata: { accou
 test('normalizes both windows without leaking extra data', () => {
   assert.deepEqual(normalize(payload, 1_000_000), {
     status: 'complete', fetchedAt: '1970-01-01T00:16:40.000Z',
-    primary: { remainingPercent: 75, resetsAt: '1970-01-01T00:33:20.000Z' },
-    secondary: { remainingPercent: 30, resetsAt: '1970-01-01T00:50:00.000Z' },
+    primary: { remainingPercent: 75, resetsAt: '1970-01-01T00:33:20.000Z', severity: 'unknown' },
+    secondary: { remainingPercent: 30, resetsAt: '1970-01-01T00:50:00.000Z', severity: 'unknown' },
   })
+})
+
+test('preserves only valid window durations', () => {
+  const result = normalize({ rate_limit: { primary_window: { ...window(10), limit_window_seconds: 18000 }, secondary_window: { ...window(10), limit_window_seconds: -1 } } }, 1_000_000)
+  assert.equal(result.primary.windowSeconds, 18000)
+  assert.equal(result.secondary.windowSeconds, undefined)
+})
+
+test('remaining budget thresholds produce warning at 20 and critical at 10 percent', () => {
+  const show = percent => normalize({ rate_limit: { primary_window: { ...window(100 - percent, 1100), limit_window_seconds: 2000 } } }, 1_000_000).primary
+  assert.equal(show(21).severity, 'normal')
+  assert.equal(show(20).severity, 'warning')
+  assert.equal(show(11).severity, 'warning')
+  assert.equal(show(10).severity, 'critical')
+  assert.equal(normalize({ rate_limit: { primary_window: { ...window(99), limit_window_seconds: 2000 } } }, 1_000_000).primary.severity, 'critical')
 })
 
 test('invalid and missing windows are unknown, not complete', () => {
@@ -74,6 +89,18 @@ test('cache expires at the shared 30 second interval', async () => {
   now++; await reader(); assert.equal(calls, 2)
 })
 
+test('cached data recomputes severity and offset as time passes', async () => {
+  let now = 1_000_000, calls = 0
+  const data = { rate_limit: { primary_window: { ...window(55), limit_window_seconds: 2000 } } }
+  const reader = createReader({ connection: { active: async () => ({}), resolve: async () => credential }, now: () => now, fetch: async () => { calls++; return { ok: true, json: async () => data } } })
+  assert.equal((await reader()).primary.severity, 'warning')
+  now += 10_000
+  const updated = await reader()
+  assert.equal(updated.primary.severity, 'normal')
+  assert.equal(updated.primary.offset, -4.5)
+  assert.equal(calls, 1)
+})
+
 test('sidebar refreshes immediately and on interval and clears on errors and disposal', async () => {
   const { startRefresh, formatWindow } = await import('./sidebar.mjs')
   let tick, cleared = false, calls = 0
@@ -87,10 +114,14 @@ test('sidebar refreshes immediately and on interval and clears on errors and dis
 
 test('sidebar displays semantic thresholds, bars, relative resets and missing data', async () => {
   const { formatWindow } = await import('./sidebar.mjs')
-  const show = percent => formatWindow({ remainingPercent: percent, resetsAt: '1970-01-01T00:33:20.000Z' }, 1_000_000)
-  assert.deepEqual(show(75), { percent: '75% remaining', bar: '████████░░', reset: 'resets in 17m', severity: 'normal', marker: '' })
-  assert.equal(show(40).severity, 'warning'); assert.equal(show(40).marker, '!')
-  assert.equal(show(20).severity, 'critical'); assert.equal(show(20).marker, '!!')
+  const show = percent => formatWindow(normalize({ rate_limit: { primary_window: { ...window(100 - percent), limit_window_seconds: 2000 } } }, 1_000_000).primary, 1_000_000)
+  assert.deepEqual(show(75), { percent: '75% remaining (+25 pp)', bar: '████████░░', reset: 'resets in 17m', severity: 'normal', marker: '' })
+  assert.equal(show(45).severity, 'warning'); assert.equal(show(45).marker, '!')
+  assert.equal(show(25).severity, 'critical'); assert.equal(show(25).marker, '!!')
+  assert.equal(show(46).severity, 'normal')
+  assert.equal(show(26).severity, 'warning')
+  assert.equal(formatWindow(normalize({ rate_limit: { primary_window: { ...window(22, 14_400), limit_window_seconds: 18_000 } } }, 0).primary, 0).percent, '78% remaining (-2 pp)')
   assert.equal(formatWindow(null, 1_000_000).percent, 'Unavailable')
   assert.equal(formatWindow({ remainingPercent: 50 }, 1_000_000).reset, 'reset unavailable')
+  assert.equal(formatWindow({ remainingPercent: 0 }, 1_000_000).severity, 'unknown')
 })

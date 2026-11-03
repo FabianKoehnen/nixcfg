@@ -15,7 +15,7 @@ test('shows both windows and the lowest remaining budget', () => {
   const view = budgetView({ status: 'complete', primary: window(75), secondary: window(30) }, now)
   assert.equal(view.label, 'Budget 30%')
   assert.equal(view.primary, '████████░░  75% remaining · resets in 17m')
-  assert.equal(view.secondary, '███░░░░░░░ ! 30% remaining · resets in 17m')
+  assert.equal(view.secondary, '███░░░░░░░  30% remaining · resets in 17m')
 })
 
 test('partial and unknown budgets never imply a complete balance', () => {
@@ -23,7 +23,7 @@ test('partial and unknown budgets never imply a complete balance', () => {
   assert.equal(budgetView({}, now).secondary, '░░░░░░░░░░  Unavailable · reset unavailable')
   assert.equal(budgetView({ primary: window(101), secondary: window(0) }, now).label, 'Budget unavailable')
   assert.equal(budgetView({ status: 'partial', primary: window(50), secondary: window(60) }, now).label, 'Budget unavailable')
-  assert.equal(budgetView({ primary: window(0, 'bad'), secondary: window(100) }, now).primary, '░░░░░░░░░░ !! 0% remaining · reset unavailable')
+  assert.equal(budgetView({ primary: window(0, 'bad'), secondary: window(100) }, now).primary, '░░░░░░░░░░  0% remaining · reset unavailable')
 })
 
 test('GUI window formatting stays consistent with the TUI', () => {
@@ -37,7 +37,9 @@ test('accessible progress bars distinguish severity thresholds and unavailable v
   const document = { createElement: () => ({ children: [], style: {}, attributes: {}, setAttribute(name, value) { this.attributes[name] = String(value) }, append(...children) { this.children.push(...children) } }) }
   const render = vm.runInNewContext(`${source}\nwindowElement`, { ...context, document })
   const bar = value => render('Primary', value).children[1]
-  const critical = bar(window(20)), warning = bar(window(40)), normal = bar(window(41)), unknown = bar(null)
+  const future = new Date(Date.now() + 1_000_000).toISOString()
+  const timed = (percent, severity) => ({ ...window(percent, future), severity })
+  const critical = bar(timed(20, 'critical')), warning = bar(timed(40, 'warning')), normal = bar(timed(49, 'normal')), unknown = bar(null)
   assert.notEqual(critical.children[0].style.backgroundColor, warning.children[0].style.backgroundColor)
   assert.notEqual(warning.children[0].style.backgroundColor, normal.children[0].style.backgroundColor)
   assert.equal(critical.attributes['aria-valuenow'], '20')

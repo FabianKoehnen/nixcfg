@@ -12,8 +12,8 @@ const UsageBudget = Rpc.define({
     properties: {
       status: { type: 'string', enum: ['complete', 'partial', 'unknown'] },
       fetchedAt: { type: 'string' },
-      primary: { anyOf: [{ type: 'null' }, { type: 'object', properties: { remainingPercent: { type: 'number' }, resetsAt: { type: 'string' } }, required: ['remainingPercent', 'resetsAt'], additionalProperties: false }] },
-      secondary: { anyOf: [{ type: 'null' }, { type: 'object', properties: { remainingPercent: { type: 'number' }, resetsAt: { type: 'string' } }, required: ['remainingPercent', 'resetsAt'], additionalProperties: false }] },
+      primary: { anyOf: [{ type: 'null' }, { type: 'object', properties: { remainingPercent: { type: 'number' }, resetsAt: { type: 'string' }, windowSeconds: { type: 'number' }, offset: { type: 'number' }, severity: { type: 'string', enum: ['normal', 'warning', 'critical', 'unknown'] } }, required: ['remainingPercent', 'resetsAt', 'severity'], additionalProperties: false }] },
+      secondary: { anyOf: [{ type: 'null' }, { type: 'object', properties: { remainingPercent: { type: 'number' }, resetsAt: { type: 'string' }, windowSeconds: { type: 'number' }, offset: { type: 'number' }, severity: { type: 'string', enum: ['normal', 'warning', 'critical', 'unknown'] } }, required: ['remainingPercent', 'resetsAt', 'severity'], additionalProperties: false }] },
     },
     required: ['status', 'fetchedAt', 'primary', 'secondary'],
     additionalProperties: false,
@@ -28,12 +28,14 @@ function formatWindow(window, now) {
   const minutes = Math.max(0, Math.ceil((date - now) / 60_000))
   const reset = !Number.isFinite(date) ? 'reset unavailable' : minutes === 0 ? 'reset due' : minutes < 60 ? `resets in ${minutes}m` : minutes < 1440 ? `resets in ${Math.floor(minutes / 60)}h ${minutes % 60}m` : `resets in ${Math.floor(minutes / 1440)}d ${Math.floor(minutes % 1440 / 60)}h`
   const filled = Math.round(percent / 10)
-  const severity = percent <= 20 ? 'critical' : percent <= 40 ? 'warning' : 'normal'
+  const severity = date > now && ['normal', 'warning', 'critical'].includes(window.severity) ? window.severity : 'unknown'
+  const rounded = severity !== 'unknown' && Number.isFinite(window.offset) ? window.offset : null
   return {
-    percent: `${percent}% remaining`,
+    percent: `${percent}% remaining${rounded === null ? '' : ` (${rounded > 0 ? '+' : ''}${rounded} pp)`}`,
     bar: '█'.repeat(filled) + '░'.repeat(10 - filled),
     marker: severity === 'critical' ? '!!' : severity === 'warning' ? '!' : '',
     reset,
+    severity,
     valid: true,
   }
 }
@@ -50,7 +52,7 @@ function budgetView(usage, now = Date.now()) {
 }
 
 function windowColor(value, formatted) {
-  const severity = !formatted.valid ? 'unknown' : value.remainingPercent <= 20 ? 'critical' : value.remainingPercent <= 40 ? 'warning' : 'normal'
+  const severity = formatted.severity || 'unknown'
   return {
     critical: 'var(--icon-critical-base, #dc2626)',
     warning: 'var(--icon-warning-base, #b45309)',
@@ -139,7 +141,7 @@ module.exports.default = Plugin.define({
             const text = document.createElement('span')
             text.style.color = windowColor(window, formatted)
             text.style.whiteSpace = 'nowrap'
-            text.textContent = `${short} ${formatted.marker ? `${formatted.marker} ` : ''}${formatted.valid ? `${window.remainingPercent}%` : 'Unavailable'}`
+            text.textContent = `${short} ${formatted.marker ? `${formatted.marker} ` : ''}${formatted.valid ? formatted.percent : 'Unavailable'}`
             const track = document.createElement('span')
             track.style.cssText = 'display: inline-block; width: 3em; height: 5px; border-radius: 999px; overflow: hidden; background: var(--surface-base-hover, #80808055)'
             track.hidden = !formatted.valid

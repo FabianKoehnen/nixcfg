@@ -219,6 +219,7 @@ in
               "git status" = "allow";
                "git status *" = "allow";
                "git rev-parse HEAD" = "allow";
+               "git check-ignore *" = "allow";
               "git diff" = "allow";
               "git diff *" = "allow";
               "git log" = "allow";

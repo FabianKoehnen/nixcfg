@@ -217,9 +217,9 @@ in
 
               # --- Read-only: git inspection ---
               "git status" = "allow";
-               "git status *" = "allow";
-               "git rev-parse HEAD" = "allow";
-               "git check-ignore *" = "allow";
+              "git status *" = "allow";
+              "git rev-parse *" = "allow";
+              "git check-ignore *" = "allow";
               "git diff" = "allow";
               "git diff *" = "allow";
               "git log" = "allow";
